@@ -5,7 +5,7 @@ import SliderHome from "./Slider";
 const Home = () => {
 	return (
 		<>
-			<section className="home">
+			<section className="">
 				<div className="max-w-[98%] m-auto flex justify-between">
 					<Categories />
 					<SliderHome />

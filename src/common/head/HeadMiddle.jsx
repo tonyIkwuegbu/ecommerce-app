@@ -6,19 +6,10 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 
 const { Search } = Input;
 
-// {
-// 	CartItem;
-// }
-
-const HeadMiddle = () => {
-	// fixed Header
-	window.addEventListener("scroll", function () {
-		const search = document.querySelector(".search");
-		search.classList.toggle("active", window.scrollY > 100);
-	});
-
+const HeadMiddle = ({ CartItem }) => {
+	console.log("res", CartItem);
 	return (
-		<section className="search">
+		<section className="">
 			<div className="flex items justify-between py-6">
 				<div className="">
 					<img src={logo} alt="" />
@@ -45,10 +36,9 @@ const HeadMiddle = () => {
 					<div className="relative">
 						<Link to="/cart">
 							<BsFillCartCheckFill className="text-2xl lg:text-2xl" />
-							<span className="absolute top-[-10px] right-[-5px] w-5 h-5 rounded-[50%] text-center bg-[#e94560] text-white ">
-								0
+							<span className="absolute top-[-10px] right-[-5px] w-5 h-5 rounded-[50%] text-center bg-[#e94560] text-white">
+								{CartItem?.length === "" ? 0 : CartItem?.length}
 							</span>
-							{/* <span>{CartItem.length === 0 ? "" : CartItem.length}</span> */}
 						</Link>
 					</div>
 				</div>
