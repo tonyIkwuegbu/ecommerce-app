@@ -1,7 +1,7 @@
 import { FaHeadset } from "react-icons/fa";
 import { GrLocation, GrMail } from "react-icons/gr";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
-import logo from "../../../public/images/logo-footer.png";
+import logo from "../../assets/images/logo-footer.png";
 
 const Footer = () => {
 	return (
