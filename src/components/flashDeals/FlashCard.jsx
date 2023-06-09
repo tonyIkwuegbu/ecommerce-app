@@ -4,6 +4,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AiFillStar, AiOutlineHeart, AiOutlinePlus } from "react-icons/ai";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { add, updateCart } from "../../store/cartSlice";
 
 const SampleNextArrow = (props) => {
 	const { onClick } = props;
@@ -25,16 +27,20 @@ const SamplePrevArrow = (props) => {
 		</div>
 	);
 };
-const FlashCard = ({ productItems, addToCart }) => {
+const FlashCard = ({ productItems }) => {
+	const dispatch = useDispatch();
+	const cartItems = useSelector((state) => state.cart);
 	const [count, setCount] = useState(Array(productItems.length).fill(0));
 	const [slidesToShow, setSlidesToShow] = useState(4);
 
+	/// ********************************* increase likes
 	const increment = (index) => {
 		const updatedCounts = [...count];
 		updatedCounts[index] += 1;
 		setCount(updatedCounts);
 	};
 
+	// **************************************** Slider responsiveness
 	const settings = useMemo(
 		() => ({
 			dots: false,
@@ -70,6 +76,25 @@ const FlashCard = ({ productItems, addToCart }) => {
 			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
+
+	// ************************************* Dispatch handler
+	const addToCart = (productItem) => {
+		// Check if the product already exists in the cart
+		const productExist = cartItems.find((item) => item.id === productItem.id);
+
+		if (productExist) {
+			// Product already exists in the cart, update the quantity
+			const updatedCartItems = cartItems.map((item) =>
+				item.id === productItem.id ? { ...item, qty: item.qty + 1 } : item,
+			);
+
+			dispatch(updateCart(updatedCartItems));
+		} else {
+			// Product doesn't exist in the cart, add it
+			const newCartItem = { ...productItem, qty: 1 };
+			dispatch(add(newCartItem));
+		}
+	};
 
 	return (
 		<>
