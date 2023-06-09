@@ -17,25 +17,22 @@ const SlideCard = () => {
 	return (
 		<>
 			<Slider {...settings}>
-				{Sdata.map((value, index) => {
+				{Sdata.map((value) => {
 					return (
-						<>
-							<div
-								className="flex flex-col gap-4 md:flex-row justify-between mt-[80px] mx-auto px-8"
-								key={index}
-							>
-								<div className="">
-									<h1 className="font-bold font-cant">{value.title}</h1>
+						<div className="mt-[80px] mx-auto px-8" key={value.id}>
+							<div className="flex flex-col gap-4 md:flex-row justify-between">
+								<div className="mx-auto lg:max-w-[70%]">
+									<h2 className="font-bold font-cant text-3xl lg:text-5xl">
+										{value.title}
+									</h2>
 									<p className="text-sm">{value.desc}</p>
-									<button className="bg-[#e94560] py-[13px] px-[40px] font-semibold rounded-[5px] text-white">
+									<button className="bg-[#e94560] py-[10px] px-[20px] font-semibold rounded-[5px] text-white">
 										Visit Collections
 									</button>
 								</div>
-								<div className="">
-									<img src={value.cover} alt="" />
-								</div>
+								<img src={value.cover} alt="" />
 							</div>
-						</>
+						</div>
 					);
 				})}
 			</Slider>

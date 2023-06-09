@@ -5,11 +5,11 @@ import NewsLetter from "../components/newsletter/NewsLetter";
 
 // import Wrapper from "../components/wrapper/Wrapper";
 
-const Pages = ({ productItems, addToCart, CartItem }) => {
+const Pages = ({ productItems }) => {
 	return (
 		<>
-			<Home CartItem={CartItem} />
-			<FlashDeals productItems={productItems} addToCart={addToCart} />
+			<Home />
+			<FlashDeals productItems={productItems} />
 			<Discount />
 			<NewsLetter />
 			{/* 
