@@ -1,14 +1,18 @@
-import NavData from "../../NavData";
+import Items from "../../NavData";
 
 const Categories = () => {
 	return (
 		<>
 			<div className="category hidden lg:inline-block">
-				{NavData.map((value, index) => {
+				{Items.map((value) => {
 					return (
-						<div className="box flex text-[15px]" key={index}>
-							<img src={value.cateImg} alt="" />
-							<span>{value.cateName}</span>
+						<div className="box" key={value.key}>
+							<p className="flex items-center leading-10">
+								<span>
+									<value.icon className="text-lg" />
+								</span>
+								{value.label}
+							</p>
 						</div>
 					);
 				})}

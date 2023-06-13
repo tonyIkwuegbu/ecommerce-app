@@ -37,7 +37,7 @@ const HeadMiddle = () => {
 					<div className="relative">
 						<Link to="/cart">
 							<BsFillCartCheckFill className="text-2xl lg:text-2xl" />
-							<span className="absolute top-[-10px] right-[-5px] w-5 h-5 rounded-[50%] text-center bg-[#e94560] text-white">
+							<span className="absolute top-[-8px] right-[-14px] w-6 h-6 rounded-[50%] text-center bg-[#e94560] text-white">
 								{cartItems?.length === "" ? 0 : cartItems?.length}
 							</span>
 						</Link>

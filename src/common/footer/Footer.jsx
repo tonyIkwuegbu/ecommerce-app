@@ -5,7 +5,7 @@ import logo from "../../assets/images/logo-footer.png";
 
 const Footer = () => {
 	return (
-		<footer className="font-inter">
+		<footer className="">
 			<div className="px-10 py-16 mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 leading-8">
 				<div>
 					<img

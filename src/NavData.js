@@ -1,44 +1,54 @@
-const NavData = [
-	{
-		cateImg: "./images/category/cat1.png",
-		cateName: "Fashion",
-	},
-	{
-		cateImg: "./images/category/cat2.png",
-		cateName: "Electronics & Accessories",
-	},
-	{
-		cateImg: "./images/category/cat3.png",
-		cateName: "Cars",
-	},
-	{
-		cateImg: "./images/category/cat4.png",
-		cateName: "Home & Lights",
-	},
-	{
-		cateImg: "./images/category/cat5.png",
-		cateName: "Gifts & Toys",
-	},
+import {
+	GiClothes,
+	GiPlug,
+	GiSonicShoes,
+	GiHealthIncrease,
+	GiCrownedHeart,
+	GiOilySpiral,
+} from "react-icons/gi";
+import { BiGift, BiShoppingBag } from "react-icons/bi";
 
+const Items = [
 	{
-		cateImg: "./images/category/cat7.png",
-		cateName: "Health & Beauty",
+		key: "1",
+		label: "Fashion",
+		icon: GiClothes,
 	},
 	{
-		cateImg: "./images/category/cat8.png",
-		cateName: "Pets",
+		key: "2",
+		label: "Gifts and Toys",
+		icon: BiGift,
 	},
 	{
-		cateImg: "./images/category/cat9.png",
-		cateName: "Baby Toys",
+		key: "3",
+		label: "Electronics",
+		icon: GiPlug,
 	},
 	{
-		cateImg: "./images/category/cat10.png",
-		cateName: "Groceries",
+		key: "4",
+		label: "Bags",
+		icon: BiShoppingBag,
 	},
 	{
-		cateImg: "./images/category/cat11.png",
-		cateName: "Books",
+		key: "5",
+		label: "Shoes",
+		icon: GiSonicShoes,
+	},
+	{
+		key: "6",
+		label: "Health & Beauty",
+		icon: GiHealthIncrease,
+	},
+	{
+		key: "7",
+		label: "Accessories",
+		icon: GiCrownedHeart,
+	},
+	{
+		key: "8",
+		label: "Home & Lights",
+		icon: GiOilySpiral,
 	},
 ];
-export default NavData;
+
+export default Items;
