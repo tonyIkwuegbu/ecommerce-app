@@ -8,6 +8,7 @@ export default {
 				pop: "Poppins",
 				inter: "Inter",
 				ubuntu: "Ubuntu",
+				raleway: "Raleway",
 			},
 		},
 	},

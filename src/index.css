@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter&family=Montserrat&family=Poppins&family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Montserrat&family=Poppins&family=Raleway&family=Ubuntu&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -10,7 +10,7 @@
 	padding: 0;
 }
 body {
-	font-family: "Poppins", sans-serif;
+	font-family: "Raleway", sans-serif;
 	background-color: #ffffff;
 	overflow-x: hidden;
 	place-items: center;
@@ -64,7 +64,7 @@ html {
 }
 .list-wrapper ul li a {
 	display: block;
-	font-size: 18px;
+	font-size: 14px;
 	padding: 10px 0;
 	color: #dddddd;
 	text-decoration: none;
@@ -275,7 +275,15 @@ html {
 
 /* footer */
 footer ul li:hover {
-	color: #e94560;
-	font-weight: 500;
+	color: #ff3c20;
+	font-weight: 700;
 	cursor: pointer;
 }
+footer h1 {
+	text-decoration: underline;
+	text-decoration-color: #ff3c20;
+	text-decoration-thickness: 3px;
+	text-underline-offset: 10px;
+}
+
+/* media queries */
