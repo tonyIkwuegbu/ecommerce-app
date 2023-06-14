@@ -73,6 +73,9 @@ const Footer = () => {
 					</ul>
 				</div>
 			</div>
+			<div className="text-center bg-[#232f3e] text-white py-2 text-sm tracking-wider">
+				<p>© TenCowry {new Date().getFullYear()}. All Rights Reserved.</p>
+			</div>
 		</footer>
 	);
 };
