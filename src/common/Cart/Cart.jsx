@@ -47,7 +47,7 @@ const Cart = () => {
 
 	return (
 		<section className="">
-			<div className="shadow-lg p-4 my-6 flex flex-col items-start lg:flex-row lg:justify-around text-sm lg:text-xl tracking-wider">
+			<div className="shadow-lg p-4 my-6 flex justify-around text-xs lg:text-xl tracking-wider">
 				<h2 className="text-gray-500 pb-3 lg:pb-0">Cart Summary</h2>
 				<div className="flex">
 					<h4>

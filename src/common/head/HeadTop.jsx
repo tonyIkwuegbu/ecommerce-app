@@ -16,7 +16,7 @@ const HeadTop = () => {
 				<p className="hidden lg:inline-block bg-[#ff3c20] rounded-[3px] px-[15px] py-1 font-semibold cursor-pointer">
 					BECOME A SELLER
 				</p>
-				<p className="cursor-pointer">$ Dollar</p>
+				<p className="cursor-pointer">&#8358; Naira</p>
 				<p className="cursor-pointer">English</p>
 			</div>
 		</div>

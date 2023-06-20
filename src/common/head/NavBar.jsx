@@ -137,9 +137,9 @@ const Navbar = () => {
 							<Link
 								to="/"
 								onClick={handleClose}
-								// style={{ color: location.pathname === "/" && "#ffffff" }}
+								style={{ color: location.pathname === "/" && "#ff3c20" }}
 							>
-								Home
+								HOME
 							</Link>
 						</li>
 						<li>
@@ -148,7 +148,7 @@ const Navbar = () => {
 								onClick={handleClose}
 								// style={{ color: location.pathname === "/about" && "#4071f4" }}
 							>
-								Top Deals
+								TOP DEALS
 							</Link>
 						</li>
 						<li>
@@ -157,7 +157,7 @@ const Navbar = () => {
 								onClick={handleClose}
 								// style={{ color: location.pathname === "/skills" && "#4071f4" }}
 							>
-								Best Sellers
+								BEST SELLERS
 							</Link>
 						</li>
 						<li>
@@ -168,7 +168,7 @@ const Navbar = () => {
 								// 	color: location.pathname === "/projects" && "#4071f4",
 								// }}
 							>
-								New Arrivals
+								NEW ARRIVALS
 							</Link>
 						</li>
 						<li>
@@ -177,7 +177,7 @@ const Navbar = () => {
 								onClick={handleClose}
 								// style={{ color: location.pathname === "/contact" && "#4071f4" }}
 							>
-								About Us
+								ABOUT US
 							</Link>
 						</li>
 					</ul>
