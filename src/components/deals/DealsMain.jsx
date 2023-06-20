@@ -1,6 +1,5 @@
 import { AiFillThunderbolt } from "react-icons/ai";
 import DealsCard from "./DealsCard";
-//import FlashCard from "./FlashCard";
 
 const DealsMain = ({ shopItems }) => {
 	return (
