@@ -1,7 +1,7 @@
 import { FaHeadset } from "react-icons/fa";
 import { GrLocation, GrMail } from "react-icons/gr";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
-import logo from "../../assets/images/logo-footer.png";
+import logo from "../../assets/images/logo_1_footer.jpeg";
 
 const Footer = () => {
 	return (
@@ -11,7 +11,7 @@ const Footer = () => {
 					<img
 						src={logo}
 						alt=""
-						className="py-6 transition-all hover:scale-110 duration-500 ease-in-out"
+						className="w-36 py-6 transition-all hover:scale-110 duration-500 ease-in-out"
 					/>
 					<p className="flex items-center gap-x-3">
 						<span>

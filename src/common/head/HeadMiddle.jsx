@@ -1,4 +1,4 @@
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo_2_main.png";
 import { Input } from "antd";
 import { Link } from "react-router-dom";
 import { IoPersonCircle } from "react-icons/io5";
@@ -11,10 +11,8 @@ const HeadMiddle = () => {
 	const cartItems = useSelector((state) => state.cart);
 	return (
 		<section className="">
-			<div className="flex items justify-between py-6">
-				<div className="">
-					<img src={logo} alt="" />
-				</div>
+			<div className="flex items-center justify-between py-6">
+				<img src={logo} alt="" className="h-14 w-36" />
 
 				<div className="hidden lg:inline-block">
 					<Search
