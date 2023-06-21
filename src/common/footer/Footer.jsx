@@ -9,6 +9,7 @@ const Footer = () => {
 			<div className="px-10 py-16 mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 leading-8">
 				<div>
 					<img
+						loading="lazy"
 						src={logo}
 						alt=""
 						className="w-36 py-6 transition-all hover:scale-110 duration-500 ease-in-out"

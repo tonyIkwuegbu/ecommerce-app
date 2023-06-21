@@ -12,7 +12,7 @@ const HeadMiddle = () => {
 	return (
 		<section className="">
 			<div className="flex items-center justify-between py-6">
-				<img src={logo} alt="" className="h-14 w-36" />
+				<img loading="lazy" src={logo} alt="" className="h-14 w-36" />
 
 				<div className="hidden lg:inline-block">
 					<Search
