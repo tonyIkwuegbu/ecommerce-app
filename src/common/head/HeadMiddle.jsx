@@ -24,7 +24,7 @@ const HeadMiddle = () => {
 						className="custom-search"
 						style={{
 							width: 600,
-							backgroundColor: "#ff3c20",
+							backgroundColor: "#ff5c00",
 							borderRadius: "12px",
 						}}
 					/>
@@ -35,7 +35,7 @@ const HeadMiddle = () => {
 					<div className="relative">
 						<Link to="/cart">
 							<BsFillCartCheckFill className="text-2xl lg:text-2xl" />
-							<span className="absolute top-[-8px] right-[-14px] w-6 h-6 rounded-[50%] text-center bg-[#e94560] text-white">
+							<span className="absolute top-[-8px] right-[-14px] w-6 h-6 rounded-[50%] text-center bg-[#ff5c00] text-white">
 								{cartItems?.length === "" ? 0 : cartItems?.length}
 							</span>
 						</Link>

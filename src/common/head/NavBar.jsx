@@ -103,7 +103,7 @@ const Navbar = () => {
 					</div>
 				</Dropdown>
 
-				<div className="hidden lg:inline-flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c40] text-xs tracking-wider font-semibold cursor-pointer">
+				<div className="hidden lg:inline-flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c00] text-xs tracking-wider font-semibold cursor-pointer">
 					<span>
 						<GiHamburgerMenu />
 					</span>
@@ -137,7 +137,7 @@ const Navbar = () => {
 							<Link
 								to="/"
 								onClick={handleClose}
-								style={{ color: location.pathname === "/" && "#ff3c20" }}
+								style={{ color: location.pathname === "/" && "#ff5c00" }}
 							>
 								HOME
 							</Link>
