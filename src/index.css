@@ -9,6 +9,8 @@
 	margin: 0;
 	padding: 0;
 }
+/* ff5c00 */
+
 body {
 	font-family: "Raleway", sans-serif;
 	background-color: #ffffff;
@@ -133,13 +135,14 @@ html {
 	padding: 0 20px;
 }
 .category .box:hover {
-	background-color: #ffe1e6;
+	background-color: #ffa776;
 	cursor: pointer;
+	font-weight: 600;
 }
 
 /*---------category----------*/
 .btn-primary {
-	background: #e94560;
+	background: #ff5c00;
 	padding: 13px 40px;
 	font-weight: bold;
 	color: #fff;
@@ -152,14 +155,14 @@ html {
 	margin-top: 40px;
 }
 .heading i {
-	color: #e94560;
+	color: #ff5c00;
 	margin: 10px;
 }
 .discount {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: #e94560;
+	background: #ff5c00;
 	padding: 3px 10px;
 	font-size: 12px;
 	border-radius: 50px;
@@ -183,12 +186,12 @@ html {
 .product .price {
 	display: flex;
 	justify-content: space-between;
-	color: #e94560;
+	color: #ff5c00;
 	font-weight: 600;
 }
 .price button {
 	background: none;
-	color: #e94560;
+	color: #ff5c00;
 	font-size: 20px;
 	transition: 0.5s;
 	border: 1px solid rgb(3 0 71 / 9%);
@@ -198,7 +201,7 @@ html {
 }
 .price button:hover {
 	cursor: pointer;
-	background-color: #e94560;
+	background-color: #ff5c00;
 	color: #fff;
 }
 .product-like {
@@ -253,7 +256,7 @@ html {
 }
 .control-btn .prev:hover,
 .control-btn .next:hover {
-	background: #e94560;
+	background: #ff5c00;
 	color: white;
 	cursor: pointer;
 }
@@ -275,13 +278,13 @@ html {
 
 /* footer */
 footer ul li:hover {
-	color: #ff3c20;
+	color: #ff5c00;
 	font-weight: 700;
 	cursor: pointer;
 }
 footer h1 {
 	text-decoration: underline;
-	text-decoration-color: #ff3c20;
+	text-decoration-color: #ff5c00;
 	text-decoration-thickness: 3px;
 	text-underline-offset: 10px;
 }
