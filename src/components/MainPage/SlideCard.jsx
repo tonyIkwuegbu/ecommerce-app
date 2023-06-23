@@ -26,7 +26,7 @@ const SlideCard = () => {
 										{value.title}
 									</h2>
 									<p className="text-sm">{value.desc}</p>
-									<button className="bg-[#e94560] py-[10px] px-[20px] font-semibold rounded-[5px] text-white">
+									<button className="bg-[#ff5c00] py-[10px] px-[20px] font-medium rounded-[5px] text-white">
 										Visit Collections
 									</button>
 								</div>

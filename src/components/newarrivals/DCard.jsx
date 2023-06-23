@@ -51,7 +51,7 @@ const Dcard = () => {
 								<img src={value.cover} alt="" width="100%" />
 							</div>
 							<h4>{value.name}</h4>
-							<span className="text-[#e94560] font-semibold">
+							<span className="text-[#ff5c00] font-semibold">
 								{value.price}
 							</span>
 						</div>

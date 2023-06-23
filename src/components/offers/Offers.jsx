@@ -38,9 +38,9 @@ const Offers = () => {
 						key={item.id}
 						className="flex items-center gap-x-6 tracking-wider px-4"
 					>
-						<item.icon className="text-3xl text-[#e94560]" />
+						<item.icon className="text-3xl text-[#ff5c00]" />
 						<div>
-							<h3 className="font-bold hover:text-[#ff3c20] cursor-pointer">
+							<h3 className="font-bold hover:text-[#ff5c00] cursor-pointer">
 								{item.title}
 							</h3>
 							<h5 className="text-xs text-gray-500">{item.subtitle}</h5>
