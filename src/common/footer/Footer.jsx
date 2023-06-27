@@ -18,25 +18,25 @@ const Footer = () => {
 						<span>
 							<GrLocation />
 						</span>
-						FHA Abuja, Nigeria
+						Plot 307, Premier Layout Goshen, Enugu.
 					</p>
 					<p className="flex items-center gap-x-3">
 						<span>
 							<FaHeadset />
 						</span>
-						(+234)-8050505050
+						(+234)-818-630-4114
 					</p>
 					<p className="flex items-center gap-x-3">
 						<span>
 							<GrMail />
 						</span>
-						emarket.info@gmail.com
+						info@tencowry.com
 					</p>
 					<p className="flex items-center gap-x-3">
 						<span>
 							<MdOutlineAccessTimeFilled />
 						</span>
-						Open Time: 8:00AM - 6:00PM
+						Open Time: 9:00am - 6:00pm
 					</p>
 				</div>
 
