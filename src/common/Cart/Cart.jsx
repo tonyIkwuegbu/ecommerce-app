@@ -53,7 +53,7 @@ const Cart = () => {
 					<h4>
 						Total Price :{" "}
 						<span className="text-green-500 font-semibold">
-							${totalPrice}.00
+							&#8358;{totalPrice}.00
 						</span>{" "}
 					</h4>
 				</div>

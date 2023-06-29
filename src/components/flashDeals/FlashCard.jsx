@@ -128,7 +128,7 @@ const FlashCard = ({ productItems }) => {
 									<AiFillStar />
 								</div>
 								<div className="price">
-									<h4>${productItems.price}.00 </h4>
+									<h4>&#8358;{productItems.price}.00 </h4>
 									<button
 										onClick={() => addToCart(productItems)}
 										title="Add to cart"

@@ -7,7 +7,7 @@ const items = [
 		id: 1,
 		title: "AFFORDABLE DELIVERY",
 		icon: FaShuttleVan,
-		subtitle: "From $12",
+		subtitle: `From \u20A62000`,
 	},
 	{
 		id: 2,

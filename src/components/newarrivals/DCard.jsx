@@ -52,7 +52,7 @@ const Dcard = () => {
 							</div>
 							<h4>{value.name}</h4>
 							<span className="text-[#ff5c00] font-semibold">
-								{value.price}
+								&#8358;{value.price}
 							</span>
 						</div>
 					</div>
