@@ -1,38 +1,45 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Slider from "react-slick";
 import Axios from "axios";
-import useSWR from "swr";
 import { api } from "../../Api";
 import { NavMen } from "./NavData";
 import AllMen from "./AllMen";
 import MenCloth from "./MenCloth";
+import MenShoes from "./MenShoes";
 //import { Alert, Spin } from "antd";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
 	const [tabIndex, setTabIndex] = useState(1);
 	const [selected, setSelected] = useState(1);
+	const [productData, setProductData] = useState([]);
+	const [loading, setLoading] = useState(false);
 
-	// ******************************************************* FETCHER SWR
-	const fetcher = (url) =>
-		Axios.get(url, {
-			headers: {
-				"Content-Type": "application/json",
-				"x-access-token": api.token,
-			},
-		})
-			.then((res) => {
-				return res.data.data;
-			})
-			.catch((error) => {
-				console.error("Fetch error:", error);
-				throw error;
-			});
+	// ******************************************************* GET PRODUCCT
 
-	const { data, error } = useSWR(
-		`${api.baseURL}/api/v1/ecommerce/products/category/men`,
-		fetcher,
-	);
+	const getProduct = useCallback(async () => {
+		setLoading(true);
+		try {
+			const fetchData = await Axios.get(
+				`${api.baseURL}/api/v1/ecommerce/products/category/men`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"x-access-token": api.token,
+					},
+				},
+			);
+
+			setProductData(fetchData.data.data);
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
+	}, []);
+	useEffect(() => {
+		getProduct();
+	}, [getProduct]);
 
 	// ************************************************* MOBILE SLIDER
 	const settings = useMemo(
@@ -111,8 +118,9 @@ const Men = () => {
 					})}
 				</div>
 				<div>
-					{tabIndex === 1 && <AllMen data={data} error={error} />}
+					{tabIndex === 1 && <AllMen data={productData} loading={loading} />}
 					{tabIndex === 2 && <MenCloth />}
+					{tabIndex === 3 && <MenShoes />}
 				</div>
 				{/* <div className="hidden lg:inline-block">
 					<img

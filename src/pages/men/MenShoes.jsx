@@ -6,7 +6,7 @@ import { add, updateCart } from "../../store/cartSlice";
 import Axios from "axios";
 import { api } from "../../Api";
 
-const MenCloth = () => {
+const MenShoes = () => {
 	const dispatch = useDispatch();
 	const cartItems = useSelector((state) => state.cart);
 	const [count, setCount] = useState([]);
@@ -19,7 +19,7 @@ const MenCloth = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/men/Clothing`,
+				`${api.baseURL}/api/v1/ecommerce/products/category/men/Shoes`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -134,4 +134,4 @@ const MenCloth = () => {
 	);
 };
 
-export default MenCloth;
+export default MenShoes;

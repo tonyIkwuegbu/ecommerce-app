@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlinePlus } from "react-icons/ai";
-import { Empty, Spin, message } from "antd";
+import { Empty, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { add, updateCart } from "../../store/cartSlice";
 
-const AllMen = ({ data, error }) => {
+const AllMen = ({ data, loading }) => {
 	const dispatch = useDispatch();
 	const cartItems = useSelector((state) => state.cart);
 	const [count, setCount] = useState([]);
@@ -16,22 +16,6 @@ const AllMen = ({ data, error }) => {
 		}
 	}, [data]);
 
-	/// ************************************************ DEFENSIVE
-	if (error) {
-		return message.error(`Error: ${error.message}`);
-	}
-
-	if (!data) {
-		return (
-			<div className="flex justify-center items-center mx-auto h-screen">
-				<Spin />
-			</div>
-		);
-	}
-
-	if (data.length === 0) {
-		return <Empty className="" description="No Product to display" />;
-	}
 	/// ********************************* increase likes
 	const increment = (index) => {
 		const updatedCounts = [...count];
@@ -64,8 +48,14 @@ const AllMen = ({ data, error }) => {
 
 	return (
 		<div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 bg-[#f6f9fc]">
-			{data &&
-				data?.map((productItems, index) => (
+			{loading ? (
+				<div className="flex justify-center items-center mx-auto h-screen">
+					<Spin />
+				</div>
+			) : data.length === 0 ? (
+				<Empty className="" description="No Product to display" />
+			) : (
+				data.map((productItems, index) => (
 					<div className="" key={index}>
 						<div className="product mt-[40px]">
 							<div className="img">
@@ -106,9 +96,10 @@ const AllMen = ({ data, error }) => {
 									</button>
 								</div>
 							</div>
-						</div>
+						</div>{" "}
 					</div>
-				))}
+				))
+			)}
 		</div>
 	);
 };
