@@ -1,53 +1,50 @@
-import {
-	GiClothes,
-	GiPlug,
-	GiSonicShoes,
-	GiHealthIncrease,
-	GiCrownedHeart,
-	GiOilySpiral,
-} from "react-icons/gi";
-import { BiGift, BiShoppingBag } from "react-icons/bi";
+import { GiHealthIncrease, GiOilySpiral, GiPlug } from "react-icons/gi";
+import { FaBaby } from "react-icons/fa";
+import { FcBusinessman, FcBusinesswoman } from "react-icons/fc";
+import { BiShoppingBag } from "react-icons/bi";
 
 const Items = [
 	{
 		key: "1",
-		label: "Fashion",
-		icon: GiClothes,
+		label: "Men",
+		icon: FcBusinessman,
+		path: "/category/men",
 	},
 	{
 		key: "2",
-		label: "Gifts and Toys",
-		icon: BiGift,
+		label: "Women",
+		icon: FcBusinesswoman,
+		path: "/category/women",
 	},
 	{
 		key: "3",
-		label: "Electronics",
-		icon: GiPlug,
+		label: "Children",
+		icon: FaBaby,
+		path: "/category/children",
 	},
 	{
 		key: "4",
-		label: "Bags",
-		icon: BiShoppingBag,
+		label: "Health & Beauty",
+		icon: GiHealthIncrease,
+		path: "/category/health",
 	},
 	{
 		key: "5",
-		label: "Shoes",
-		icon: GiSonicShoes,
+		label: "Home & Lights",
+		icon: GiOilySpiral,
+		path: "/category/home-essentials",
 	},
 	{
 		key: "6",
-		label: "Health & Beauty",
-		icon: GiHealthIncrease,
+		label: "Bags",
+		icon: BiShoppingBag,
+		path: "/category/bags",
 	},
 	{
 		key: "7",
-		label: "Accessories",
-		icon: GiCrownedHeart,
-	},
-	{
-		key: "8",
-		label: "Home & Lights",
-		icon: GiOilySpiral,
+		label: "Electronics",
+		icon: GiPlug,
+		path: "/category/electronics",
 	},
 ];
 
