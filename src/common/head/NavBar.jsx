@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import {
-	GiClothes,
 	GiHamburgerMenu,
 	GiPlug,
-	GiSonicShoes,
 	GiHealthIncrease,
-	GiCrownedHeart,
 	GiOilySpiral,
 } from "react-icons/gi";
-import { BiGift, BiShoppingBag } from "react-icons/bi";
+import { BiShoppingBag } from "react-icons/bi";
 
 import { RiArrowDownSLine } from "react-icons/ri";
 import { Dropdown } from "antd";
+import { FcBusinessman, FcBusinesswoman } from "react-icons/fc";
+import { FaBaby } from "react-icons/fa";
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false);
@@ -42,43 +41,45 @@ const Navbar = () => {
 	const items = [
 		{
 			key: "1",
-			label: "Fashion",
-			icon: <GiClothes />,
+			label: "Men",
+			icon: <FcBusinessman />,
+			path: "/category/men",
 		},
 		{
 			key: "2",
-			label: "Gifts and Toys",
-			icon: <BiGift />,
+			label: "Women",
+			icon: <FcBusinesswoman />,
+			path: "/category/women",
 		},
 		{
 			key: "3",
-			label: "Electronics",
-			icon: <GiPlug />,
+			label: "Children",
+			icon: <FaBaby />,
+			path: "/category/children",
 		},
 		{
 			key: "4",
-			label: "Bags",
-			icon: <BiShoppingBag />,
+			label: "Health & Beauty",
+			icon: <GiHealthIncrease />,
+			path: "/category/health",
 		},
 		{
 			key: "5",
-			label: "Shoes",
-			icon: <GiSonicShoes />,
+			label: "Home & Lights",
+			icon: <GiOilySpiral />,
+			path: "/category/home-essentials",
 		},
 		{
 			key: "6",
-			label: "Health & Beauty",
-			icon: <GiHealthIncrease />,
+			label: "Bags",
+			icon: <BiShoppingBag />,
+			path: "/category/bags",
 		},
 		{
 			key: "7",
-			label: "Accessories",
-			icon: <GiCrownedHeart />,
-		},
-		{
-			key: "8",
-			label: "Home & Lights",
-			icon: <GiOilySpiral />,
+			label: "Electronics",
+			icon: <GiPlug />,
+			path: "/category/electronics",
 		},
 	];
 
@@ -87,9 +88,23 @@ const Navbar = () => {
 			<div className="flex items-center justify-between">
 				<Dropdown
 					className="lg:hidden"
-					menu={{
-						items,
-					}}
+					overlay={
+						<div className="bg-white rounded-md p-2">
+							{items.map((item) => (
+								<Link
+									to={item.path}
+									key={item.key}
+									className={`dropdown-item ${
+										location.pathname === item.path ? "active" : ""
+									} flex items-center gap-x-4 leading-8 cursor-pointer hover:bg-gray-100 hover:font-semibold hover:text-[#ff5c00]`}
+									onClick={handleClose}
+								>
+									{item.icon}
+									{item.label}
+								</Link>
+							))}
+						</div>
+					}
 					placement="bottom"
 				>
 					<div className="flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c40] text-xs tracking-wider font-semibold cursor-pointer">
