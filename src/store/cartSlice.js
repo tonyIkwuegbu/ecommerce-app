@@ -13,7 +13,7 @@ const cartSlice = createSlice({
 			return action.payload;
 		},
 		remove(state, action) {
-			return state.filter((item) => item.id !== action.payload);
+			return state.filter((item) => item.idl_product_code !== action.payload);
 		},
 		decreaseQty(state, action) {
 			const productId = action.payload;
