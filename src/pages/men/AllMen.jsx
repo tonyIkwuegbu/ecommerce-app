@@ -75,7 +75,7 @@ const AllMen = ({ data, error }) => {
 									src={
 										productItems.main_picture === "" ||
 										productItems.main_picture === null
-											? "/src/assets/images/placeholder.jpeg"
+											? "/assets/images/placeholder.jpeg"
 											: productItems.main_picture
 									}
 									alt={productItems.name}
