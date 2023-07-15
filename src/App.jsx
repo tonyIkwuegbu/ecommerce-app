@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Cart from "./common/Cart/Cart";
 import RootLayout from "./RootLayout";
+import Men from "./pages/men";
 
 function App() {
 	//Step 1 :
@@ -24,6 +25,7 @@ function App() {
 						}
 					/>
 					<Route path="/cart" element={<Cart />} />
+					<Route path="/category/men" element={<Men />} />
 					{/* 👇️ when no other routes match */}
 					<Route path="*" element={<Pages />} />
 				</Routes>
