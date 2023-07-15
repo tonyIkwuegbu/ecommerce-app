@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { add, updateCart } from "../../store/cartSlice";
 
 const AllMen = ({ data, error }) => {
-	console.log(data);
 	const dispatch = useDispatch();
 	const cartItems = useSelector((state) => state.cart);
 	const [count, setCount] = useState([]);
@@ -75,7 +74,7 @@ const AllMen = ({ data, error }) => {
 									src={
 										productItems.main_picture === "" ||
 										productItems.main_picture === null
-											? "/assets/images/placeholder.jpeg"
+											? "/images/placeholder.jpeg"
 											: productItems.main_picture
 									}
 									alt={productItems.name}

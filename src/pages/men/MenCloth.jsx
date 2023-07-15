@@ -98,7 +98,7 @@ const MenCloth = () => {
 									src={
 										productItems.main_picture === "" ||
 										productItems.main_picture === null
-											? "/assets/images/placeholder.jpeg"
+											? "/images/placeholder.jpeg"
 											: productItems.main_picture
 									}
 									alt={productItems.name}
