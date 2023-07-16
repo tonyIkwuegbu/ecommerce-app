@@ -6,6 +6,9 @@ import { NavMen } from "./NavData";
 import AllMen from "./AllMen";
 import MenCloth from "./MenCloth";
 import MenShoes from "./MenShoes";
+import SportsWear from "./Sportswear";
+import MenWatches from "./MenWatches";
+import MenBags from "./MenBags";
 //import { Alert, Spin } from "antd";
 
 const Men = () => {
@@ -121,6 +124,9 @@ const Men = () => {
 					{tabIndex === 1 && <AllMen data={productData} loading={loading} />}
 					{tabIndex === 2 && <MenCloth />}
 					{tabIndex === 3 && <MenShoes />}
+					{tabIndex === 4 && <SportsWear />}
+					{tabIndex === 5 && <MenWatches />}
+					{tabIndex === 6 && <MenBags />}
 				</div>
 			</div>
 		</div>

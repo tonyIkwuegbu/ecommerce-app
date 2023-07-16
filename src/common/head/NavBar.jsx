@@ -87,7 +87,6 @@ const Navbar = () => {
 		<>
 			<div className="flex items-center justify-between">
 				<Dropdown
-					className="lg:hidden"
 					overlay={
 						<div className="bg-white rounded-md p-2">
 							{items.map((item) => (
@@ -117,16 +116,6 @@ const Navbar = () => {
 						</span>
 					</div>
 				</Dropdown>
-
-				<div className="hidden lg:inline-flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c00] text-xs tracking-wider font-semibold cursor-pointer">
-					<span>
-						<GiHamburgerMenu />
-					</span>
-					<h4>ALL CATEGORIES</h4>
-					<span>
-						<RiArrowDownSLine />
-					</span>
-				</div>
 
 				<div className="list-wrapper">
 					<img
