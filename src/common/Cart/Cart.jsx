@@ -1,9 +1,9 @@
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Empty } from "antd";
-import { MdCancel } from "react-icons/md";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { remove, add, updateCart, decreaseQty } from "../../store/cartSlice";
+import { remove, add, decreaseQty } from "../../store/cartSlice";
+import { Empty } from "antd";
+import { MdDeleteForever } from "react-icons/md";
 
 const Cart = () => {
 	const cartItems = useSelector((state) => state.cart);
@@ -26,32 +26,109 @@ const Cart = () => {
 		dispatch(remove(id));
 	};
 
-	// ************************************* Dispatch handler to add
+	// ************************************* Dispatch handler
 	const addToCart = (productItem) => {
-		// Check if the product already exists in the cart
-		const productExist = cartItems.find(
-			(item) => item.idl_product_code === productItem.idl_product_code,
-		);
-
-		if (productExist) {
-			// Product already exists in the cart, update the quantity
-			const updatedCartItems = cartItems.map((item) =>
-				item.idl_product_code === productItem.idl_product_code
-					? { ...item, qty: item.qty + 1 }
-					: item,
-			);
-
-			dispatch(updateCart(updatedCartItems));
-		} else {
-			// Product doesn't exist in the cart, add it
-			const newCartItem = { ...productItem, qty: 1 };
-			dispatch(add(newCartItem));
-		}
+		dispatch(add(productItem));
 	};
 
+	if (cartItems.length === 0) {
+		return (
+			<div className="flex items-center justify-center mx-auto h-screen">
+				<Empty className="" description="No items in cart." />{" "}
+			</div>
+		);
+	}
+
 	return (
-		<section className="">
-			<div className="shadow-lg p-4 my-6 flex justify-around text-xs lg:text-xl tracking-wider">
+		<section className="flex justify-between max-w-[98%]">
+			<div className="mx-4 w-full lg:w-[70%]">
+				{cartItems &&
+					cartItems.length > 0 &&
+					cartItems?.map((cartItem) => (
+						<div
+							key={cartItem.idl_product_code}
+							className="flex items-start space-x-16 lg:space-x-20 shadow-lg p-6 rounded-md my-16 h-[40vh] w-full"
+						>
+							<img
+								src={
+									cartItem.main_picture === "" || cartItem.main_picture === null
+										? "/images/placeholder.jpeg"
+										: cartItem.main_picture
+								}
+								alt={cartItem.name || cartItem.model}
+								className=""
+								style={{ width: "100px", height: "auto" }}
+							/>
+
+							<div className="flex flex-col tracking-wider font-semibold">
+								<h4 className="text-gray-500 text-xs lg:text-lg">
+									{cartItem.name || cartItem.model}
+								</h4>
+								<div className="flex items-center space-x-4">
+									<p className="font-semibold text-xs lg:sm py-3">
+										Sold by{" "}
+										<abbr className="text-[#ff5c00]">
+											{cartItem.supplier_name}
+										</abbr>
+									</p>
+									<p className="font-semibold text-xs lg:sm py-3">
+										Size:{" "}
+										<abbr className="text-[#ff5c00]">
+											{cartItem.size || "N/A"}
+										</abbr>
+									</p>
+								</div>
+
+								<div className="flex items-center space-x-12 py-1">
+									<p className="text-xs lg:text-sm">
+										Quantity:{" "}
+										<span className="text-green-600">
+											<abbr className="text-xs">X</abbr> {cartItem.qty}{" "}
+										</span>{" "}
+									</p>
+									<div className="flex space-x-3 justify-end">
+										<button
+											className="incCart p-1"
+											onClick={() => addToCart(cartItem)}
+										>
+											{" "}
+											<AiOutlinePlus
+												className="mx-auto"
+												title="increase qty"
+											/>{" "}
+										</button>
+										<button
+											className="desCart p-1"
+											onClick={() =>
+												dispatch(decreaseQty(cartItem.idl_product_code))
+											}
+										>
+											{" "}
+											<AiOutlineMinus
+												className="mx-auto"
+												title="decrease qty"
+											/>{" "}
+										</button>{" "}
+									</div>
+								</div>
+
+								<p className="text-xs lg:text-sm pt-3">
+									Price:{" "}
+									<span className="text-[#ff5c00]">
+										{cartItem.currency} {renderPrice(cartItem)}
+									</span>{" "}
+								</p>
+
+								<MdDeleteForever
+									title="remove from cart"
+									onClick={() => removeFromCart(cartItem.idl_product_code)}
+									className="text-red-500 mt-6 text-xl hover:animate-pulse cursor-pointer"
+								/>
+							</div>
+						</div>
+					))}
+			</div>
+			<div className="hidden shadow-lg p-4 my-6 lg:inline-block justify-around text-xs lg:text-xl tracking-wider w-[25%]">
 				<h2 className="text-gray-500 pb-3 lg:pb-0">Cart Summary</h2>
 				<div className="flex">
 					<h4>
@@ -61,70 +138,6 @@ const Cart = () => {
 						</span>{" "}
 					</h4>
 				</div>
-			</div>
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  mx-auto max-w-[90%] px-10 my-24">
-				{cartItems && cartItems.length > 0 ? (
-					cartItems?.map((cartItem) => (
-						<Card
-							key={cartItem.id}
-							hoverable
-							title={cartItem.name || cartItem.model}
-							extra={
-								<MdCancel
-									className="hover:text-red-500 text-lg"
-									title="remove from cart"
-									onClick={() => removeFromCart(cartItem.idl_product_code)}
-								/>
-							}
-							className="w-[300px] px-4 object-cover"
-							cover={
-								<img
-									src={
-										cartItem.main_picture === "" ||
-										cartItem.main_picture === null
-											? "/src/assets/images/placeholder.jpeg"
-											: cartItem.main_picture
-									}
-									alt=""
-								/>
-							}
-						>
-							<div className="my-4 leading-6 tracking-wider text-gray-500 font-ubuntu font-semibold">
-								<p>
-									Quantity:{" "}
-									<span className="text-[#e94560]">
-										{cartItem.currency} {cartItem.retail_price} * {cartItem.qty}
-									</span>
-								</p>
-								<p>
-									Price:{" "}
-									<span className="text-green-500">
-										{cartItem.currency} {renderPrice(cartItem)}
-									</span>
-								</p>
-
-								<div className="cartControl flex justify-end">
-									<button
-										className="incCart"
-										onClick={() => addToCart(cartItem)}
-									>
-										<AiOutlinePlus className="mx-auto" title="increase qty" />
-									</button>
-									<button
-										className="desCart"
-										onClick={() => dispatch(decreaseQty(cartItem.id))}
-									>
-										<AiOutlineMinus className="mx-auto" title="decrease qty" />
-									</button>
-								</div>
-							</div>
-						</Card>
-					))
-				) : (
-					<div className="min-h-[200px]">
-						<Empty className="" description="No items in Cart" />
-					</div>
-				)}
 			</div>
 		</section>
 	);
