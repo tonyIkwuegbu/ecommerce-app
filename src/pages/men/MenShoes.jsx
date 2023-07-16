@@ -78,57 +78,62 @@ const MenShoes = () => {
 
 	return (
 		<div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 bg-[#f6f9fc]">
-			{loading ? (
-				<div className="flex justify-center items-center mx-auto h-screen">
-					<Spin />
-				</div>
-			) : productData.length === 0 ? (
-				<Empty className="" description="No Product to display" />
-			) : (
-				productData.map((productItems, index) => (
-					<div className="" key={index}>
-						<div className="product mt-[40px]">
-							<div className="img">
-								<img
-									loading="lazy"
-									src={
-										productItems.main_picture === "" ||
-										productItems.main_picture === null
-											? "/images/placeholder.jpeg"
-											: productItems.main_picture
-									}
-									alt={productItems.name}
-									className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[200px] object-cover"
-								/>
-								<div className="product-like">
-									<label>{count[index]}</label> <br />
-									<AiOutlineHeart
-										onClick={() => increment(index)}
-										className="arrow"
+			<>
+				{productData.length === 0 ? (
+					<div className="flex items-center justify-center mx-auto h-screen">
+						<Empty className="" description="No Product to display" />
+					</div>
+				) : (
+					productData.map((productItems, index) => (
+						<div className="" key={index}>
+							<div className="product mt-[40px]">
+								<div className="img h-96">
+									<img
+										loading="lazy"
+										src={
+											productItems.main_picture === "" ||
+											productItems.main_picture === null
+												? "/images/placeholder.jpeg"
+												: productItems.main_picture
+										}
+										alt={productItems.name}
+										className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
 									/>
+									<div className="product-like">
+										<label>{count[index]}</label> <br />
+										<AiOutlineHeart
+											onClick={() => increment(index)}
+											className="arrow"
+										/>
+									</div>
 								</div>
-							</div>
-							<div className="product-details p-2">
-								<h5 className="text-sm">
-									{productItems.name || productItems.model}
-								</h5>
+								<div className="product-details p-2">
+									<h5 className="text-sm">
+										{productItems.name || productItems.model}
+									</h5>
 
-								<div className="price">
-									<h4>
-										<span>{productItems.currency} </span>{" "}
-										{productItems.retail_price}
-									</h4>
-									<button
-										onClick={() => addToCart(productItems)}
-										title="Add to cart"
-									>
-										<AiOutlinePlus className="mx-auto" />
-									</button>
+									<div className="price">
+										<h4>
+											<span>{productItems.currency} </span>{" "}
+											{productItems.retail_price}
+										</h4>
+										<button
+											onClick={() => addToCart(productItems)}
+											title="Add to cart"
+										>
+											<AiOutlinePlus className="mx-auto" />
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				))
+					))
+				)}
+			</>
+			{loading && (
+				<div className="flex items-center justify-center mx-auto h-screen">
+					<Spin />
+				</div>
 			)}
 		</div>
 	);

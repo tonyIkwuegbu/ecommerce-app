@@ -3,6 +3,8 @@ import { AiOutlineHeart, AiOutlinePlus } from "react-icons/ai";
 import { Empty, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { add, updateCart } from "../../store/cartSlice";
+// import "react-loading-skeleton/dist/skeleton.css";
+// import Skeleton from "react-loading-skeleton";
 
 const AllMen = ({ data, loading }) => {
 	const dispatch = useDispatch();
@@ -48,57 +50,64 @@ const AllMen = ({ data, loading }) => {
 
 	return (
 		<div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 bg-[#f6f9fc]">
-			{loading ? (
-				<div className="flex justify-center items-center mx-auto h-screen">
+			<>
+				{data.length > 0 ? (
+					data.map((productItems, index) => (
+						<div className="" key={index}>
+							<div className="product mt-[40px]">
+								<div className="img h-96">
+									<img
+										loading="lazy"
+										src={
+											productItems.main_picture === "" ||
+											productItems.main_picture === null
+												? "/images/placeholder.jpeg"
+												: productItems.main_picture
+										}
+										alt={productItems.name}
+										className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
+									/>
+
+									<div className="product-like">
+										<label>{count[index]}</label> <br />
+										<AiOutlineHeart
+											onClick={() => increment(index)}
+											className="arrow"
+										/>
+									</div>
+								</div>
+								<div className="product-details p-2">
+									<h5 className="text-sm">
+										{productItems.name || productItems.model}
+									</h5>
+
+									<div className="price">
+										<h4>
+											<span>{productItems.currency} </span>{" "}
+											{productItems.retail_price}
+										</h4>
+										<button
+											onClick={() => addToCart(productItems)}
+											title="Add to cart"
+										>
+											<AiOutlinePlus className="mx-auto" />
+										</button>
+									</div>
+								</div>
+							</div>{" "}
+						</div>
+					))
+				) : (
+					<div className="flex items-center justify-center mx-auto h-screen">
+						<Empty className="" description="No Product to display" />
+					</div>
+				)}
+			</>
+
+			{loading && (
+				<div className="flex items-center justify-center mx-auto h-screen">
 					<Spin />
 				</div>
-			) : data.length === 0 ? (
-				<Empty className="" description="No Product to display" />
-			) : (
-				data.map((productItems, index) => (
-					<div className="" key={index}>
-						<div className="product mt-[40px]">
-							<div className="img">
-								<img
-									loading="lazy"
-									src={
-										productItems.main_picture === "" ||
-										productItems.main_picture === null
-											? "/images/placeholder.jpeg"
-											: productItems.main_picture
-									}
-									alt={productItems.name}
-									className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[200px] object-cover"
-								/>
-								<div className="product-like">
-									<label>{count[index]}</label> <br />
-									<AiOutlineHeart
-										onClick={() => increment(index)}
-										className="arrow"
-									/>
-								</div>
-							</div>
-							<div className="product-details p-2">
-								<h5 className="text-sm">
-									{productItems.name || productItems.model}
-								</h5>
-
-								<div className="price">
-									<h4>
-										<span>{productItems.currency} </span>{" "}
-										{productItems.retail_price}
-									</h4>
-									<button
-										onClick={() => addToCart(productItems)}
-										title="Add to cart"
-									>
-										<AiOutlinePlus className="mx-auto" />
-									</button>
-								</div>
-							</div>
-						</div>{" "}
-					</div>
-				))
 			)}
 		</div>
 	);

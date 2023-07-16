@@ -122,18 +122,7 @@ const Men = () => {
 					{tabIndex === 2 && <MenCloth />}
 					{tabIndex === 3 && <MenShoes />}
 				</div>
-				{/* <div className="hidden lg:inline-block">
-					<img
-						src="/src/assets/images/men2.png"
-						alt="men-photo"
-						className="h-[80vh] w-[70vw] rounded-sm"
-					/>
-				</div> */}
 			</div>
-			{/* <div>
-				{tabIndex === 1 && <AllMen data={data} error={error} />}
-				{tabIndex === 2 && <MenCloth />}
-			</div> */}
 		</div>
 	);
 };
