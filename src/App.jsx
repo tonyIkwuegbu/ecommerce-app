@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Cart from "./common/Cart/Cart";
 import RootLayout from "./RootLayout";
 import Men from "./pages/men";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function App() {
 	//Step 1 :
