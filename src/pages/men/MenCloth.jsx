@@ -6,8 +6,10 @@ import { add } from "../../store/cartSlice";
 import Axios from "axios";
 import { api } from "../../Api";
 import ProductSkeleton from "../../components/ProductSkeleton";
+import { useNavigate } from "react-router-dom";
 
 const MenCloth = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [count, setCount] = useState([]);
 	const [productData, setProductData] = useState([]);
@@ -78,6 +80,9 @@ const MenCloth = () => {
 											: productItems.main_picture
 									}
 									alt={productItems.name}
+									onClick={() =>
+										navigate(`/product/${productItems.idl_product_code}`)
+									}
 									className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
 								/>
 

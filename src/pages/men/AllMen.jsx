@@ -4,7 +4,7 @@ import { Empty } from "antd";
 import { add } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
 import ProductSkeleton from "../../components/ProductSkeleton";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const AllMen = ({ data, loading }) => {
 	const navigate = useNavigate();
