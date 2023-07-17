@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Cart from "./common/Cart/Cart";
 import RootLayout from "./RootLayout";
 import Men from "./pages/men";
+import Women from "./pages/women";
 import "react-loading-skeleton/dist/skeleton.css";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 					/>
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/category/men" element={<Men />} />
+					<Route path="/category/women" element={<Women />} />
 					{/* 👇️ when no other routes match */}
 					<Route path="*" element={<Pages />} />
 				</Routes>

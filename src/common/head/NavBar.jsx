@@ -49,7 +49,7 @@ const Navbar = () => {
 			key: "2",
 			label: "Women",
 			icon: <FcBusinesswoman />,
-			path: "/#",
+			path: "/category/women",
 		},
 		{
 			key: "3",
