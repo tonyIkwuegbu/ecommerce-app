@@ -4,9 +4,10 @@ import { Empty } from "antd";
 import { add } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
 import ProductSkeleton from "../../components/ProductSkeleton";
+import { useNavigate } from "react-router-dom";
 
 const AllWomen = ({ data, loading }) => {
-	console.log("ger", data);
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [count, setCount] = useState([]);
 
@@ -50,6 +51,9 @@ const AllWomen = ({ data, loading }) => {
 											: productItems.main_picture
 									}
 									alt={productItems.name}
+									onClick={() =>
+										navigate(`/product/${productItems.idl_product_code}`)
+									}
 									className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
 								/>
 
