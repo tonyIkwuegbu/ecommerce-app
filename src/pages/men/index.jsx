@@ -62,7 +62,7 @@ const Men = () => {
 			if (window.innerWidth >= 768) {
 				setSlidesToShow(6); // iPad view
 			} else {
-				setSlidesToShow(4); // Mobile view
+				setSlidesToShow(3); // Mobile view
 			}
 		};
 
@@ -80,17 +80,17 @@ const Men = () => {
 
 	return (
 		<div className="mt-4">
-			<div className="lg:hidden">
+			<div className="lg:hidden overflow-hidden py-2 font-semibold tracking-wider">
 				<Slider {...settings}>
 					{NavMen.map((item) => (
 						<div key={item.id} onClick={() => setSelected(item.tabNum)}>
-							<h5
+							<p
 								onClick={() => setTabIndex(item.tabNum)}
 								className="cursor-pointer"
 								style={selected === item.tabNum ? { color: "#ff5c00" } : null}
 							>
 								{item.title}
-							</h5>
+							</p>
 						</div>
 					))}
 				</Slider>

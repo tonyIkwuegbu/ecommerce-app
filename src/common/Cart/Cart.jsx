@@ -2,10 +2,12 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
 import { remove, add, decreaseQty } from "../../store/cartSlice";
-import { Empty } from "antd";
+import { Button, Divider, Empty } from "antd";
 import { MdDeleteForever } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+	const navigate = useNavigate();
 	const cartItems = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 
@@ -39,104 +41,145 @@ const Cart = () => {
 		);
 	}
 
+	const handleContinueShopping = () => {
+		navigate("/");
+	};
+
 	return (
-		<section className="flex justify-between max-w-[98%]">
-			<div className="mx-4 w-full lg:w-[70%]">
-				{cartItems &&
-					cartItems.length > 0 &&
-					cartItems?.map((cartItem) => (
-						<div
-							key={cartItem.idl_product_code}
-							className="flex items-start space-x-16 lg:space-x-20 shadow-lg p-6 rounded-md my-16 h-[40vh] w-full"
-						>
-							<img
-								src={
-									cartItem.main_picture === "" || cartItem.main_picture === null
-										? "/images/placeholder.jpeg"
-										: cartItem.main_picture
-								}
-								alt={cartItem.name || cartItem.model}
-								className=""
-								style={{ width: "100px", height: "auto" }}
-							/>
+		<section className="max-w-[98%]">
+			<div className="flex items-center justify-between p-2">
+				<h3 className="text-lg lg:text-3xl font-semibold text-gray-500">
+					Shopping Cart
+				</h3>
+				<Button type="default" className="" onClick={handleContinueShopping}>
+					Continue Shopping
+				</Button>
+			</div>
+			<Divider />
+			<div className="flex flex-col lg:flex-row justify-between  overflow-hidden">
+				<div className="mx-4 w-auto lg:w-[70%]">
+					{cartItems &&
+						cartItems.length > 0 &&
+						cartItems?.map((cartItem) => (
+							<div
+								key={cartItem.idl_product_code}
+								className="grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 shadow-lg p-6 rounded-md my-6 h-auto"
+							>
+								<div className="grid grid-cols-1 lg:grid-cols-2 ">
+									<img
+										src={
+											cartItem.main_picture === "" ||
+											cartItem.main_picture === null
+												? "/images/placeholder.jpeg"
+												: cartItem.main_picture
+										}
+										alt={cartItem.name || cartItem.model}
+										className="pb-8 lg:pb-0"
+										style={{ width: "100px", height: "auto" }}
+									/>
 
-							<div className="flex flex-col tracking-wider font-semibold">
-								<h4 className="text-gray-500 text-xs lg:text-lg">
-									{cartItem.name || cartItem.model}
-								</h4>
-								<div className="flex items-center space-x-4">
-									<p className="font-semibold text-xs lg:sm py-3">
-										Sold by{" "}
-										<abbr className="text-[#ff5c00]">
-											{cartItem.supplier_name}
-										</abbr>
-									</p>
-									<p className="font-semibold text-xs lg:sm py-3">
-										Size:{" "}
-										<abbr className="text-[#ff5c00]">
-											{cartItem.size || "N/A"}
-										</abbr>
-									</p>
-								</div>
+									<div className="flex-col">
+										<h4 className="text-gray-500 text-xs lg:text-sm">
+											{cartItem.name || cartItem.model}
+										</h4>
 
-								<div className="flex items-center space-x-12 py-1">
-									<p className="text-xs lg:text-sm">
-										Quantity:{" "}
-										<span className="text-green-600">
-											<abbr className="text-xs">X</abbr> {cartItem.qty}{" "}
-										</span>{" "}
-									</p>
-									<div className="flex space-x-3 justify-end">
-										<button
-											className="incCart p-1"
-											onClick={() => addToCart(cartItem)}
-										>
-											{" "}
-											<AiOutlinePlus
-												className="mx-auto"
-												title="increase qty"
-											/>{" "}
-										</button>
-										<button
-											className="desCart p-1"
-											onClick={() =>
-												dispatch(decreaseQty(cartItem.idl_product_code))
-											}
-										>
-											{" "}
-											<AiOutlineMinus
-												className="mx-auto"
-												title="decrease qty"
-											/>{" "}
-										</button>{" "}
+										<p className="font-semibold text-xs lg:sm py-3">
+											Sold by{" "}
+											<abbr className="text-[#ff5c00]">
+												{cartItem.supplier_name}
+											</abbr>
+										</p>
+										<p className="font-semibold text-xs lg:sm py-1">
+											Size:{" "}
+											<abbr className="text-[#ff5c00]">
+												{cartItem.size || "N/A"}
+											</abbr>
+										</p>
 									</div>
 								</div>
 
-								<p className="text-xs lg:text-sm pt-3">
-									Price:{" "}
-									<span className="text-[#ff5c00]">
-										{cartItem.currency} {renderPrice(cartItem)}
-									</span>{" "}
-								</p>
+								<div className="grid grid-cols-1 items-center tracking-wider font-semibold">
+									<div className="flex items-center space-x-12">
+										<p className="text-xs">
+											Quantity:{" "}
+											<span className="text-green-600">
+												<abbr className="text-xs">X</abbr> {cartItem.qty}{" "}
+											</span>{" "}
+										</p>
+										<div className="flex space-x-3 justify-end">
+											<button
+												className="incCart p-1"
+												onClick={() => addToCart(cartItem)}
+											>
+												{" "}
+												<AiOutlinePlus
+													className="mx-auto"
+													title="increase qty"
+												/>{" "}
+											</button>
+											<button
+												className="desCart p-1"
+												onClick={() =>
+													dispatch(decreaseQty(cartItem.idl_product_code))
+												}
+											>
+												{" "}
+												<AiOutlineMinus
+													className="mx-auto"
+													title="decrease qty"
+												/>{" "}
+											</button>{" "}
+										</div>
+									</div>
 
+									<p className="text-xs pt-2">
+										Price:{" "}
+										<span className="text-[#ff5c00]">
+											{cartItem.currency} {renderPrice(cartItem)}
+										</span>{" "}
+									</p>
+								</div>
 								<MdDeleteForever
 									title="remove from cart"
 									onClick={() => removeFromCart(cartItem.idl_product_code)}
 									className="text-red-500 mt-6 text-xl hover:animate-pulse cursor-pointer"
 								/>
 							</div>
-						</div>
-					))}
-			</div>
-			<div className="hidden shadow-lg p-4 my-6 lg:inline-block justify-around text-xs lg:text-xl tracking-wider w-[25%]">
-				<h2 className="text-gray-500 pb-3 lg:pb-0">Cart Summary</h2>
-				<div className="flex">
-					<h4>
-						Total Price :{" "}
-						<span className="text-green-500 font-semibold">
-							EUR {totalPrice}
-						</span>{" "}
-					</h4>
+						))}
+				</div>
+
+				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[25%] h-[60vh]">
+					<div className="flex items-center justify-between text-sm font-semibold">
+						<p className="text-[#ff5c40]">Order Summary</p>
+						<p>
+							{cartItems.length} {cartItems.length > 1 ? "Items" : "Item"}
+						</p>
+					</div>
+					<Divider />
+					<div className="flex items-center justify-between text-xs">
+						<p>Delivery Charges</p>
+						<h4>N/A</h4>
+					</div>
+					<Divider />
+					<div className="flex items-center justify-between text-xs">
+						<p>SubTotal</p>
+						<h4 className="font-semibold">EUR {totalPrice}</h4>
+					</div>
+					<Divider />
+
+					<div className="flex items-center justify-between text-sm font-semibold">
+						<p className="">Total</p>
+						<h4 className="text-green-500">EUR {totalPrice}</h4>
+					</div>
+					<Divider />
+
+					<Button
+						type="success"
+						block
+						className="bg-green-500 text-white hover:bg-green-400"
+					>
+						Proceed to Checkout
+					</Button>
 				</div>
 			</div>
 		</section>
