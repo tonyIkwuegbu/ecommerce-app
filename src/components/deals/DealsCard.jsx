@@ -128,8 +128,9 @@ const DealsCard = ({ shopItems }) => {
 									<AiFillStar />
 								</div>
 								<div className="price">
-									<h4>&#8358;{shopItems.price}.00 </h4>
+									<h4>&#8358;{shopItems.price}</h4>
 									<button
+										disabled
 										onClick={() => addToCart(shopItems)}
 										title="Add to cart"
 									>
