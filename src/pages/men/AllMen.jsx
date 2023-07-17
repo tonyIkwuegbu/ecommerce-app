@@ -4,8 +4,10 @@ import { Empty } from "antd";
 import { add } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
 import ProductSkeleton from "../../components/ProductSkeleton";
+import { useNavigate } from "react-router";
 
 const AllMen = ({ data, loading }) => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [count, setCount] = useState([]);
 
@@ -37,7 +39,7 @@ const AllMen = ({ data, loading }) => {
 		<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 bg-[#f6f9fc]">
 			{data.length > 0 ? (
 				data.map((productItems, index) => (
-					<div className="" key={index}>
+					<div className="" key={productItems.idl_product_code}>
 						<div className="product mt-[40px]">
 							<div className="img h-72">
 								<img
@@ -49,7 +51,10 @@ const AllMen = ({ data, loading }) => {
 											: productItems.main_picture
 									}
 									alt={productItems.name}
-									className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
+									onClick={() =>
+										navigate(`/product/${productItems.idl_product_code}`)
+									}
+									className="cursor-pointer transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
 								/>
 
 								<div className="product-like">

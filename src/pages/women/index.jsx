@@ -17,7 +17,7 @@ const Men = () => {
 	const [productData, setProductData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
-	// ******************************************************* GET PRODUCCT
+	// ******************************************************* GET PRODUCT
 
 	const getProduct = useCallback(async () => {
 		setLoading(true);
