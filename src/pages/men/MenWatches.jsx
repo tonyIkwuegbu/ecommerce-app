@@ -19,7 +19,7 @@ const MenWatches = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/men/Watches`,
+				`${api.baseURL}/api/v1/ecommerce/products/category/men/Accessories`,
 				{
 					headers: {
 						"Content-Type": "application/json",

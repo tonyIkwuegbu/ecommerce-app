@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import ProductSkeleton from "../../components/ProductSkeleton";
 
 const AllMen = ({ data, loading }) => {
-	console.log("ger", data);
 	const dispatch = useDispatch();
 	const [count, setCount] = useState([]);
 
