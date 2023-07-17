@@ -30,7 +30,7 @@ export const NavMen = [
 		tabNum: 4,
 	},
 	{
-		title: "Watches",
+		title: "Accessories",
 		id: 5,
 		icon: MdWatch,
 		tabNum: 5,
