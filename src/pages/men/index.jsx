@@ -9,7 +9,6 @@ import MenShoes from "./MenShoes";
 import SportsWear from "./Sportswear";
 import MenWatches from "./MenWatches";
 import MenBags from "./MenBags";
-//import { Alert, Spin } from "antd";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
