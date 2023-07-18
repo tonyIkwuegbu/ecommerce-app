@@ -55,7 +55,7 @@ const Navbar = () => {
 			key: "3",
 			label: "Children",
 			icon: <FaBaby />,
-			path: "/#",
+			path: "/category/children",
 		},
 		{
 			key: "4",
