@@ -9,7 +9,7 @@ import { add } from "../../store/cartSlice";
 import OneProductSkeleton from "./OneProductSkeleton";
 
 const ProductPage = () => {
-	const { id } = useParams();
+	const { id, supplier_id } = useParams();
 	const dispatch = useDispatch();
 	const [product, setProduct] = useState([]);
 	const [count, setCount] = useState(1);
@@ -21,7 +21,7 @@ const ProductPage = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/detail/${id}`,
+				`${api.baseURL}/api/v1/ecommerce/products/detail/${id}/${supplier_id}`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -36,7 +36,7 @@ const ProductPage = () => {
 			console.log(error);
 			setLoading(false);
 		}
-	}, [id]);
+	}, [id, supplier_id]);
 	useEffect(() => {
 		getProduct();
 	}, [getProduct]);
@@ -56,11 +56,11 @@ const ProductPage = () => {
 				<div className="flex items-center justify-center">
 					<Image
 						src={
-							product.main_picture === "" || product.main_picture === null
+							product?.main_picture === "" || product?.main_picture === null
 								? "/images/placeholder.jpeg"
-								: product.main_picture
+								: product?.main_picture
 						}
-						alt={product.name}
+						alt={product?.name || product?.model}
 						width={400}
 						height={400}
 						className="object-cover"
@@ -68,21 +68,21 @@ const ProductPage = () => {
 				</div>
 				<div>
 					<h4 className="text-gray-500 text-sm lg:text-2xl text-center lg:text-left">
-						{product.name || product.model}
+						{product?.name || product?.model}
 					</h4>
 					<p className="py-3 text-[#ff5c00] text-center lg:text-left text-sm lg:text-lg font-semibold">
-						<span>{product.currency}</span> {product.retail_price}
+						<span>{product?.currency}</span> {product?.retail_price}
 					</p>
 					<Divider />
 					<div className="flex items-center space-x-6 text-xs lg:text-sm">
 						<p>
 							Brand:{" "}
-							<span className="text-gray-500">{product.brand || "N/A"}</span>
+							<span className="text-gray-500">{product?.brand || "N/A"}</span>
 						</p>
 						<p>
 							Sold By:{" "}
 							<span className="text-[#ff5c00] font-semibold">
-								{product.supplier_name || "N/A"}
+								{product?.supplier_name || "N/A"}
 							</span>
 						</p>
 					</div>
@@ -91,19 +91,19 @@ const ProductPage = () => {
 							<p>
 								Size:{" "}
 								<span className="text-[#ff5c00] font-semibold">
-									{product.size || "N/A"}
+									{product?.size || "N/A"}
 								</span>
 							</p>
 							<p>
 								Color:{" "}
-								<span className="text-gray-500">{product.color || "N/A"}</span>
+								<span className="text-gray-500">{product?.color || "N/A"}</span>
 							</p>
 						</div>
 					</div>
 					<p className="mt-4 text-xs lg:text-sm">
 						Product Code:{" "}
 						<span className="text-green-600 font-semibold">
-							{product.idl_product_code || "N/A"}
+							{product?.idl_product_code || "N/A"}
 						</span>
 					</p>
 					<Divider />

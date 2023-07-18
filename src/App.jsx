@@ -30,7 +30,7 @@ function App() {
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/category/men" element={<Men />} />
 					<Route path="/category/women" element={<Women />} />
-					<Route path="/product/:id" element={<Product />} />
+					<Route path="/product/:id/:supplier_id" element={<Product />} />
 					{/* 👇️ when no other routes match */}
 					<Route path="*" element={<Pages />} />
 				</Routes>

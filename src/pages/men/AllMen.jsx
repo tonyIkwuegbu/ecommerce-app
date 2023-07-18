@@ -52,7 +52,9 @@ const AllMen = ({ data, loading }) => {
 									}
 									alt={productItems.name}
 									onClick={() =>
-										navigate(`/product/${productItems.idl_product_code}`)
+										navigate(
+											`/product/${productItems.idl_product_code}/${productItems.supplier_id}`,
+										)
 									}
 									className="cursor-pointer transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
 								/>
