@@ -12,6 +12,7 @@ import Women from "./pages/women";
 import Product from "./pages/product";
 import "react-loading-skeleton/dist/skeleton.css";
 import AllChildren from "./pages/children";
+import AllBeauty from "./pages/beauty";
 
 function App() {
 	//Step 1 :
@@ -32,6 +33,7 @@ function App() {
 					<Route path="/category/men" element={<Men />} />
 					<Route path="/category/women" element={<Women />} />
 					<Route path="/category/children" element={<AllChildren />} />
+					<Route path="/category/beauty" element={<AllBeauty />} />
 					<Route path="/product/:id/:supplier_id" element={<Product />} />
 					{/* 👇️ when no other routes match */}
 					<Route path="*" element={<Pages />} />
