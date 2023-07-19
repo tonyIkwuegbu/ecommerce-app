@@ -35,11 +35,11 @@ const NewsLetter = () => {
 				/>
 			</div>
 			<div className="py-6">
-				<div className="flex items-center justify-center text-xl space-x-4 cursor-pointer">
-					<FiFacebook className="hover:animate-pulse" />
-					<FiTwitter className="hover:animate-pulse" />
-					<FiInstagram className="hover:animate-pulse" />
-					<FcGoogle className="hover:animate-pulse" />
+				<div className="flex items-center justify-center space-x-4 text-xl  cursor-pointer">
+					<FiFacebook className="hover:animate-pulse h-[30px] w-[30px] rounded-[50%] bg-white bg-opacity-20 p-1" />
+					<FiTwitter className="hover:animate-pulse h-[30px] w-[30px] rounded-[50%]  bg-white bg-opacity-20 p-1" />
+					<FiInstagram className="hover:animate-pulse h-[30px] w-[30px] rounded-[50%]  bg-white bg-opacity-20 p-1" />
+					<FcGoogle className="hover:animate-pulse h-[30px] w-[30px] rounded-[50%]  bg-white bg-opacity-20 p-1" />
 				</div>
 			</div>
 		</div>
