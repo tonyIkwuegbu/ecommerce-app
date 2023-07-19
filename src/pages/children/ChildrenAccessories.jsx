@@ -76,7 +76,7 @@ const ChildrenAccessories = () => {
 									src={
 										productItems.main_picture === "" ||
 										productItems.main_picture === null
-											? "/images/placeholder.jpeg"
+											? "/images/baby-placeholder.jpeg"
 											: productItems.main_picture
 									}
 									alt={productItems.name}
