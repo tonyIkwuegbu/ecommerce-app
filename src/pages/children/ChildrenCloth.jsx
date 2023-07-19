@@ -21,7 +21,7 @@ const ChildrenCloth = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/children/Clothing`,
+				`${api.baseURL}/api/v1/ecommerce/products/category/kids/Clothing`,
 				{
 					headers: {
 						"Content-Type": "application/json",
