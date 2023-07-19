@@ -59,9 +59,9 @@ const Navbar = () => {
 		},
 		{
 			key: "4",
-			label: "Health & Beauty",
+			label: "Beauty",
 			icon: <GiHealthIncrease />,
-			path: "/#",
+			path: "/category/beauty",
 		},
 		{
 			key: "5",
