@@ -1,4 +1,4 @@
-import logo from "../../assets/images/logo_2_main.png";
+import logo from "/images/logo_2_main.png";
 import { Input } from "antd";
 import { Link } from "react-router-dom";
 import { IoPersonCircle } from "react-icons/io5";
