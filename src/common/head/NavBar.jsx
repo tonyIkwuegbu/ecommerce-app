@@ -65,9 +65,9 @@ const Navbar = () => {
 		},
 		{
 			key: "5",
-			label: "Home & Lights",
+			label: "Home Essentials",
 			icon: <GiOilySpiral />,
-			path: "/#",
+			path: "/category/home_essentials",
 		},
 		{
 			key: "6",
