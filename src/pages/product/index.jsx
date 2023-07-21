@@ -11,8 +11,10 @@ import OneProductSkeleton from "./OneProductSkeleton";
 const ProductPage = () => {
 	const { id, supplier_id } = useParams();
 	const dispatch = useDispatch();
+	//const cartItems = useSelector((state) => state.cart);
 	const [product, setProduct] = useState([]);
 	const [count, setCount] = useState(1);
+
 	const [loading, setLoading] = useState(false);
 
 	// ******************************************************* GET PRODUCCT
@@ -47,7 +49,7 @@ const ProductPage = () => {
 
 	// ************************************* Dispatch handler
 	const addToCart = (productItem) => {
-		dispatch(add(productItem));
+		dispatch(add({ ...productItem, qty: count }));
 	};
 
 	return (
@@ -118,7 +120,9 @@ const ProductPage = () => {
 						<div className="flex space-x-3 justify-end">
 							<button
 								className="incCart p-1"
-								onClick={() => setCount(count + 1)}
+								onClick={() => {
+									setCount((prevCount) => prevCount + 1);
+								}}
 							>
 								{" "}
 								<AiOutlinePlus className="mx-auto" />{" "}
@@ -126,7 +130,9 @@ const ProductPage = () => {
 							<button
 								className="desCart p-1"
 								disabled={count === 1 ? true : false}
-								onClick={() => setCount(count - 1)}
+								onClick={() => {
+									setCount((prevCount) => prevCount - 1);
+								}}
 							>
 								{" "}
 								<AiOutlineMinus className="mx-auto" />{" "}

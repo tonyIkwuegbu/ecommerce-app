@@ -1,6 +1,6 @@
 import logo from "/images/logo_2_main.png";
 import { Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoPersonCircle } from "react-icons/io5";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -8,11 +8,18 @@ import { useSelector } from "react-redux";
 const { Search } = Input;
 
 const HeadMiddle = () => {
+	const navigate = useNavigate();
 	const cartItems = useSelector((state) => state.cart);
 	return (
 		<section className="">
 			<div className="flex items-center justify-between py-6">
-				<img loading="lazy" src={logo} alt="" className="h-14 w-36" />
+				<img
+					loading="lazy"
+					src={logo}
+					alt=""
+					className="h-14 w-36 cursor-pointer"
+					onClick={() => navigate("/")}
+				/>
 
 				<div className="hidden lg:inline-block">
 					<Search

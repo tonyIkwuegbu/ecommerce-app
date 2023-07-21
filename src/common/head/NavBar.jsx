@@ -139,20 +139,11 @@ const Navbar = () => {
 					<ul style={{ left: open ? "0" : "-100vw" }}>
 						<li>
 							<Link
-								to="/"
-								onClick={handleClose}
-								style={{ color: location.pathname === "/" && "#ff5c00" }}
-							>
-								HOME
-							</Link>
-						</li>
-						<li>
-							<Link
 								to="/#"
 								onClick={handleClose}
 								// style={{ color: location.pathname === "/about" && "#4071f4" }}
 							>
-								TOP DEALS
+								Top Deals
 							</Link>
 						</li>
 						<li>
@@ -161,7 +152,7 @@ const Navbar = () => {
 								onClick={handleClose}
 								// style={{ color: location.pathname === "/skills" && "#4071f4" }}
 							>
-								BEST SELLERS
+								Popular Products
 							</Link>
 						</li>
 						<li>
@@ -172,7 +163,7 @@ const Navbar = () => {
 								// 	color: location.pathname === "/projects" && "#4071f4",
 								// }}
 							>
-								NEW ARRIVALS
+								New Arrivals
 							</Link>
 						</li>
 						<li>
@@ -181,7 +172,7 @@ const Navbar = () => {
 								onClick={handleClose}
 								// style={{ color: location.pathname === "/contact" && "#4071f4" }}
 							>
-								ABOUT US
+								Gift Card
 							</Link>
 						</li>
 					</ul>

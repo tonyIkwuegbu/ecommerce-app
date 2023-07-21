@@ -21,6 +21,14 @@ body {
 	letter-spacing: 0.004em;
 	height: 100%;
 }
+::-webkit-scrollbar {
+	width: 8px;
+	scroll-behavior: smooth;
+}
+::-webkit-scrollbar-thumb {
+	background-color: #6a6868;
+	border-radius: 4px;
+}
 
 html {
 	scroll-behavior: smooth;
