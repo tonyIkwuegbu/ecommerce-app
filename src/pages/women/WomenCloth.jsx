@@ -98,7 +98,7 @@ const WomenCloth = () => {
 							</div>
 							<div className="product-details p-2">
 								<h5 className="text-sm">
-									{productItems.name || productItems.model}
+									{productItems.name || productItems.brand}
 								</h5>
 
 								<div className="price">
