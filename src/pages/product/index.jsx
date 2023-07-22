@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../Api";
 import { Button, Divider, Image } from "antd";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { add } from "../../store/cartSlice";
 import OneProductSkeleton from "./OneProductSkeleton";
@@ -13,7 +12,6 @@ const ProductPage = () => {
 	const dispatch = useDispatch();
 	//const cartItems = useSelector((state) => state.cart);
 	const [product, setProduct] = useState([]);
-	const [count, setCount] = useState(1);
 
 	const [loading, setLoading] = useState(false);
 
@@ -49,7 +47,7 @@ const ProductPage = () => {
 
 	// ************************************* Dispatch handler
 	const addToCart = (productItem) => {
-		dispatch(add({ ...productItem, qty: count }));
+		dispatch(add(productItem));
 	};
 
 	return (
@@ -70,7 +68,7 @@ const ProductPage = () => {
 				</div>
 				<div>
 					<h4 className="text-gray-500 text-sm lg:text-2xl text-center lg:text-left">
-						{product?.name || product?.model}
+						{product?.name || product?.model || product?.brand}
 					</h4>
 					<p className="py-3 text-[#ff5c00] text-center lg:text-left text-sm lg:text-lg font-semibold">
 						<span>{product?.currency}</span> {product?.retail_price}
@@ -109,8 +107,16 @@ const ProductPage = () => {
 						</span>
 					</p>
 					<Divider />
+					<div className="my-5">
+						<p className="mt-4 text-xs lg:text-sm">
+							Product Description:{" "}
+							<span className="text-gray-700 font-semibold">
+								{product?.description || "N/A"}
+							</span>
+						</p>
+					</div>
 
-					<div className="flex items-center space-x-12">
+					{/* <div className="flex items-center space-x-12">
 						<p className="text-xs lg:text-sm">
 							Quantity:{" "}
 							<span className="text-green-600">
@@ -138,8 +144,8 @@ const ProductPage = () => {
 								<AiOutlineMinus className="mx-auto" />{" "}
 							</button>{" "}
 						</div>
-					</div>
-					<div className="mt-10">
+					</div> */}
+					<div className="mt-16">
 						<Button
 							type="success"
 							onClick={() => addToCart(product)}

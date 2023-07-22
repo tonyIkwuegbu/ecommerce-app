@@ -76,7 +76,6 @@ const Men = () => {
 			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
-
 	return (
 		<div className="mt-4">
 			<div className="lg:hidden overflow-hidden py-2 font-semibold tracking-wider">

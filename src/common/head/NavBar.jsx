@@ -35,6 +35,7 @@ const Navbar = () => {
 		if (screenWidth < 800) {
 			setOpen(false);
 		}
+		//setOpen(false);
 	};
 
 	// ****** Menu data map
