@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Spin } from "antd";
+import { Spin, Button, Result } from "antd";
 import Axios from "axios";
 import { api } from "../Api";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmationPage = () => {
+	const navigate = useNavigate();
 	const queryParams = new URLSearchParams(window.location.search);
 	const status = queryParams.get("status");
 	const transactionId = queryParams.get("id");
@@ -27,7 +29,7 @@ const ConfirmationPage = () => {
 						},
 					},
 				);
-				console.log(response.data);
+
 				setOrderId(response.data.order_id);
 				setPaymentRef(response.data.payment_ref);
 				setLoading(false);
@@ -44,27 +46,64 @@ const ConfirmationPage = () => {
 
 	const renderResultComponent = () => {
 		if (loading) {
-			return <Spin tip="Processing Payment..." />;
+			return (
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						minHeight: "80vh",
+					}}
+				>
+					<Spin tip="Loading Payment Status..." />
+				</div>
+			);
 		} else if (isSuccess) {
 			return (
-				<div>
-					<h2>Payment Successful!</h2>
-					{/* Display the retrieved order_id */}
-					<p>Order ID: {orderId}</p>
-					<p>Payment Reference:{paymentRef}</p>
-				</div>
+				<Result
+					key="success-result"
+					status="success"
+					title="Your payment was successful and has been confirmed."
+					subTitle={`Order ID: ${orderId}, Payment reference: ${paymentRef}`}
+					extra={[
+						<Button
+							key="go-to-home-btn"
+							type="success"
+							htmlType="button"
+							onClick={() => navigate("/")}
+							className="border-[1px] border-[#333] bg-orange-400 mx-auto text-white"
+						>
+							Continue Shopping
+						</Button>,
+					]}
+				/>
 			);
 		} else {
 			return (
-				<div>
-					<h2>Payment Failed</h2>
-					{/* You can display additional information or instructions for failure */}
-				</div>
+				<Result
+					key="failure-result"
+					status="error"
+					title="Payment Failed"
+					subTitle="Oops! Something went wrong and transaction could not be completed."
+					extra={[
+						<Button
+							key="go-to-home-btn"
+							type="success"
+							htmlType="button"
+							onClick={() => navigate("/")}
+							className="border-[1px] border-[#333] bg-orange-400 mx-auto text-white"
+						>
+							Go to Home
+						</Button>,
+					]}
+				/>
 			);
 		}
 	};
 
-	return <div className="max-w-[98%]">{renderResultComponent()}</div>;
+	return (
+		<div className="max-w-[98%] my-10 mx-auto">{renderResultComponent()}</div>
+	);
 };
 
 export default ConfirmationPage;
