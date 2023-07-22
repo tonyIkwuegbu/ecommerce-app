@@ -72,7 +72,7 @@ const CheckoutForm = ({ cartItems, totalPrice }) => {
 				};
 			}),
 			total_amount: totalPrice,
-			callback_url: "https://tencowry.onrender.com/paymentstatus",
+			callback_url: "https://tencowry.com/paymentstatus",
 		};
 
 		await Axios(`${api.baseURL}/api/v1/ecommerce/order/create`, {

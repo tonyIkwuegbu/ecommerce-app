@@ -52,10 +52,10 @@ const ConfirmationPage = () => {
 						display: "flex",
 						justifyContent: "center",
 						alignItems: "center",
-						minHeight: "80vh",
+						minHeight: "70vh",
 					}}
 				>
-					<Spin tip="Loading Payment Status..." />
+					<Spin />
 				</div>
 			);
 		} else if (isSuccess) {
