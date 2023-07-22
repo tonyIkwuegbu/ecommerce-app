@@ -1,15 +1,19 @@
+import { useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
 import { remove, add, decreaseQty } from "../../store/cartSlice";
-import { Button, Divider, Empty } from "antd";
+import { Button, Divider, Empty, message } from "antd";
 import { MdDeleteForever } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Axios from "axios";
+import { api } from "../../Api";
 
 const Cart = () => {
 	const navigate = useNavigate();
 	const cartItems = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
+	const [loading, setLoading] = useState(false);
 
 	// ************ cal total of items
 	const totalPrice = cartItems.reduce(
@@ -33,6 +37,8 @@ const Cart = () => {
 		dispatch(add(productItem));
 	};
 
+	// ****************************************************HANDLE EMPTY CART
+
 	if (cartItems.length === 0) {
 		return (
 			<div className="flex items-center justify-center mx-auto h-screen">
@@ -43,6 +49,36 @@ const Cart = () => {
 
 	const handleContinueShopping = () => {
 		navigate("/");
+	};
+
+	//***********************************************GENERATE ORDER ID AND GO TO CHECKOUT
+
+	const generateID = async () => {
+		setLoading(true);
+		try {
+			const getID = await Axios.get(
+				`${api.baseURL}/api/v1/ecommerce/generate/orderid`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"x-access-token": api.token,
+					},
+				},
+			);
+
+			const generatedID = getID.data.data;
+			sessionStorage.setItem("random", generatedID);
+			setTimeout(() => {
+				navigate("/checkout");
+			}, 3000);
+
+			message.success(`Order Id: ${getID.data.data} generated successfully`);
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			message.error(`${error.message}`);
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -80,7 +116,7 @@ const Cart = () => {
 
 									<div className="flex-col">
 										<h4 className="text-gray-500 text-xs lg:text-sm">
-											{cartItem.name || cartItem.model}
+											{cartItem.name || cartItem.model || cartItem.brand}
 										</h4>
 
 										<p className="font-semibold text-xs lg:sm py-3">
@@ -148,7 +184,7 @@ const Cart = () => {
 						))}
 				</div>
 
-				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[25%] h-[60vh]">
+				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[25%] h-[55vh]">
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="text-[#ff5c40]">Order Summary</p>
 						<p>
@@ -175,8 +211,11 @@ const Cart = () => {
 
 					<Button
 						type="success"
+						htmlType="button"
+						loading={loading}
 						block
 						className="bg-green-500 text-white hover:bg-green-400"
+						onClick={generateID}
 					>
 						Proceed to Checkout
 					</Button>
