@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { message } from "antd";
 
 const initialState = [];
 
@@ -18,6 +19,7 @@ const cartSlice = createSlice({
 			} else {
 				// Product doesn't exist in the cart, add it
 				state.push({ ...productItem, qty: 1 });
+				message.success("Item added to cart!");
 			}
 		},
 		updateCart: (state, action) => {
