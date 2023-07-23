@@ -99,7 +99,7 @@ const Cart = () => {
 						cartItems?.map((cartItem) => (
 							<div
 								key={cartItem.idl_product_code}
-								className="grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 shadow-lg p-6 rounded-md my-6 h-auto"
+								className="grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 shadow-lg p-6 rounded-md my-6 h-auto bg-white"
 							>
 								<div className="grid grid-cols-1 lg:grid-cols-2 ">
 									<img
@@ -184,7 +184,7 @@ const Cart = () => {
 						))}
 				</div>
 
-				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[25%] h-[55vh]">
+				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[25%] h-[55vh] bg-white">
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="text-[#ff5c40]">Order Summary</p>
 						<p>

@@ -6,7 +6,7 @@ const HeadTop = () => {
 			<div className="flex items-center space-x-2">
 				<h4 className="text-xs text-[#ff5c00] tracking-wider">
 					<b className="text-white">Welcome to TenCowry !</b>{" "}
-					<Link to="/#">Login</Link> or <Link to="/#">Register</Link>
+					<Link to="/login">Login</Link> or <Link to="/register">Register</Link>
 				</h4>
 			</div>
 			<div className="flex items-center space-x-6 text-xs md:text-sm cursor-pointer">

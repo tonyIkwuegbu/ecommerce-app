@@ -16,6 +16,8 @@ import AllBeauty from "./pages/beauty";
 import AllEssentials from "./pages/essentials";
 import Checkout from "./common/checkout/Checkout";
 import ConfirmationPage from "./pages/ConfirmationPage";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
 	//Step 1 :
@@ -40,6 +42,8 @@ function App() {
 					<Route path="/category/home_essentials" element={<AllEssentials />} />
 					<Route path="/checkout" element={<Checkout />} />
 					<Route path="/paymentstatus" element={<ConfirmationPage />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/login" element={<Login />} />
 					<Route path="/product/:id/:supplier_id" element={<Product />} />
 					{/* 👇️ when no other routes match */}
 					<Route path="*" element={<Pages />} />

@@ -33,7 +33,7 @@ const Checkout = () => {
 	};
 
 	return (
-		<section className="max-w-[98%]">
+		<section className="max-w-[98%">
 			<div className="flex items-center justify-between p-2">
 				<h3 className="text-lg lg:text-3xl font-semibold text-gray-500">
 					Checkout
@@ -43,8 +43,8 @@ const Checkout = () => {
 				</Button>
 			</div>
 			<Divider />
-			<div className="flex flex-col lg:flex-row justify-between  overflow-hidden">
-				<div className="w-full lg:w-[65%] bg-gray-50 mx-4 lg:mx-6 shadow-lg rounded-md">
+			<div className="flex flex-col lg:flex-row justify-between overflow-hidden my-10">
+				<div className="w-full lg:w-[65%] bg-white mx-4 lg:mx-6 shadow-lg rounded-md">
 					<p className="text-center text-xs lg:text-sm py-5 tracking-wider text-[#ff5c40] px-2 font-semibold">
 						Tencowry Order ID - <abbr className="text-gray-600">{orderID}</abbr>
 					</p>
@@ -52,7 +52,7 @@ const Checkout = () => {
 					<CheckoutForm cartItems={cartItems} totalPrice={totalPrice} />
 				</div>
 
-				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[30%] h-[85vh]">
+				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider bg-white w-auto lg:w-[30%] h-[85vh]">
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="text-[#ff5c40]">Order Details</p>
 						<p>
