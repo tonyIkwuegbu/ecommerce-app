@@ -3,6 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "antd/dist/antd.css";
 
 * {
 	box-sizing: border-box;
@@ -13,7 +14,7 @@
 
 body {
 	font-family: "Raleway", sans-serif;
-	background-color: #ffffff;
+	background-color: #f2f2f2;
 	overflow-x: hidden;
 	place-items: center;
 	min-width: 320px;
@@ -297,6 +298,20 @@ footer h1 {
 	text-decoration-color: #ff5c00;
 	text-decoration-thickness: 3px;
 	text-underline-offset: 10px;
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.animate-fadeIn {
+	animation-name: fadeIn;
+	animation-duration: 1s;
+	animation-timing-function: ease-in;
 }
 
 /* media queries */
