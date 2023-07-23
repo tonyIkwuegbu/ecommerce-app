@@ -18,6 +18,7 @@ import Checkout from "./common/checkout/Checkout";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import PrivateRoute from "./pages/PrivateRoute";
 
 function App() {
 	//Step 1 :
@@ -40,7 +41,14 @@ function App() {
 					<Route path="/category/children" element={<AllChildren />} />
 					<Route path="/category/beauty" element={<AllBeauty />} />
 					<Route path="/category/home_essentials" element={<AllEssentials />} />
-					<Route path="/checkout" element={<Checkout />} />
+					<Route
+						path="/checkout"
+						element={
+							<PrivateRoute>
+								<Checkout />
+							</PrivateRoute>
+						}
+					/>
 					<Route path="/paymentstatus" element={<ConfirmationPage />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />

@@ -10,6 +10,7 @@ const { Search } = Input;
 const HeadMiddle = () => {
 	const navigate = useNavigate();
 	const cartItems = useSelector((state) => state.cart);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	return (
 		<section className="">
 			<div className="flex items-center justify-between py-6">
@@ -38,7 +39,9 @@ const HeadMiddle = () => {
 				</div>
 
 				<div className="flex items-center space-x-4 ">
-					<IoPersonCircle className="text-2xl lg:text-3xl cursor-pointer" />
+					{isAuthenticated && (
+						<IoPersonCircle className="text-2xl lg:text-3xl cursor-pointer" />
+					)}
 					<div className="relative">
 						<Link to="/cart">
 							<BsFillCartCheckFill className="text-2xl lg:text-2xl" />

@@ -14,6 +14,7 @@ const Cart = () => {
 	const cartItems = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
 	// ************ cal total of items
 	const totalPrice = cartItems.reduce(
@@ -55,6 +56,13 @@ const Cart = () => {
 
 	const generateID = async () => {
 		setLoading(true);
+
+		if (!isAuthenticated) {
+			// User is not logged in, show a message or redirect to login/registration
+			message.error("You must be logged in before proceeding to checkout.");
+			setLoading(false);
+			return;
+		}
 		try {
 			const getID = await Axios.get(
 				`${api.baseURL}/api/v1/ecommerce/generate/orderid`,
