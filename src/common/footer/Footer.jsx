@@ -5,8 +5,8 @@ import logo from "../../assets/images/logo_1_footer.jpeg";
 
 const Footer = () => {
 	return (
-		<footer className="">
-			<div className="px-10 py-16 mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 leading-8">
+		<footer className="bg-white">
+			<div className="px-10 py-10 mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 leading-8">
 				<div>
 					<img
 						loading="lazy"
