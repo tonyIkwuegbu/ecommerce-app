@@ -313,4 +313,19 @@ footer h1 {
 	animation-timing-function: ease-in;
 }
 
+.ant-tabs-nav-list {
+	color: black;
+	display: flex;
+	justify-content: center;
+}
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+	color: #ff5c00 !important;
+}
+.ant-tabs .ant-tabs-ink-bar {
+	background-color: #0f3460 !important;
+}
+.ant-tabs .ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn {
+	color: gray !important;
+}
+
 /* media queries */
