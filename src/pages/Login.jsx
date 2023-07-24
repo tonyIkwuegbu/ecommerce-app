@@ -54,8 +54,8 @@ const Login = () => {
 		})
 			.then((res) => {
 				if (res.data.status === true) {
-					console.log("open", res.data);
 					const user = res.data.data;
+					sessionStorage.setItem("username", user.first_name);
 					dispatch(login(user));
 					message.success(`${res.data.message}`);
 					setTimeout(() => {
