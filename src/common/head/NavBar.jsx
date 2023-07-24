@@ -35,7 +35,6 @@ const Navbar = () => {
 		if (screenWidth < 800) {
 			setOpen(false);
 		}
-		//setOpen(false);
 	};
 
 	// ****** Menu data map
@@ -88,6 +87,7 @@ const Navbar = () => {
 		<>
 			<div className="flex items-center justify-between">
 				<Dropdown
+					trigger={["click"]}
 					overlay={
 						<div className="bg-white rounded-md p-2">
 							{items.map((item) => (

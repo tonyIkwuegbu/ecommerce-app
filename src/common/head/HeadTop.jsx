@@ -1,14 +1,19 @@
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
+import { message } from "antd";
 
 const HeadTop = () => {
 	const dispatch = useDispatch();
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const navigate = useNavigate();
+	const isAuthenticated = sessionStorage.getItem("username");
+	//const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
 	const handleLogout = () => {
 		dispatch(logout());
-		window.location.href = "/";
+		sessionStorage.removeItem("username");
+		navigate("/");
+		message.info("You're logged out!");
 	};
 	return (
 		<div className="flex items-center justify-between">
@@ -16,7 +21,7 @@ const HeadTop = () => {
 				{isAuthenticated ? (
 					<>
 						<h4 className="text-xs text-[#ff5c00] tracking-wider">
-							<b className="text-white">Welcome to TenCowry!</b>
+							<b className="text-white">Welcome to TenCowry!</b>{" "}
 							<span onClick={handleLogout} style={{ cursor: "pointer" }}>
 								Logout
 							</span>

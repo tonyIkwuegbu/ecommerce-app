@@ -19,6 +19,7 @@ import ConfirmationPage from "./pages/ConfirmationPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import PrivateRoute from "./pages/PrivateRoute";
+import Account from "./pages/account";
 
 function App() {
 	//Step 1 :
@@ -46,6 +47,14 @@ function App() {
 						element={
 							<PrivateRoute>
 								<Checkout />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/my-account"
+						element={
+							<PrivateRoute>
+								<Account />
 							</PrivateRoute>
 						}
 					/>

@@ -14,7 +14,8 @@ const Cart = () => {
 	const cartItems = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const isAuthenticated = sessionStorage.getItem("username");
+	//const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
 	// ************ cal total of items
 	const totalPrice = cartItems.reduce(
