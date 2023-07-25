@@ -1,13 +1,24 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
-import { message } from "antd";
+import { Modal, message } from "antd";
+import { useState } from "react";
+import Sellers from "./Sellers";
 
 const HeadTop = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isAuthenticated = sessionStorage.getItem("username");
 	//const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	const showModal = () => {
+		setIsModalVisible(true);
+	};
+
+	const handleCancel = () => {
+		setIsModalVisible(false);
+	};
 
 	const handleLogout = () => {
 		dispatch(logout());
@@ -36,12 +47,18 @@ const HeadTop = () => {
 				)}
 			</div>
 			<div className="flex items-center space-x-6 text-xs md:text-sm cursor-pointer">
-				<p className="hidden lg:inline-block bg-[#ff5c00] rounded-[3px] px-[15px] py-1 font-semibold">
+				<p
+					onClick={showModal}
+					className="hidden lg:inline-block bg-[#ff5c00] rounded-[3px] px-[15px] py-1 font-semibold"
+				>
 					BECOME A SELLER
 				</p>
 				<p className="">&#8358; Naira</p>
 				<p className="hidden lg:inline-flex">English</p>
 			</div>
+			<Modal open={isModalVisible} onCancel={handleCancel} footer={null}>
+				<Sellers setIsModalVisible={setIsModalVisible} />
+			</Modal>
 		</div>
 	);
 };
