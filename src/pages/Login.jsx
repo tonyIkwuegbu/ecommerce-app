@@ -44,43 +44,51 @@ const Login = () => {
 			password: formData.password,
 		};
 
-		await Axios(`${api.baseURL}/api/v1/ecommerce/login/customer`, {
-			method: "POST",
-			data: JSON.stringify(params),
-			headers: {
-				"content-type": "application/json",
-				"x-access-token": api.token,
-			},
-		})
-			.then((res) => {
-				if (res.data.status === true) {
-					const user = res.data.data;
-					sessionStorage.setItem("username", user.first_name);
+		try {
+			const response = await Axios(
+				`${api.baseURL}/api/v1/ecommerce/login/customer`,
+				{
+					method: "POST",
+					data: JSON.stringify(params),
+					headers: {
+						"content-type": "application/json",
+						"x-access-token": api.token,
+					},
+				},
+			);
+
+			if (response.data.status === true) {
+				const user = response.data.data;
+
+				// Check if the 'user' object exists in the response before dispatching the action
+				if (user) {
 					dispatch(login(user));
-					message.success(`${res.data.message}`);
+					message.success(`Welcome ${user.first_name}`);
 					setTimeout(() => {
 						navigate("/");
 					}, 3000);
 				} else {
-					message.info(`${res.data.message}`);
+					message.error("Invalid user data in the response");
 				}
+			} else {
+				message.info(`${response.data.message}`);
+			}
 
-				setLoading(false);
-			})
-			.catch((err) => {
-				console.log(err);
-				setLoading(false);
+			setLoading(false);
+		} catch (err) {
+			console.log(err);
+			setLoading(false);
 
-				if (
-					err.response.status === 401 ||
-					err.response.status === 404 ||
-					err.response.status === 405
-				) {
-					message.error(`${err.response.data.message}`);
-				} else {
-					message.error("Something went wrong");
-				}
-			});
+			if (
+				err.response.status === 401 ||
+				err.response.status === 404 ||
+				err.response.status === 405
+			) {
+				message.error(`${err.response.data.message}`);
+			} else {
+				message.error("Something went wrong");
+			}
+		}
 	};
 
 	return (
@@ -127,6 +135,7 @@ const Login = () => {
 				>
 					<Input.Password
 						name="password"
+						type="password"
 						value={formData.password}
 						onChange={handleInputChange}
 					/>
