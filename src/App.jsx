@@ -58,6 +58,7 @@ function App() {
 							</PrivateRoute>
 						}
 					/>
+
 					<Route path="/paymentstatus" element={<ConfirmationPage />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />

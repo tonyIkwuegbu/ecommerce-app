@@ -5,14 +5,9 @@ import CheckoutForm from "./CheckoutForm";
 
 const Checkout = () => {
 	const navigate = useNavigate();
-	const orderID = sessionStorage.getItem("random");
-	const cartItems = useSelector((state) => state.cart);
 
-	// ************ cal total of items
-	const totalPrice = cartItems.reduce(
-		(price, item) => price + item.qty * item.retail_price,
-		0,
-	);
+	const orderDetails = useSelector((state) => state.order.order);
+	const cartItems = useSelector((state) => state.cart);
 
 	// ************ cal item total price
 	const renderPrice = (item) => {
@@ -46,10 +41,11 @@ const Checkout = () => {
 			<div className="flex flex-col lg:flex-row justify-between overflow-hidden my-10">
 				<div className="w-full lg:w-[65%] bg-white mx-4 lg:mx-6 shadow-lg rounded-md">
 					<p className="text-center text-xs lg:text-sm py-5 tracking-wider text-[#ff5c40] px-2 font-semibold">
-						Tencowry Order ID - <abbr className="text-gray-600">{orderID}</abbr>
+						Tencowry Order ID -{" "}
+						<abbr className="text-gray-600">{orderDetails.order_id}</abbr>
 					</p>
 					<Divider />
-					<CheckoutForm cartItems={cartItems} totalPrice={totalPrice} />
+					<CheckoutForm cartItems={cartItems} />
 				</div>
 
 				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider bg-white w-auto lg:w-[30%] h-[85vh]">
@@ -109,19 +105,25 @@ const Checkout = () => {
 					</div>
 					<Divider />
 					<div className="flex items-center justify-between text-xs">
-						<p>Delivery Charges</p>
-						<h4>N/A</h4>
+						<p>Shipping Cost</p>
+						<h4 className="font-semibold">
+							&#8358; {orderDetails.shipping_cost}
+						</h4>
 					</div>
 					<Divider />
 					<div className="flex items-center justify-between text-xs">
-						<p>SubTotal</p>
-						<h4 className="font-semibold">EUR {totalPrice}</h4>
+						<p>Products Amount</p>
+						<h4 className="font-semibold">
+							&#8358; {orderDetails.products_amount}
+						</h4>
 					</div>
 					<Divider />
 
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="">Total</p>
-						<h4 className="text-green-500">EUR {totalPrice}</h4>
+						<h4 className="text-green-500">
+							&#8358; {orderDetails.total_amount}
+						</h4>
 					</div>
 				</div>
 			</div>

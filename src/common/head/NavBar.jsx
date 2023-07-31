@@ -84,102 +84,100 @@ const Navbar = () => {
 	];
 
 	return (
-		<>
-			<div className="flex items-center justify-between">
-				<Dropdown
-					trigger={["click"]}
-					overlay={
-						<div className="bg-white rounded-md p-2">
-							{items.map((item) => (
-								<Link
-									to={item.path}
-									key={item.key}
-									className={`dropdown-item ${
-										location.pathname === item.path ? "active" : ""
-									} flex items-center gap-x-4 leading-8 cursor-pointer hover:bg-gray-100 hover:font-semibold hover:text-[#ff5c00]`}
-									onClick={handleClose}
-								>
-									{item.icon}
-									{item.label}
-								</Link>
-							))}
-						</div>
-					}
-					placement="bottom"
-				>
-					<div className="flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c40] text-xs tracking-wider font-semibold cursor-pointer">
-						<span>
-							<GiHamburgerMenu />
-						</span>
-						<h4>ALL CATEGORIES</h4>
-						<span>
-							<RiArrowDownSLine />
-						</span>
+		<div className="flex items-center justify-between">
+			<Dropdown
+				trigger={["click"]}
+				overlay={
+					<div className="bg-white rounded-md p-2">
+						{items.map((item) => (
+							<Link
+								to={item.path}
+								key={item.key}
+								className={`dropdown-item ${
+									location.pathname === item.path ? "active" : ""
+								} flex items-center gap-x-4 leading-8 cursor-pointer hover:bg-gray-100 hover:font-semibold hover:text-[#ff5c00]`}
+								onClick={handleClose}
+							>
+								{item.icon}
+								{item.label}
+							</Link>
+						))}
 					</div>
-				</Dropdown>
-
-				<div className="list-wrapper">
-					<img
-						src="https://cdn.iconscout.com/icon/free/png-512/bars-collection-view-application-grid-menu-44415.png"
-						alt="Menu bars"
-						style={{ opacity: !open ? 1 : 0 }}
-						onClick={() => {
-							setOpen(!open);
-						}}
-					/>
-
-					<img
-						src="https://cdn3.iconfinder.com/data/icons/e-commerce-simple-ui-elements/100/TWalsh__close1-512.png"
-						alt="Menu cross"
-						style={{ opacity: open ? 1 : 0 }}
-						onClick={() => {
-							setOpen(!open);
-						}}
-					/>
-
-					<ul style={{ left: open ? "0" : "-100vw" }}>
-						<li>
-							<Link
-								to="/#"
-								onClick={handleClose}
-								// style={{ color: location.pathname === "/about" && "#4071f4" }}
-							>
-								Top Deals
-							</Link>
-						</li>
-						<li>
-							<Link
-								to="/#"
-								onClick={handleClose}
-								// style={{ color: location.pathname === "/skills" && "#4071f4" }}
-							>
-								Popular Products
-							</Link>
-						</li>
-						<li>
-							<Link
-								to="/#"
-								onClick={handleClose}
-								// style={{
-								// 	color: location.pathname === "/projects" && "#4071f4",
-								// }}
-							>
-								New Arrivals
-							</Link>
-						</li>
-						<li>
-							<Link
-								to="/#"
-								onClick={handleClose}
-								// style={{ color: location.pathname === "/contact" && "#4071f4" }}
-							>
-								Gift Card
-							</Link>
-						</li>
-					</ul>
+				}
+				placement="bottom"
+			>
+				<div className="flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c40] text-xs tracking-wider font-semibold cursor-pointer">
+					<span>
+						<GiHamburgerMenu />
+					</span>
+					<h4>ALL CATEGORIES</h4>
+					<span>
+						<RiArrowDownSLine />
+					</span>
 				</div>
+			</Dropdown>
+
+			<div className="list-wrapper">
+				<img
+					src="https://cdn.iconscout.com/icon/free/png-512/bars-collection-view-application-grid-menu-44415.png"
+					alt="Menu bars"
+					style={{ opacity: !open ? 1 : 0 }}
+					onClick={() => {
+						setOpen(!open);
+					}}
+				/>
+
+				<img
+					src="https://cdn3.iconfinder.com/data/icons/e-commerce-simple-ui-elements/100/TWalsh__close1-512.png"
+					alt="Menu cross"
+					style={{ opacity: open ? 1 : 0 }}
+					onClick={() => {
+						setOpen(!open);
+					}}
+				/>
+
+				<ul style={{ left: open ? "0" : "-100vw" }}>
+					<li>
+						<Link
+							to="/#"
+							onClick={handleClose}
+							// style={{ color: location.pathname === "/about" && "#4071f4" }}
+						>
+							Top Deals
+						</Link>
+					</li>
+					<li>
+						<Link
+							to="/#"
+							onClick={handleClose}
+							// style={{ color: location.pathname === "/skills" && "#4071f4" }}
+						>
+							Popular Products
+						</Link>
+					</li>
+					<li>
+						<Link
+							to="/#"
+							onClick={handleClose}
+							// style={{
+							// 	color: location.pathname === "/projects" && "#4071f4",
+							// }}
+						>
+							New Arrivals
+						</Link>
+					</li>
+					<li>
+						<Link
+							to="/#"
+							onClick={handleClose}
+							// style={{ color: location.pathname === "/contact" && "#4071f4" }}
+						>
+							Gift Card
+						</Link>
+					</li>
+				</ul>
 			</div>
-		</>
+		</div>
 	);
 };
 

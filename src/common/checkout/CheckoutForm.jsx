@@ -2,11 +2,15 @@ import { Form, Input, Select, Button, message } from "antd";
 import { useState } from "react";
 import Axios from "axios";
 import { api } from "../../Api";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../store/cartSlice";
 
 const { Option } = Select;
 
-const CheckoutForm = ({ cartItems, totalPrice }) => {
-	const orderID = sessionStorage.getItem("random");
+const CheckoutForm = ({ cartItems }) => {
+	const dispatch = useDispatch();
+	const orderDetails = useSelector((state) => state.order.order);
 	const [loading, setLoading] = useState(false);
 	const [orderData, setOrderData] = useState({
 		first_name: "",
@@ -53,7 +57,7 @@ const CheckoutForm = ({ cartItems, totalPrice }) => {
 	const onFinish = async () => {
 		setLoading(true);
 		const params = {
-			order_id: orderID,
+			order_id: orderDetails.order_id,
 			first_name: orderData.first_name,
 			last_name: orderData.last_name,
 			address_1: orderData.address_1,
@@ -71,7 +75,7 @@ const CheckoutForm = ({ cartItems, totalPrice }) => {
 					quantity: item.qty,
 				};
 			}),
-			total_amount: totalPrice,
+			total_amount: orderDetails.total_amount,
 			callback_url: "https://tencowry.com/paymentstatus",
 		};
 
@@ -85,7 +89,7 @@ const CheckoutForm = ({ cartItems, totalPrice }) => {
 		})
 			.then((res) => {
 				if (res.data.status === true) {
-					console.log(res.data);
+					dispatch(clearCart());
 					message.success(`${res.data.message}`);
 					setTimeout(() => {
 						window.location.href = res.data.link;

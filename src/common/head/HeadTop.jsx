@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
 import { Modal, message } from "antd";
 import { useState } from "react";
@@ -8,8 +8,7 @@ import Sellers from "./Sellers";
 const HeadTop = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const isAuthenticated = sessionStorage.getItem("username");
-	//const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const showModal = () => {
@@ -22,7 +21,6 @@ const HeadTop = () => {
 
 	const handleLogout = () => {
 		dispatch(logout());
-		sessionStorage.removeItem("username");
 		navigate("/");
 		message.info("You're logged out!");
 	};

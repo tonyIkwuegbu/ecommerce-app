@@ -8,14 +8,14 @@ import { MdDeleteForever } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { api } from "../../Api";
+import { getSummary } from "../../store/orderSlice";
 
 const Cart = () => {
 	const navigate = useNavigate();
 	const cartItems = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
-	const isAuthenticated = sessionStorage.getItem("username");
-	//const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
 	// ************ cal total of items
 	const totalPrice = cartItems.reduce(
@@ -57,37 +57,62 @@ const Cart = () => {
 
 	const generateID = async () => {
 		setLoading(true);
-
 		if (!isAuthenticated) {
 			// User is not logged in, show a message or redirect to login/registration
 			message.error("You must be logged in before proceeding to checkout.");
 			setLoading(false);
 			return;
 		}
-		try {
-			const getID = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/generate/orderid`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"x-access-token": api.token,
-					},
-				},
-			);
+		const params = {
+			products: cartItems.map((item) => {
+				return {
+					idl_product_code: item.idl_product_code,
+					supplier_id: item.supplier_id,
+					amount: item.retail_price * item.qty,
+					weight: item.weight,
+					quantity: item.qty,
+				};
+			}),
+		};
 
-			const generatedID = getID.data.data;
-			sessionStorage.setItem("random", generatedID);
-			setTimeout(() => {
-				navigate("/checkout");
-			}, 3000);
+		await Axios(`${api.baseURL}/api/v1/ecommerce/generate/ordersummary`, {
+			method: "POST",
+			data: JSON.stringify(params),
+			headers: {
+				"content-type": "application/json",
+				"x-access-token": api.token,
+			},
+		})
+			.then((res) => {
+				if (res && res.data && res.data.status === true) {
+					const user = res.data;
+					console.log("view", user);
+					message.success("Order generated successfully");
+					dispatch(getSummary(user));
 
-			message.success(`Order Id: ${getID.data.data} generated successfully`);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			message.error(`${error.message}`);
-			setLoading(false);
-		}
+					setTimeout(() => {
+						navigate("/checkout");
+					}, 3000);
+				} else {
+					message.info(`${res?.data?.message || "Something went wrong"}`);
+				}
+
+				setLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setLoading(false);
+
+				if (
+					err.response.status === 401 ||
+					err.response.status === 404 ||
+					err.response.status === 405
+				) {
+					message.error(`${err.response.data.message}`);
+				} else {
+					message.error("Something went wrong");
+				}
+			});
 	};
 
 	return (
@@ -208,13 +233,13 @@ const Cart = () => {
 					<Divider />
 					<div className="flex items-center justify-between text-xs">
 						<p>SubTotal</p>
-						<h4 className="font-semibold">EUR {totalPrice}</h4>
+						<h4 className="font-semibold">&#8358; {totalPrice}</h4>
 					</div>
 					<Divider />
 
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="">Total</p>
-						<h4 className="text-green-500">EUR {totalPrice}</h4>
+						<h4 className="text-green-500">&#8358; {totalPrice}</h4>
 					</div>
 					<Divider />
 
