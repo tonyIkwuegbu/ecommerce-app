@@ -53,6 +53,12 @@ const Cart = () => {
 		navigate("/");
 	};
 
+	/// ************************************ CURRENCY FORMAT
+	const formattedAmount = new Intl.NumberFormat("en-NG", {
+		style: "currency",
+		currency: "NGN",
+	});
+
 	//***********************************************GENERATE ORDER ID AND GO TO CHECKOUT
 
 	const generateID = async () => {
@@ -140,7 +146,7 @@ const Cart = () => {
 										src={
 											cartItem.main_picture === "" ||
 											cartItem.main_picture === null
-												? "/images/placeholder.jpeg"
+												? "/images/home-placeholder.jpeg"
 												: cartItem.main_picture
 										}
 										alt={cartItem.name || cartItem.model}
@@ -205,7 +211,7 @@ const Cart = () => {
 									<p className="text-xs pt-2">
 										Price:{" "}
 										<span className="text-[#ff5c00]">
-											{cartItem.currency} {renderPrice(cartItem)}
+											{formattedAmount.format(renderPrice(cartItem))}
 										</span>{" "}
 									</p>
 								</div>
@@ -233,13 +239,17 @@ const Cart = () => {
 					<Divider />
 					<div className="flex items-center justify-between text-xs">
 						<p>SubTotal</p>
-						<h4 className="font-semibold">&#8358; {totalPrice}</h4>
+						<h4 className="font-semibold">
+							{formattedAmount.format(totalPrice)}
+						</h4>
 					</div>
 					<Divider />
 
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="">Total</p>
-						<h4 className="text-green-500">&#8358; {totalPrice}</h4>
+						<h4 className="text-green-500">
+							{formattedAmount.format(totalPrice)}
+						</h4>
 					</div>
 					<Divider />
 
