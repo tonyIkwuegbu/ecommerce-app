@@ -26,7 +26,7 @@ const ArrivalsCard = ({ loading, productData }) => {
 			} else if (window.innerWidth >= 768) {
 				setSlidesToShow(4); // iPad view
 			} else {
-				setSlidesToShow(2); // Mobile view
+				setSlidesToShow(1); // Mobile view
 			}
 		};
 
