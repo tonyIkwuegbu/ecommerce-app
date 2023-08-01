@@ -2,10 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { AiFillStar, AiOutlineHeart, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { add, updateCart } from "../../store/cartSlice";
+import { useDispatch } from "react-redux";
+import { add } from "../../store/cartSlice";
+import SlideSkeleton from "../SlideSkeleton";
+import { IoIosBasket } from "react-icons/io";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import { Divider } from "antd";
 
 const SampleNextArrow = (props) => {
 	const { onClick } = props;
@@ -27,18 +31,17 @@ const SamplePrevArrow = (props) => {
 		</div>
 	);
 };
-const DealsCard = ({ shopItems }) => {
+const DealsCard = ({ loading, productData }) => {
 	const dispatch = useDispatch();
-	const cartItems = useSelector((state) => state.cart);
-	const [count, setCount] = useState(Array(shopItems.length).fill(0));
+	//const [count, setCount] = useState(Array(productData?.length).fill(0));
 	const [slidesToShow, setSlidesToShow] = useState(4);
 
 	/// ********************************* increase likes
-	const increment = (index) => {
-		const updatedCounts = [...count];
-		updatedCounts[index] += 1;
-		setCount(updatedCounts);
-	};
+	// const increment = (index) => {
+	// 	const updatedCounts = [...count];
+	// 	updatedCounts[index] += 1;
+	// 	setCount(updatedCounts);
+	// };
 
 	// **************************************** Slider responsiveness
 	const settings = useMemo(
@@ -78,69 +81,74 @@ const DealsCard = ({ shopItems }) => {
 	}, []);
 
 	// ************************************* Dispatch handler
-	const addToCart = (productItem) => {
-		// Check if the product already exists in the cart
-		const productExist = cartItems.find((item) => item.id === productItem.id);
-
-		if (productExist) {
-			// Product already exists in the cart, update the quantity
-			const updatedCartItems = cartItems.map((item) =>
-				item.id === productItem.id ? { ...item, qty: item.qty + 1 } : item,
-			);
-
-			dispatch(updateCart(updatedCartItems));
-		} else {
-			// Product doesn't exist in the cart, add it
-			const newCartItem = { ...productItem, qty: 1 };
-			dispatch(add(newCartItem));
-		}
+	const addToCart = (value) => {
+		dispatch(add(value));
 	};
+
+	/// ************************************ CURRENCY FORMAT
+	const formattedAmount = new Intl.NumberFormat("en-NG", {
+		style: "currency",
+		currency: "NGN",
+	});
+
+	/// ******************************************** LOADING STATE
+	if (loading) {
+		return <SlideSkeleton />;
+	}
 
 	return (
 		<>
 			<Slider {...settings}>
-				{shopItems.map((shopItems, index) => (
-					<div className="" key={index}>
-						<div className="product mt-[40px]">
-							<div className="img">
-								<span className="discount">{shopItems.discount}% Off</span>
-								<img
-									src={shopItems.cover}
-									alt={shopItems.name}
-									className="transition-all hover:scale-110 duration-500 ease-in-out"
-								/>
-								<div className="product-like">
-									<label>{count[index]}</label> <br />
-									<AiOutlineHeart
-										onClick={() => increment(index)}
-										className="arrow"
+				{productData?.length > 0 &&
+					productData?.map((value) => (
+						<div className="" key={value?.idl_product_code}>
+							<div className="product mt-[40px]">
+								<div className="h-[250px] w-[250px]">
+									<img
+										loading="lazy"
+										src={
+											value?.main_picture === "" ||
+											value?.main_picture === undefined
+												? "/images/home-placeholder.jpeg"
+												: value?.main_picture
+										}
+										alt={value?.name || value?.model || value?.brand}
+										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover w-full h-full rounded"
 									/>
-								</div>
-							</div>
-							<div className="product-details">
-								<h3>{shopItems.name}</h3>
+									<div className="product-like">
+										{/* <label>{count[index]}</label> */}
 
-								<div className="flex py-2 text-[#ffcd4e] text-[15px]">
-									<AiFillStar />
-									<AiFillStar />
-									<AiFillStar />
-									<AiFillStar />
-									<AiFillStar />
+										<AiOutlineHeart
+											//onClick={() => increment(index)}
+											className="arrow"
+										/>
+										<IoIosBasket className="arrow" />
+									</div>
 								</div>
-								<div className="price">
-									<h4>&#8358;{shopItems.price}</h4>
-									<button
-										disabled
-										onClick={() => addToCart(shopItems)}
-										title="Add to cart"
-									>
-										<AiOutlinePlus className="mx-auto" />
-									</button>
+								<Divider />
+								<div className="product-details font-semibold tracking-wider">
+									<h3 className="text-sm text-gray-600 py-1">
+										{value?.name || value?.model || value?.brand}
+									</h3>
+
+									<div className="py-2 text-[#232f3e] text-xs">
+										<p>
+											Size: <span>{value?.size || "N/A"}</span>
+										</p>
+									</div>
+									<div className="price">
+										<h4>{formattedAmount.format(value?.retail_price)}</h4>
+										<button
+											onClick={() => addToCart(value)}
+											title="Add to cart"
+										>
+											<BsFillCartCheckFill className="mx-auto" />
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				))}
+					))}
 			</Slider>
 		</>
 	);
