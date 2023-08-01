@@ -6,7 +6,7 @@ const Home = () => {
 	return (
 		<>
 			<section className="bg-[#f6f9fc]">
-				<div className="max-w-[98%] m-auto flex justify-between">
+				<div className="max-w-[98%] mx-auto flex justify-between">
 					<Categories />
 					<SliderHome />
 				</div>
