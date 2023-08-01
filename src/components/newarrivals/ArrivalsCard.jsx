@@ -60,7 +60,7 @@ const ArrivalsCard = ({ loading, productData }) => {
 					productData?.map((value) => (
 						<div key={value.idl_product_code}>
 							<div className="box product">
-								<div className="h-[150px] w-[150px]">
+								<div className="h-[150px] w-[150px] mx-auto">
 									<img
 										src={
 											value?.main_picture === "" ||
