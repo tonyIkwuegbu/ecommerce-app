@@ -50,6 +50,12 @@ const ProductPage = () => {
 		dispatch(add(productItem));
 	};
 
+	/// ************************************ CURRENCY FORMAT
+	const formattedAmount = new Intl.NumberFormat("en-NG", {
+		style: "currency",
+		currency: "NGN",
+	});
+
 	return (
 		<div className="max-w-[98%]">
 			<div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-4 justify-center tracking-wide my-10 px-4">
@@ -70,18 +76,18 @@ const ProductPage = () => {
 					<h4 className="text-gray-500 text-sm lg:text-2xl text-center lg:text-left">
 						{product?.name || product?.model || product?.brand}
 					</h4>
-					<p className="py-3 text-[#ff5c00] text-center lg:text-left text-sm lg:text-lg font-semibold">
-						<span>{product?.currency}</span> {product?.retail_price}
+					<p className="py-3 text-[#ff5c00] text-center lg:text-left text-sm lg:text-lg font-semibold tracking-wider">
+						{formattedAmount.format(product?.retail_price)}
 					</p>
-					<Divider />
-					<div className="flex items-center space-x-6 text-xs lg:text-sm">
+					<Divider style={{ backgroundColor: "gray", opacity: "0.3" }} />
+					<div className="flex items-center space-x-6 text-xs lg:text-sm font-semibold">
 						<p>
 							Brand:{" "}
 							<span className="text-gray-500">{product?.brand || "N/A"}</span>
 						</p>
 						<p>
 							Sold By:{" "}
-							<span className="text-[#ff5c00] font-semibold">
+							<span className="text-[#ff5c00]">
 								{product?.supplier_name || "N/A"}
 							</span>
 						</p>
@@ -106,7 +112,7 @@ const ProductPage = () => {
 							{product?.idl_product_code || "N/A"}
 						</span>
 					</p>
-					<Divider />
+					<Divider style={{ backgroundColor: "gray", opacity: "0.3" }} />
 					<div className="my-5">
 						<p className="mt-4 text-xs lg:text-sm">
 							Product Description:{" "}
@@ -116,35 +122,6 @@ const ProductPage = () => {
 						</p>
 					</div>
 
-					{/* <div className="flex items-center space-x-12">
-						<p className="text-xs lg:text-sm">
-							Quantity:{" "}
-							<span className="text-green-600">
-								<abbr className="text-sm font-semibold">X</abbr> {count}{" "}
-							</span>{" "}
-						</p>
-						<div className="flex space-x-3 justify-end">
-							<button
-								className="incCart p-1"
-								onClick={() => {
-									setCount((prevCount) => prevCount + 1);
-								}}
-							>
-								{" "}
-								<AiOutlinePlus className="mx-auto" />{" "}
-							</button>
-							<button
-								className="desCart p-1"
-								disabled={count === 1 ? true : false}
-								onClick={() => {
-									setCount((prevCount) => prevCount - 1);
-								}}
-							>
-								{" "}
-								<AiOutlineMinus className="mx-auto" />{" "}
-							</button>{" "}
-						</div>
-					</div> */}
 					<div className="mt-16">
 						<Button
 							type="success"

@@ -10,6 +10,7 @@ import SlideSkeleton from "../SlideSkeleton";
 import { IoIosBasket } from "react-icons/io";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { Divider } from "antd";
+import { useNavigate } from "react-router";
 
 const SampleNextArrow = (props) => {
 	const { onClick } = props;
@@ -32,6 +33,7 @@ const SamplePrevArrow = (props) => {
 	);
 };
 const FlashCard = ({ loading, productData }) => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [slidesToShow, setSlidesToShow] = useState(4);
 
@@ -105,7 +107,12 @@ const FlashCard = ({ loading, productData }) => {
 												: value?.main_picture
 										}
 										alt={value?.name || value?.model || value?.brand}
-										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover w-full h-full rounded"
+										onClick={() =>
+											navigate(
+												`/product/${value.idl_product_code}/${value.supplier_id}`,
+											)
+										}
+										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover cursor-pointer w-full h-full rounded"
 									/>
 									<div className="product-like">
 										{/* <label>{count[index]}</label> */}

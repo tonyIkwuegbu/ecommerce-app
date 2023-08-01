@@ -3,8 +3,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useMemo, useState } from "react";
 import SlideSkeleton from "../SlideSkeleton";
+import { useNavigate } from "react-router-dom";
 
 const ArrivalsCard = ({ loading, productData }) => {
+	const navigate = useNavigate();
 	const [slidesToShow, setSlidesToShow] = useState(6);
 
 	const settings = useMemo(
@@ -69,7 +71,12 @@ const ArrivalsCard = ({ loading, productData }) => {
 												: value?.main_picture
 										}
 										alt={value?.name || value?.model || value?.brand}
-										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover w-full h-full rounded"
+										onClick={() =>
+											navigate(
+												`/product/${value.idl_product_code}/${value.supplier_id}`,
+											)
+										}
+										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover w-full h-full cursor-pointer rounded"
 									/>
 								</div>
 								<div className="text-center py-3 tracking-wider">
