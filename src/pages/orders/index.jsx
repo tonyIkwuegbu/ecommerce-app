@@ -1,5 +1,7 @@
 import { Tabs } from "antd";
 import ViewOrders from "./ViewOrders";
+import TrackOrders from "./TrackOrders";
+import Cancel from "./CancelledOrders";
 
 const { TabPane } = Tabs;
 
@@ -17,10 +19,10 @@ const OrdersPage = () => {
 							<ViewOrders />
 						</TabPane>
 						<TabPane tab="Track Orders" key="track">
-							coming soon
+							<TrackOrders />
 						</TabPane>
 						<TabPane tab="Cancelled Orders" key="cancelled">
-							coming soon
+							<Cancel />
 						</TabPane>
 					</Tabs>
 				</div>
