@@ -59,6 +59,13 @@ const MenBags = () => {
 	const addToCart = (productItem) => {
 		dispatch(add(productItem));
 	};
+
+	/// ************************************ CURRENCY FORMAT
+	const formattedAmount = new Intl.NumberFormat("en-NG", {
+		style: "currency",
+		currency: "NGN",
+	});
+
 	// *************************************************** LOADING STATE
 	if (loading) {
 		return <ProductSkeleton />;
@@ -102,10 +109,8 @@ const MenBags = () => {
 								</h5>
 
 								<div className="price">
-									<h4>
-										<span>{productItems.currency} </span>{" "}
-										{productItems.retail_price}
-									</h4>
+									<h4>{formattedAmount.format(productItems?.retail_price)}</h4>
+
 									<button
 										onClick={() => addToCart(productItems)}
 										title="Add to cart"
