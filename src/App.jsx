@@ -18,6 +18,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import PrivateRoute from "./pages/PrivateRoute";
 import Account from "./pages/account";
+import OrdersPage from "./pages/orders";
 
 function App() {
 	return (
@@ -44,6 +45,14 @@ function App() {
 						element={
 							<PrivateRoute>
 								<Account />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/my-orders"
+						element={
+							<PrivateRoute>
+								<OrdersPage />
 							</PrivateRoute>
 						}
 					/>
