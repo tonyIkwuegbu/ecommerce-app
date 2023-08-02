@@ -40,6 +40,8 @@ const ViewOrders = () => {
 						last_name: item?.customer_details?.last_name,
 						address: item?.customer_details?.address_1,
 						email: item?.customer_details?.email,
+						number: item?.customer_details?.phone,
+						product: item?.products,
 					})),
 				);
 			} else {
@@ -190,6 +192,46 @@ const ViewOrders = () => {
 								</div>
 							</div>
 							<Divider />
+							<div>
+								<table className="border-collapse w-full my-4">
+									<thead>
+										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+											Product Code
+										</th>
+										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+											Product Amount
+										</th>
+										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+											{" "}
+											Quantity
+										</th>
+										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+											{" "}
+											Supplier ID
+										</th>
+									</thead>
+									<tbody>
+										{record?.product?.map((el) => (
+											<tr
+												key={el.idl_product_code}
+												align="center"
+												className="leading-10"
+											>
+												<td className="border-r-2 border-black px-4 py-2">
+													{el.idl_product_code}
+												</td>
+												<td className="border-r-2 border-black px-4 py-2">
+													{el.amount}
+												</td>
+												<td className="border-r-2 border-black px-4 py-2">
+													{el.quantity}
+												</td>
+												<td>{el.supplier_id}</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
 						</div>
 					),
 				}}

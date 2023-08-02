@@ -1,6 +1,6 @@
 import { Empty } from "antd";
 
-const Password = () => {
+const Transactions = () => {
 	return (
 		<div>
 			<h1 className="text-center py-2 mb-3 lg:text-xl tracking-wider font-semibold">
@@ -13,4 +13,4 @@ const Password = () => {
 	);
 };
 
-export default Password;
+export default Transactions;
