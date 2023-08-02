@@ -29,6 +29,7 @@ const AllMen = ({ data, loading }) => {
 	const addToCart = (productItem) => {
 		dispatch(add(productItem));
 	};
+
 	/// ************************************ CURRENCY FORMAT
 	const formattedAmount = new Intl.NumberFormat("en-NG", {
 		style: "currency",
