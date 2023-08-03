@@ -27,7 +27,7 @@ const ViewOrders = () => {
 			let abortController = new AbortController();
 
 			if (getData.data.status === true) {
-				console.log("orders", getData.data);
+				
 				setAllOrders(
 					getData.data.data.map((item, idx) => ({
 						key: idx + 1,
@@ -195,20 +195,22 @@ const ViewOrders = () => {
 							<div>
 								<table className="border-collapse w-full my-4">
 									<thead>
-										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
-											Product Code
-										</th>
-										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
-											Product Amount
-										</th>
-										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
-											{" "}
-											Quantity
-										</th>
-										<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
-											{" "}
-											Supplier ID
-										</th>
+										<tr>
+											<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+												Product Code
+											</th>
+											<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+												Product Amount
+											</th>
+											<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+												{" "}
+												Quantity
+											</th>
+											<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
+												{" "}
+												Supplier ID
+											</th>
+										</tr>
 									</thead>
 									<tbody>
 										{record?.product?.map((el) => (
