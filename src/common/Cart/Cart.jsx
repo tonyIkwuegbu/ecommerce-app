@@ -3,7 +3,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
 import { remove, add, decreaseQty } from "../../store/cartSlice";
-import { Button, Divider, Empty, message } from "antd";
+import { Button, Divider, Empty, Modal, message } from "antd";
 import { MdDeleteForever } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
@@ -16,6 +16,8 @@ const Cart = () => {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+	const [itemToDelete, setItemToDelete] = useState(null);
 
 	// ************ cal total of items
 	const totalPrice = cartItems.reduce(
@@ -30,8 +32,21 @@ const Cart = () => {
 	};
 
 	// ************ remove handler
-	const removeFromCart = (id) => {
-		dispatch(remove(id));
+	const handleConfirmDelete = () => {
+		if (itemToDelete) {
+			dispatch(remove(itemToDelete.idl_product_code));
+			setDeleteModalVisible(false);
+		}
+	};
+
+	const handleCancelDelete = () => {
+		setItemToDelete(null);
+		setDeleteModalVisible(false);
+	};
+
+	const removeFromCart = (item) => {
+		setItemToDelete(item);
+		setDeleteModalVisible(true);
 	};
 
 	// ************************************* Dispatch handler
@@ -74,9 +89,12 @@ const Cart = () => {
 				return {
 					idl_product_code: item.idl_product_code,
 					supplier_id: item.supplier_id,
-					amount: item.retail_price * item.qty,
+					amount: item.retail_price,
 					weight: item.weight,
 					quantity: item.qty,
+					main_picture: item?.main_picture,
+					size: item?.size,
+					product_name: item?.name || item?.brand || item?.model,
 				};
 			}),
 		};
@@ -217,9 +235,29 @@ const Cart = () => {
 								</div>
 								<MdDeleteForever
 									title="remove from cart"
-									onClick={() => removeFromCart(cartItem.idl_product_code)}
+									onClick={() => removeFromCart(cartItem)}
 									className="text-red-500 mt-6 text-xl hover:animate-pulse cursor-pointer"
 								/>
+								<Modal
+									title="Confirm Delete"
+									visible={deleteModalVisible}
+									onCancel={handleCancelDelete}
+									footer={[
+										<Button key="cancel" onClick={handleCancelDelete}>
+											Cancel
+										</Button>,
+										<Button
+											key="delete"
+											type="danger"
+											onClick={handleConfirmDelete}
+											className="text-red-500 font-semibold"
+										>
+											Delete
+										</Button>,
+									]}
+								>
+									Are you sure you want to remove this item from the cart?
+								</Modal>
 							</div>
 						))}
 				</div>
