@@ -9,6 +9,7 @@ const HeadTop = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const user = useSelector((state) => state.auth.user);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const showModal = () => {
@@ -29,9 +30,15 @@ const HeadTop = () => {
 			<div className="flex items-center space-x-2">
 				{isAuthenticated ? (
 					<>
-						<h4 className="text-xs text-[#ff5c00] tracking-wider">
-							<b className="text-white">Welcome to TenCowry!</b>{" "}
-							<span onClick={handleLogout} style={{ cursor: "pointer" }}>
+						<h4 className="text-[#ff5c00] tracking-wider">
+							<b className="text-white text-sm lg:text-lg">
+								Hello {user.first_name} !
+							</b>{" "}
+							<span
+								className="text-xs"
+								onClick={handleLogout}
+								style={{ cursor: "pointer" }}
+							>
 								Logout
 							</span>
 						</h4>
