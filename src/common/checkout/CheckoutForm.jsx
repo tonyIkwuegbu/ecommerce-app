@@ -1,4 +1,4 @@
-import { Form, Input, Select, Button, message } from "antd";
+import { Form, Input, Select, Button, message, Checkbox } from "antd";
 import { useState } from "react";
 import Axios from "axios";
 import { api } from "../../Api";
@@ -10,6 +10,7 @@ const { Option } = Select;
 
 const CheckoutForm = ({ cartItems }) => {
 	const dispatch = useDispatch();
+	const [saveDetails, setSaveDetails] = useState(false);
 	const orderDetails = useSelector((state) => state.order.order);
 	const [loading, setLoading] = useState(false);
 	const [orderData, setOrderData] = useState({
@@ -78,7 +79,11 @@ const CheckoutForm = ({ cartItems }) => {
 			total_amount: orderDetails.total_amount,
 			callback_url: "https://tencowry.com/paymentstatus",
 		};
-
+		// Now, check if the "saveDetails" checkbox is checked and proceed accordingly
+		// if (saveDetails) {
+		// 	message.success("Details saved successfully!");
+		// 	// perform any other action
+		// }
 		await Axios(`${api.baseURL}/api/v1/ecommerce/order/create`, {
 			method: "POST",
 			data: JSON.stringify(params),
@@ -124,11 +129,9 @@ const CheckoutForm = ({ cartItems }) => {
 			className="px-10 mx-auto"
 		>
 			<Form.Item
-				label="Customer First Name"
+				label="First Name"
 				name="first_name"
-				rules={[
-					{ required: true, message: "Please enter Customer First Name" },
-				]}
+				rules={[{ required: true, message: "Please enter your First Name" }]}
 			>
 				<Input
 					onChange={(e) => handleInputChange("first_name", e.target.value)}
@@ -136,29 +139,30 @@ const CheckoutForm = ({ cartItems }) => {
 			</Form.Item>
 
 			<Form.Item
-				label="Customer Last Name"
+				label="Last Name"
 				name="last_name"
-				rules={[{ required: true, message: "Please enter Customer Last Name" }]}
+				rules={[{ required: true, message: "Please enter your Last Name" }]}
 			>
 				<Input
 					onChange={(e) => handleInputChange("last_name", e.target.value)}
 				/>
 			</Form.Item>
 			<Form.Item
-				label="Customer Phone Number"
+				label="Phone Number"
 				name="phone"
-				rules={[
-					{ required: true, message: "Please enter Customer Phone Number" },
-				]}
+				rules={[{ required: true, message: "Please enter your Phone Number" }]}
 			>
-				<Input onChange={(e) => handleInputChange("phone", e.target.value)} />
+				<Input
+					addonBefore="+234"
+					onChange={(e) => handleInputChange("phone", e.target.value)}
+				/>
 			</Form.Item>
 
 			<Form.Item
-				label="Customer Email Address"
+				label="Email Address"
 				name="email"
 				rules={[
-					{ required: true, message: "Please enter Customer Email Address" },
+					{ required: true, message: "Please enter your Email Address" },
 					{ type: "email", message: "Invalid email format" },
 				]}
 			>
@@ -166,12 +170,12 @@ const CheckoutForm = ({ cartItems }) => {
 			</Form.Item>
 
 			<Form.Item
-				label="Customer Shipping Address 1"
+				label="Shipping Address 1"
 				name="address_1"
 				rules={[
 					{
 						required: true,
-						message: "Please enter Customer Shipping Address 1",
+						message: "Please enter your Shipping Address 1",
 					},
 				]}
 			>
@@ -180,45 +184,51 @@ const CheckoutForm = ({ cartItems }) => {
 				/>
 			</Form.Item>
 
-			<Form.Item label="Customer Shipping Address 2" name="address_2">
+			<Form.Item label="Shipping Address 2" name="address_2">
 				<Input
 					onChange={(e) => handleInputChange("address_2", e.target.value)}
 				/>
 			</Form.Item>
 
 			<Form.Item
-				label="Customer Shipping City"
+				label="Shipping City"
 				name="city"
-				rules={[
-					{ required: true, message: "Please enter Customer Shipping City" },
-				]}
+				rules={[{ required: true, message: "Please enter your Shipping City" }]}
 			>
 				<Input onChange={(e) => handleInputChange("city", e.target.value)} />
 			</Form.Item>
 
 			<Form.Item
-				label="Customer Shipping State"
+				label="Shipping State"
 				name="state"
 				rules={[
-					{ required: true, message: "Please enter Customer Shipping State" },
+					{ required: true, message: "Please enter your Shipping State" },
 				]}
 			>
 				<Input onChange={(e) => handleInputChange("state", e.target.value)} />
 			</Form.Item>
 
 			<Form.Item
-				label="Customer Shipping Country"
+				label="Shipping Country"
 				name="country"
 				rules={[
 					{
 						required: true,
-						message: "Please select Customer Shipping Country",
+						message: "Please select your Shipping Country",
 					},
 				]}
 			>
 				<Select onChange={(value) => handleInputChange("country", value)}>
 					<Option value="Nigeria">Nigeria</Option>
 				</Select>
+			</Form.Item>
+			<Form.Item>
+				<Checkbox
+					checked={saveDetails}
+					onChange={(e) => setSaveDetails(e.target.checked)}
+				>
+					Save details for future orders
+				</Checkbox>
 			</Form.Item>
 
 			<Form.Item style={{ textAlign: "center" }}>

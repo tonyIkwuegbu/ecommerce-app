@@ -27,8 +27,14 @@ const Checkout = () => {
 		navigate("/cart");
 	};
 
+	/// ************************************ CURRENCY FORMAT
+	const formattedAmount = new Intl.NumberFormat("en-NG", {
+		style: "currency",
+		currency: "NGN",
+	});
+
 	return (
-		<section className="max-w-[98%">
+		<section className="max-w-[98%]">
 			<div className="flex items-center justify-between p-2">
 				<h3 className="text-lg lg:text-3xl font-semibold text-gray-500">
 					Checkout
@@ -39,11 +45,16 @@ const Checkout = () => {
 			</div>
 			<Divider />
 			<div className="flex flex-col lg:flex-row justify-between overflow-hidden my-10">
-				<div className="w-full lg:w-[65%] bg-white mx-4 lg:mx-6 shadow-lg rounded-md">
-					<p className="text-center text-xs lg:text-sm py-5 tracking-wider text-[#ff5c40] px-2 font-semibold">
-						Tencowry Order ID -{" "}
-						<abbr className="text-gray-600">{orderDetails.order_id}</abbr>
-					</p>
+				<div className="w-full lg:w-[65%] bg-white lg:mx-6 shadow-lg rounded-md">
+					<div className="flex items-center justify-between px-5 tracking-wider py-5 font-semibold">
+						<p className=" text-xs lg:text-sm text-[#ff5c40]">
+							Shipping Address
+						</p>
+						<p className="text-xs text-gray-600">
+							Order ID - {orderDetails.order_id}
+						</p>
+					</div>
+
 					<Divider />
 					<CheckoutForm cartItems={cartItems} />
 				</div>
@@ -90,7 +101,7 @@ const Checkout = () => {
 										<p className="font-semibold text-xs lg:sm py-2">
 											Price:{" "}
 											<span className="text-green-600]">
-												{cartItem.currency} {renderPrice(cartItem)}
+												{formattedAmount.format(renderPrice(cartItem))}
 											</span>{" "}
 										</p>
 										<p className="font-semibold text-xs lg:sm py-2">
