@@ -1,7 +1,7 @@
 import { api } from "../../Api";
 import { useCallback, useEffect, useState } from "react";
 import Axios from "axios";
-import { Divider, Empty, Table } from "antd";
+import { Divider, Table } from "antd";
 import { useSelector } from "react-redux";
 
 const ViewOrders = () => {
@@ -27,7 +27,6 @@ const ViewOrders = () => {
 			let abortController = new AbortController();
 
 			if (getData.data.status === true) {
-				
 				setAllOrders(
 					getData.data.data.map((item, idx) => ({
 						key: idx + 1,
@@ -117,10 +116,6 @@ const ViewOrders = () => {
 			),
 		},
 	];
-
-	if (allOrders.length === 0) {
-		return <Empty description="No Orders yet..." />;
-	}
 
 	/// ************************************ CURRENCY FORMAT
 	const formattedAmount = new Intl.NumberFormat("en-NG", {
