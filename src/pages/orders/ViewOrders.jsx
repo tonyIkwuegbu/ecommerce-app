@@ -10,7 +10,6 @@ const ViewOrders = () => {
 	const [loading, setLoading] = useState(false);
 
 	//*********************************************** FETCH ALL SUPPLIERS
-
 	const getOrders = useCallback(async () => {
 		setLoading(true);
 		try {
@@ -24,12 +23,11 @@ const ViewOrders = () => {
 				},
 			);
 
-			let abortController = new AbortController();
-
 			if (getData.data.status === true) {
-				setAllOrders(
-					getData.data.data.map((item, idx) => ({
-						key: idx + 1,
+				console.log(getData.data);
+				const sortedOrders = getData.data.data
+					.map((item, idx) => ({
+						key: getData.data.data.length - idx, // Reversed serial number
 						id: item?.order_id,
 						paid: item?.paid_amount,
 						date: item?.order_create_date || "N/A",
@@ -41,10 +39,11 @@ const ViewOrders = () => {
 						email: item?.customer_details?.email,
 						number: item?.customer_details?.phone,
 						product: item?.products,
-					})),
-				);
-			} else {
-				abortController.abort();
+						image: item?.main_picture,
+					}))
+					.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by most recent order date
+
+				setAllOrders(sortedOrders);
 			}
 			setLoading(false);
 		} catch (error) {
@@ -191,6 +190,7 @@ const ViewOrders = () => {
 								<table className="border-collapse w-full my-4">
 									<thead>
 										<tr>
+											<th className="border-b-2 border-black px-4 py-2 bg-gray-200"></th>
 											<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
 												Product Code
 											</th>
@@ -214,13 +214,24 @@ const ViewOrders = () => {
 												align="center"
 												className="leading-10"
 											>
-												<td className="border-r-2 border-black px-4 py-2">
+												<td className="border-black px-4 py-2">
+													<img
+														src={
+															el?.image === "" || el?.image === undefined
+																? "/images/home-placeholder.jpeg"
+																: el?.image
+														}
+														alt="product-image"
+														className="h-24 w-24 object-cover rounded-sm"
+													/>
+												</td>
+												<td className="border-r-[1px] border-black px-4 py-2">
 													{el.idl_product_code}
 												</td>
-												<td className="border-r-2 border-black px-4 py-2">
+												<td className="border-r-[1px] border-black px-4 py-2">
 													{el.amount}
 												</td>
-												<td className="border-r-2 border-black px-4 py-2">
+												<td className="border-r-[1px] border-black px-4 py-2">
 													{el.quantity}
 												</td>
 												<td>{el.supplier_id}</td>
