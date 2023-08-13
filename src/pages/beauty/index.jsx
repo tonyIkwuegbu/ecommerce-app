@@ -4,10 +4,11 @@ import Axios from "axios";
 import { api } from "../../Api";
 import AllBeauty from "./AllBeauty";
 import { Beauty } from "./BeautyData";
-import Hair from "./Hair";
-import SkinCare from "./SkinCare";
-import Fragrances from "./Fragrances";
-import MakeUp from "./MakeUp";
+// import Hair from "./Hair";
+// import SkinCare from "./SkinCare";
+// import Fragrances from "./Fragrances";
+// import MakeUp from "./MakeUp";
+import SubCategoryBeauty from "./SubCategoryBeauty";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
@@ -120,10 +121,13 @@ const Men = () => {
 				</div>
 				<div>
 					{tabIndex === 1 && <AllBeauty data={productData} loading={loading} />}
-					{tabIndex === 2 && <Hair />}
+					{tabIndex >= 2 && tabIndex <= 5 && (
+						<SubCategoryBeauty subcategory={Beauty[tabIndex - 1].sub} />
+					)}
+					{/* {tabIndex === 2 && <Hair />}
 					{tabIndex === 3 && <SkinCare />}
 					{tabIndex === 4 && <Fragrances />}
-					{tabIndex === 5 && <MakeUp />}
+					{tabIndex === 5 && <MakeUp />} */}
 				</div>
 			</div>
 		</div>

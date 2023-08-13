@@ -4,16 +4,12 @@ import Axios from "axios";
 import { api } from "../../Api";
 import AllChildren from "./AllChildren";
 import { NavChildren } from "./TabData";
-import ChildrenCloth from "./ChildrenCloth";
-import ChildrenShoes from "./ChildrenShoes";
-import ChildrenSports from "./ChildrenSports";
-import ChildrenAccessories from "./ChildrenAccessories";
-import ChildrenBags from "./ChildrenBags";
-// import MenCloth from "./MenCloth";
-// import MenShoes from "./MenShoes";
-// import SportsWear from "./Sportswear";
-// import MenWatches from "./MenWatches";
-// import MenBags from "./MenBags";
+// import ChildrenCloth from "./ChildrenCloth";
+// import ChildrenShoes from "./ChildrenShoes";
+// import ChildrenSports from "./ChildrenSports";
+// import ChildrenAccessories from "./ChildrenAccessories";
+// import ChildrenBags from "./ChildrenBags";
+import SubCategoryKids from "./SubCategoryKids";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
@@ -128,11 +124,14 @@ const Men = () => {
 					{tabIndex === 1 && (
 						<AllChildren data={productData} loading={loading} />
 					)}
-					{tabIndex === 2 && <ChildrenCloth />}
+					{tabIndex >= 2 && tabIndex <= 6 && (
+						<SubCategoryKids subcategory={NavChildren[tabIndex - 1].title} />
+					)}
+					{/* {tabIndex === 2 && <ChildrenCloth />}
 					{tabIndex === 3 && <ChildrenShoes />}
 					{tabIndex === 4 && <ChildrenSports />}
 					{tabIndex === 5 && <ChildrenAccessories />}
-					{tabIndex === 6 && <ChildrenBags />}
+					{tabIndex === 6 && <ChildrenBags />} */}
 				</div>
 			</div>
 		</div>

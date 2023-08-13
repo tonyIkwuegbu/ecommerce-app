@@ -4,11 +4,12 @@ import Axios from "axios";
 import { api } from "../../Api";
 import { NavData } from "./NavData";
 import AllWomen from "./AllWomen";
-import WomenCloth from "./WomenCloth";
-import WomenShoes from "./WomenShoes";
-import WomenSports from "./WomenSports";
-import Accessories from "./Accessories";
-import WomenBags from "./WomenBags";
+// import WomenCloth from "./WomenCloth";
+// import WomenShoes from "./WomenShoes";
+// import WomenSports from "./WomenSports";
+// import Accessories from "./Accessories";
+// import WomenBags from "./WomenBags";
+import SubCategoryWomen from "./SubCategoryWomen";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
@@ -120,11 +121,14 @@ const Men = () => {
 				</div>
 				<div>
 					{tabIndex === 1 && <AllWomen data={productData} loading={loading} />}
-					{tabIndex === 2 && <WomenCloth />}
+					{tabIndex >= 2 && tabIndex <= 6 && (
+						<SubCategoryWomen subcategory={NavData[tabIndex - 1].title} />
+					)}
+					{/* {tabIndex === 2 && <WomenCloth />}
 					{tabIndex === 3 && <WomenShoes />}
 					{tabIndex === 4 && <WomenSports />}
 					{tabIndex === 5 && <Accessories />}
-					{tabIndex === 6 && <WomenBags />}
+					{tabIndex === 6 && <WomenBags />} */}
 				</div>
 			</div>
 		</div>

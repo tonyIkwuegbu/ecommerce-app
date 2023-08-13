@@ -4,11 +4,7 @@ import Axios from "axios";
 import { api } from "../../Api";
 import { NavMen } from "./NavData";
 import AllMen from "./AllMen";
-import MenCloth from "./MenCloth";
-import MenShoes from "./MenShoes";
-import SportsWear from "./Sportswear";
-import MenWatches from "./MenWatches";
-import MenBags from "./MenBags";
+import SubCategoryTemplate from "./SubCategoryTemplate";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
@@ -121,11 +117,9 @@ const Men = () => {
 				</div>
 				<div>
 					{tabIndex === 1 && <AllMen data={productData} loading={loading} />}
-					{tabIndex === 2 && <MenCloth />}
-					{tabIndex === 3 && <MenShoes />}
-					{tabIndex === 4 && <SportsWear />}
-					{tabIndex === 5 && <MenWatches />}
-					{tabIndex === 6 && <MenBags />}
+					{tabIndex >= 2 && tabIndex <= 6 && (
+						<SubCategoryTemplate subcategory={NavMen[tabIndex - 1].title} />
+					)}
 				</div>
 			</div>
 		</div>

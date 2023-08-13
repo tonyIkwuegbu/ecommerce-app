@@ -4,15 +4,11 @@ import Axios from "axios";
 import { api } from "../../Api";
 import AllEssentials from "./AllEssentials";
 import { Essentials } from "./EssentialsData";
-import Appliances from "./Appliances";
-import Kitchen from "./Kitchen";
-import Dining from "./Dining";
-import Furnishing from "./Furnishing";
-// import MenCloth from "./MenCloth";
-// import MenShoes from "./MenShoes";
-// import SportsWear from "./Sportswear";
-// import MenWatches from "./MenWatches";
-// import MenBags from "./MenBags";
+// import Appliances from "./Appliances";
+// import Kitchen from "./Kitchen";
+// import Dining from "./Dining";
+// import Furnishing from "./Furnishing";
+import SubCategoryEssentials from "./SubCategoryEssentials";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
@@ -127,10 +123,15 @@ const Men = () => {
 					{tabIndex === 1 && (
 						<AllEssentials data={productData} loading={loading} />
 					)}
-					{tabIndex === 2 && <Appliances />}
+					{tabIndex >= 2 && tabIndex <= 5 && (
+						<SubCategoryEssentials
+							subcategory={Essentials[tabIndex - 1].title}
+						/>
+					)}
+					{/* {tabIndex === 2 && <Appliances />}
 					{tabIndex === 3 && <Kitchen />}
 					{tabIndex === 4 && <Dining />}
-					{tabIndex === 5 && <Furnishing />}
+					{tabIndex === 5 && <Furnishing />} */}
 				</div>
 			</div>
 		</div>
