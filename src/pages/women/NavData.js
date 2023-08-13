@@ -12,7 +12,7 @@ export const NavData = [
 		tabNum: 1,
 	},
 	{
-		title: "Cothing",
+		title: "Clothing",
 		id: 2,
 		icon: GiClothes,
 		tabNum: 2,
