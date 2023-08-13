@@ -92,9 +92,9 @@ const Cart = () => {
 					amount: item.retail_price,
 					weight: item.weight,
 					quantity: item.qty,
-					main_picture: item?.main_picture,
-					size: item?.size,
-					product_name: item?.name || item?.brand || item?.model,
+					main_picture: item.main_picture,
+					size: item.size,
+					product_name: item.name || item.brand || item.model,
 				};
 			}),
 		};
