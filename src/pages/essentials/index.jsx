@@ -4,10 +4,6 @@ import Axios from "axios";
 import { api } from "../../Api";
 import AllEssentials from "./AllEssentials";
 import { Essentials } from "./EssentialsData";
-// import Appliances from "./Appliances";
-// import Kitchen from "./Kitchen";
-// import Dining from "./Dining";
-// import Furnishing from "./Furnishing";
 import SubCategoryEssentials from "./SubCategoryEssentials";
 
 const Men = () => {
@@ -23,7 +19,7 @@ const Men = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/home_essentials`,
+				`${api.baseURL}/api/v1/ecommerce/product/category/home_essentials`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -104,7 +100,7 @@ const Men = () => {
 								onClick={() => setSelected(value.tabNum)}
 							>
 								<p
-									className="flex items-center leading-10"
+									className="flex items-center leading-10 capitalize"
 									onClick={() => setTabIndex(value.tabNum)}
 									style={
 										selected === value.tabNum ? { color: "#ff5c00" } : null
@@ -128,10 +124,6 @@ const Men = () => {
 							subcategory={Essentials[tabIndex - 1].title}
 						/>
 					)}
-					{/* {tabIndex === 2 && <Appliances />}
-					{tabIndex === 3 && <Kitchen />}
-					{tabIndex === 4 && <Dining />}
-					{tabIndex === 5 && <Furnishing />} */}
 				</div>
 			</div>
 		</div>

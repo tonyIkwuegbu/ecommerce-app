@@ -4,11 +4,6 @@ import Axios from "axios";
 import { api } from "../../Api";
 import AllChildren from "./AllChildren";
 import { NavChildren } from "./TabData";
-// import ChildrenCloth from "./ChildrenCloth";
-// import ChildrenShoes from "./ChildrenShoes";
-// import ChildrenSports from "./ChildrenSports";
-// import ChildrenAccessories from "./ChildrenAccessories";
-// import ChildrenBags from "./ChildrenBags";
 import SubCategoryKids from "./SubCategoryKids";
 
 const Men = () => {
@@ -24,7 +19,7 @@ const Men = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/kids`,
+				`${api.baseURL}/api/v1/ecommerce/product/category/kids`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -105,7 +100,7 @@ const Men = () => {
 								onClick={() => setSelected(value.tabNum)}
 							>
 								<p
-									className="flex items-center leading-10"
+									className="flex items-center leading-10 capitalize"
 									onClick={() => setTabIndex(value.tabNum)}
 									style={
 										selected === value.tabNum ? { color: "#ff5c00" } : null
@@ -127,11 +122,6 @@ const Men = () => {
 					{tabIndex >= 2 && tabIndex <= 6 && (
 						<SubCategoryKids subcategory={NavChildren[tabIndex - 1].title} />
 					)}
-					{/* {tabIndex === 2 && <ChildrenCloth />}
-					{tabIndex === 3 && <ChildrenShoes />}
-					{tabIndex === 4 && <ChildrenSports />}
-					{tabIndex === 5 && <ChildrenAccessories />}
-					{tabIndex === 6 && <ChildrenBags />} */}
 				</div>
 			</div>
 		</div>

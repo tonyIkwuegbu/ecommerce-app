@@ -19,7 +19,7 @@ const Men = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/men`,
+				`${api.baseURL}/api/v1/ecommerce/product/category/men`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -28,7 +28,7 @@ const Men = () => {
 				},
 			);
 
-			setProductData(fetchData.data.data);
+			setProductData(fetchData?.data?.data);
 			setLoading(false);
 		} catch (error) {
 			console.log(error);

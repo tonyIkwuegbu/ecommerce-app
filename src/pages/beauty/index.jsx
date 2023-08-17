@@ -4,10 +4,6 @@ import Axios from "axios";
 import { api } from "../../Api";
 import AllBeauty from "./AllBeauty";
 import { Beauty } from "./BeautyData";
-// import Hair from "./Hair";
-// import SkinCare from "./SkinCare";
-// import Fragrances from "./Fragrances";
-// import MakeUp from "./MakeUp";
 import SubCategoryBeauty from "./SubCategoryBeauty";
 
 const Men = () => {
@@ -23,7 +19,7 @@ const Men = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/beauty`,
+				`${api.baseURL}/api/v1/ecommerce/product/category/beauty`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -124,10 +120,6 @@ const Men = () => {
 					{tabIndex >= 2 && tabIndex <= 5 && (
 						<SubCategoryBeauty subcategory={Beauty[tabIndex - 1].sub} />
 					)}
-					{/* {tabIndex === 2 && <Hair />}
-					{tabIndex === 3 && <SkinCare />}
-					{tabIndex === 4 && <Fragrances />}
-					{tabIndex === 5 && <MakeUp />} */}
 				</div>
 			</div>
 		</div>
