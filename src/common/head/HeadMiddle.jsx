@@ -5,6 +5,7 @@ import { IoPersonCircle } from "react-icons/io5";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { useCart } from "../../utils/CartUtils";
 
 const { Search } = Input;
 
@@ -25,9 +26,11 @@ const Items = [
 
 const HeadMiddle = () => {
 	const navigate = useNavigate();
+
 	const cartItems = useSelector((state) => state.cart);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const { totalCartItemCount } = useCart();
 
 	const handleDropdownToggle = () => {
 		setIsDropdownOpen((prevState) => !prevState);
@@ -36,6 +39,7 @@ const HeadMiddle = () => {
 	const handleDropdownClose = () => {
 		setIsDropdownOpen(false);
 	};
+
 	return (
 		<section className="flex items-center justify-between py-3">
 			<img
@@ -91,7 +95,7 @@ const HeadMiddle = () => {
 					<Link to="/cart">
 						<BsFillCartCheckFill className="text-2xl lg:text-2xl" />
 						<span className="absolute top-[-8px] right-[-14px] w-6 h-6 rounded-[50%] text-center bg-[#ff5c00] text-white">
-							{cartItems?.length === "" ? 0 : cartItems?.length}
+							{(isAuthenticated ? totalCartItemCount : cartItems?.length) || 0}
 						</span>
 					</Link>
 				</div>
