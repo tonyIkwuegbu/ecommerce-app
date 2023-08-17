@@ -15,7 +15,7 @@ const FlashDeals = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/popular`,
+				`${api.baseURL}/api/v1/ecommerce/product/popular`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -23,6 +23,7 @@ const FlashDeals = () => {
 					},
 				},
 			);
+
 			setProductData(fetchData.data.data);
 			setLoading(false);
 		} catch (error) {
@@ -49,7 +50,7 @@ const FlashDeals = () => {
 	}, [productData]);
 	return (
 		<>
-			<section className="py-[50px] bg-[#f6f9fc] px-0">
+			<section className="pt-[20px] pb-[40px] bg-[#f6f9fc] px-0">
 				<div className="max-w-[90%] m-auto">
 					<div className="flex items-center gap-x-2 border-b-2 mb-3 underline decoration-[2px] underline-offset-8 decoration-[#ff5c00]">
 						<AiFillThunderbolt className="text-[#ff5c00]" />
