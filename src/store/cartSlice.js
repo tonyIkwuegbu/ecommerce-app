@@ -22,6 +22,7 @@ const cartSlice = createSlice({
 				message.success("Item added to cart!");
 			}
 		},
+
 		updateCart: (state, action) => {
 			return action.payload;
 		},
