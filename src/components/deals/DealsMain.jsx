@@ -15,7 +15,7 @@ const DealsMain = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/topdeals`,
+				`${api.baseURL}/api/v1/ecommerce/product/topdeals`,
 				{
 					headers: {
 						"Content-Type": "application/json",

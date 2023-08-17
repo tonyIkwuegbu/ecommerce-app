@@ -4,13 +4,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { add } from "../../store/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 import SlideSkeleton from "../SlideSkeleton";
 import { IoIosBasket } from "react-icons/io";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { Divider } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Divider, Spin } from "antd";
+import { useNavigate } from "react-router";
+import { dummy } from "./DealsDummy";
+import { add } from "../../store/cartSlice";
+import { useCart } from "../../utils/CartUtils";
 
 const SampleNextArrow = (props) => {
 	const { onClick } = props;
@@ -32,18 +34,16 @@ const SamplePrevArrow = (props) => {
 		</div>
 	);
 };
-const DealsCard = ({ loading, productData }) => {
+const FlashCard = ({ loading, productData }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	//const [count, setCount] = useState(Array(productData?.length).fill(0));
+	const user = useSelector((state) => state.auth.user);
+	const userIsAuthenticated = useSelector(
+		(state) => state.auth.isAuthenticated,
+	);
 	const [slidesToShow, setSlidesToShow] = useState(4);
-
-	/// ********************************* increase likes
-	// const increment = (index) => {
-	// 	const updatedCounts = [...count];
-	// 	updatedCounts[index] += 1;
-	// 	setCount(updatedCounts);
-	// };
+	const [isLoading, setIsLoading] = useState(false);
+	const { addToCartApi } = useCart();
 
 	// **************************************** Slider responsiveness
 	const settings = useMemo(
@@ -83,10 +83,21 @@ const DealsCard = ({ loading, productData }) => {
 	}, []);
 
 	// ************************************* Dispatch handler
-	const addToCart = (value) => {
-		dispatch(add(value));
-	};
+	const handleAddToCart = async (productItem) => {
+		if (!userIsAuthenticated) {
+			dispatch(add(productItem)); // Handle non-authenticated user's cart
+			return; // Exit the function early if the user is not authenticated
+		}
 
+		try {
+			setIsLoading(true);
+			await addToCartApi(user, productItem.idl_product_code);
+		} catch (error) {
+			console.log("Error adding item to cart:", error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 	/// ************************************ CURRENCY FORMAT
 	const formattedAmount = new Intl.NumberFormat("en-NG", {
 		style: "currency",
@@ -98,58 +109,89 @@ const DealsCard = ({ loading, productData }) => {
 		return <SlideSkeleton />;
 	}
 
+	// *************************************************** Dummy Data
+	if (productData.length === 0) {
+		return (
+			<Slider {...settings}>
+				{dummy.map((item, index) => (
+					<div className="" key={index}>
+						<div className="group h-[96] w-[280px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+							<div className="h-[200px] w-[200px] mx-auto">
+								<img
+									loading="lazy"
+									src={item.cover}
+									alt={item.title}
+									onError={(e) => {
+										e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL
+									}}
+									className="transition-all hover:scale-110 duration-500 ease-in-out object-cover cursor-pointer w-full h-full rounded"
+								/>
+							</div>
+							<h3 className="text-sm text-gray-600 text-center py-1 font-semibold tracking-wider">
+								{item?.title}
+							</h3>
+						</div>
+					</div>
+				))}
+			</Slider>
+		);
+	}
+
 	return (
 		<>
 			<Slider {...settings}>
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div className="" key={value?.idl_product_code}>
-							<div className="product mt-[40px]">
-								<div className="h-[250px] w-[250px]">
+							<div className="group h-[96] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+								<div className="h-[200px] w-[200px] mx-auto">
 									<img
 										loading="lazy"
-										src={
-											value?.main_picture === "" ||
-											value?.main_picture === undefined
-												? "/images/home-placeholder.jpeg"
-												: value?.main_picture
-										}
-										alt={value?.name || value?.model || value?.brand}
+										src={value?.main_picture.replace(/\s+/g, "")}
+										alt={value?.name}
+										onError={(e) => {
+											e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL
+										}}
 										onClick={() =>
 											navigate(
 												`/product/${value.idl_product_code}/${value.supplier_id}`,
 											)
 										}
-										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover w-full cursor-pointer h-full rounded"
+										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover cursor-pointer w-full h-full rounded"
 									/>
-									<div className="product-like">
+									<div className="absolute top-0 right-0 cursor-pointer  m-[10px] opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-in-out">
 										{/* <label>{count[index]}</label> */}
 
 										<AiOutlineHeart
+											className="mb-2"
 											//onClick={() => increment(index)}
-											className="arrow"
 										/>
-										<IoIosBasket className="arrow" />
+										<IoIosBasket />
 									</div>
 								</div>
 								<Divider />
-								<div className="product-details font-semibold tracking-wider">
-									<h3 className="text-sm text-gray-600 py-1">
-										{value?.name || value?.model || value?.brand}
-									</h3>
+								<div className="font-semibold tracking-wider">
+									<h3 className="text-xs text-gray-600 py-1">{value?.name}</h3>
 
-									<div className="py-2 text-[#232f3e] text-xs">
-										<p>
-											Size: <span>{value?.size || "N/A"}</span>
-										</p>
-									</div>
-									<div className="price">
-										<h4>{formattedAmount.format(value?.retail_price)}</h4>
+									<p className="py-2 text-[#232f3e] text-xs">
+										Size: <span>{value?.size || "N/A"}</span>
+									</p>
+
+									<div className="price flex items-center justify-between">
+										<h4 className="text-green-500">
+											{formattedAmount.format(value?.naira_price)}
+										</h4>
 										<button
-											onClick={() => addToCart(value)}
+											type="button"
+											onClick={() => handleAddToCart(value)}
 											title="Add to cart"
+											disabled={isLoading[value?.idl_product_code]}
 										>
-											<BsFillCartCheckFill className="mx-auto" />
+											{isLoading[value?.idl_product_code] ? (
+												<Spin size="small" />
+											) : (
+												<BsFillCartCheckFill className="mx-auto" />
+											)}
 										</button>
 									</div>
 								</div>
@@ -161,4 +203,4 @@ const DealsCard = ({ loading, productData }) => {
 	);
 };
 
-export default DealsCard;
+export default FlashCard;
