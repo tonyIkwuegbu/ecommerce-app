@@ -9,13 +9,32 @@ const Arrivals = () => {
 	const [productData, setProductData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
+	// ***********************************************************HANDLE NONETYPE
+
+	const handleNoneValues = useCallback((data) => {
+		if (data === null || data === undefined) {
+			return "N/A";
+		}
+		if (Array.isArray(data)) {
+			return data.map((item) => handleNoneValues(item));
+		}
+		if (typeof data === "object") {
+			const sanitizedObj = {};
+			for (const key in data) {
+				sanitizedObj[key] = handleNoneValues(data[key]);
+			}
+			return sanitizedObj;
+		}
+		return data;
+	}, []);
+
 	// ******************************************************* GET TOP DEALS PRODUCTS
 
 	const getProduct = useCallback(async () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/newarrival`,
+				`${api.baseURL}/api/v1/ecommerce/product/newarrival`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -24,6 +43,7 @@ const Arrivals = () => {
 				},
 			);
 
+			//const parsedData = handleNoneValues(fetchData.data.data);
 			setProductData(fetchData.data.data);
 			setLoading(false);
 		} catch (error) {
@@ -33,7 +53,6 @@ const Arrivals = () => {
 	}, []);
 
 	useEffect(() => {
-		// Fetch product data when the component mounts
 		getProduct();
 	}, [getProduct]);
 

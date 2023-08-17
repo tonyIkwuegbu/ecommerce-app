@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useMemo, useState } from "react";
 import SlideSkeleton from "../SlideSkeleton";
 import { useNavigate } from "react-router-dom";
+import { Divider } from "antd";
 
 const ArrivalsCard = ({ loading, productData }) => {
 	const navigate = useNavigate();
@@ -24,7 +25,7 @@ const ArrivalsCard = ({ loading, productData }) => {
 	useEffect(() => {
 		const handleResize = () => {
 			if (window.innerWidth >= 1024) {
-				setSlidesToShow(6); // Desktop view
+				setSlidesToShow(5); // Desktop view
 			} else if (window.innerWidth >= 768) {
 				setSlidesToShow(4); // iPad view
 			} else {
@@ -61,16 +62,15 @@ const ArrivalsCard = ({ loading, productData }) => {
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div key={value.idl_product_code}>
-							<div className="box product">
+							<div className="group h-96 w-[230px] p-[20px] m-[6px] shadow-md rounded-md bg-white relative">
+								{" "}
 								<div className="h-[150px] w-[150px] mx-auto">
 									<img
-										src={
-											value?.main_picture === "" ||
-											value?.main_picture === undefined
-												? "/images/home-placeholder.jpeg"
-												: value?.main_picture
-										}
-										alt={value?.name || value?.model || value?.brand}
+										src={value?.main_picture}
+										alt={value?.name}
+										onError={(e) => {
+											e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL
+										}}
 										onClick={() =>
 											navigate(
 												`/product/${value.idl_product_code}/${value.supplier_id}`,
@@ -79,12 +79,13 @@ const ArrivalsCard = ({ loading, productData }) => {
 										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover w-full h-full cursor-pointer rounded"
 									/>
 								</div>
-								<div className="text-center py-3 tracking-wider">
-									<h4 className="text-sm font-semibold text-gray-600">
-										{value?.name || value?.model || value?.brand}
-									</h4>
-									<p className="text-[#ff5c00] font-semibold">
-										{formattedAmount.format(value?.retail_price)}
+								<Divider />
+								<div className="py-3 tracking-wider text-center">
+									<p className="text-[13px] py-3 font-semibold text-gray-600">
+										{value?.name}
+									</p>
+									<p className="text-green-500 font-semibold">
+										{formattedAmount.format(value?.naira_price)}
 									</p>
 								</div>
 							</div>
