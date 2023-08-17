@@ -1,19 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
-import { AiOutlineHeart, AiOutlinePlus } from "react-icons/ai";
-import { Empty } from "antd";
-import { useDispatch } from "react-redux";
-import { add } from "../../store/cartSlice";
+import { AiOutlineHeart } from "react-icons/ai";
+import { Divider, Empty, Spin } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import Axios from "axios";
 import { api } from "../../Api";
 import ProductSkeleton from "../../components/ProductSkeleton";
 import { useNavigate } from "react-router-dom";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import { IoIosBasket } from "react-icons/io";
+import { add } from "../../store/cartSlice";
+import { useCart } from "../../utils/CartUtils";
 
 const SubCategoryKids = ({ subcategory }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [count, setCount] = useState([]);
+	const user = useSelector((state) => state.auth.user);
+	const userIsAuthenticated = useSelector(
+		(state) => state.auth.isAuthenticated,
+	);
 	const [productData, setProductData] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const { addToCartApi } = useCart();
 
 	// ******************************************************* GET PRODUCCT
 
@@ -21,7 +29,7 @@ const SubCategoryKids = ({ subcategory }) => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/products/category/children/${subcategory}`,
+				`${api.baseURL}/api/v1/ecommerce/product/category/kids/${subcategory}`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -48,23 +56,21 @@ const SubCategoryKids = ({ subcategory }) => {
 		getProduct();
 	}, [getProduct]);
 
-	// Set initial count values when data changes
-	useEffect(() => {
-		if (productData && productData.length > 0) {
-			setCount(Array(productData.length).fill(0));
+	// ******************************************************HANDLE CART
+	const handleAddToCart = async (productItem) => {
+		if (!userIsAuthenticated) {
+			dispatch(add(productItem)); // Handle non-authenticated user's cart
+			return; // Exit the function early if the user is not authenticated
 		}
-	}, [productData]);
 
-	/// ********************************* increase likes
-	const increment = (index) => {
-		const updatedCounts = [...count];
-		updatedCounts[index] += 1;
-		setCount(updatedCounts);
-	};
-
-	// ************************************* Dispatch handler
-	const addToCart = (productItem) => {
-		dispatch(add(productItem));
+		try {
+			setIsLoading(true);
+			await addToCartApi(user, productItem.idl_product_code);
+		} catch (error) {
+			console.log("Error adding item to cart:", error);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	/// ************************************ CURRENCY FORMAT
@@ -81,10 +87,10 @@ const SubCategoryKids = ({ subcategory }) => {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 bg-[#f6f9fc]">
 			{productData.length > 0 ? (
-				productData.map((productItems, index) => (
-					<div className="" key={index}>
-						<div className="product mt-[40px]">
-							<div className="img h-72">
+				productData.map((productItems) => (
+					<div className="" key={productItems?.idl_product_code}>
+						<div className="group h-[96] w-[300px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+							<div className="h-[200px] w-[200px] mx-auto">
 								<img
 									loading="lazy"
 									src={
@@ -99,30 +105,46 @@ const SubCategoryKids = ({ subcategory }) => {
 											`/product/${productItems.idl_product_code}/${productItems.supplier_id}`,
 										)
 									}
-									className="transition-all hover:scale-110 duration-500 ease-in-out w-full h-[250px] object-cover"
+									className="transition-all hover:scale-110 duration-500 ease-in-out object-cover cursor-pointer w-full h-full rounded"
 								/>
+								<div className="absolute top-0 right-0 cursor-pointer  m-[10px] opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-in-out">
+									<AiOutlineHeart className="mb-2" />
+									<IoIosBasket className="" />
+								</div>
 
-								<div className="product-like">
+								{/* <div className="product-like">
 									<label>{count[index]}</label> <br />
 									<AiOutlineHeart
 										onClick={() => increment(index)}
 										className="arrow"
 									/>
-								</div>
+								</div> */}
 							</div>
-							<div className="product-details p-2">
-								<h5 className="text-sm">
-									{productItems.name || productItems.model}
-								</h5>
+							<Divider />
+							<div className="font-semibold tracking-wide ">
+								<h3 className="text-[13px] text-gray-600 py-1 text-center">
+									{productItems?.name}
+								</h3>
 
-								<div className="price">
-									<h4>{formattedAmount.format(productItems?.retail_price)}</h4>
+								<p className="py-2 text-[#232f3e] text-xs">
+									Size: <span>{productItems?.size || "N/A"}</span>
+								</p>
 
+								<div className="price flex items-center tracking-wider justify-between">
+									<h4 className="text-green-500">
+										{formattedAmount.format(productItems.naira_price)}
+									</h4>
 									<button
-										onClick={() => addToCart(productItems)}
+										type="button"
+										onClick={() => handleAddToCart(productItems)}
 										title="Add to cart"
+										disabled={isLoading[productItems?.idl_product_code]}
 									>
-										<AiOutlinePlus className="mx-auto" />
+										{isLoading[productItems?.idl_product_code] ? (
+											<Spin size="small" />
+										) : (
+											<BsFillCartCheckFill className="mx-auto" />
+										)}
 									</button>
 								</div>
 							</div>
@@ -131,7 +153,7 @@ const SubCategoryKids = ({ subcategory }) => {
 				))
 			) : (
 				<div className="flex items-center justify-center mx-auto h-screen">
-					<Empty className="" description="No Product available." />
+					<Empty className="" description="No Product available." />{" "}
 				</div>
 			)}
 		</div>
