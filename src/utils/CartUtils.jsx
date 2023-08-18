@@ -7,7 +7,11 @@ import { useSelector } from "react-redux";
 const CartContext = createContext();
 
 export const useCart = () => {
-	return useContext(CartContext);
+	const cartContext = useContext(CartContext);
+	if (!cartContext) {
+		throw new Error("useCart must be used within a CartProvider");
+	}
+	return cartContext;
 };
 
 export const CartProvider = ({ children }) => {
@@ -30,7 +34,6 @@ export const CartProvider = ({ children }) => {
 			return response.data.data;
 		} catch (error) {
 			console.log("Error fetching user's cart:", error);
-			message.error(error.message || error.response.data.message);
 		}
 	};
 
@@ -57,9 +60,34 @@ export const CartProvider = ({ children }) => {
 		}
 	};
 
+	const clearCartItems = async () => {
+		try {
+			const response = await Axios.delete(
+				`${api.baseURL}/api/v1/ecommerce/cart/deleteall/${user?.email}`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"x-access-token": api.token,
+					},
+				},
+			);
+
+			// Reset the total count when clearing the cart
+			setTotalCartItemCount(0);
+			message.success(response.data.message);
+		} catch (error) {
+			console.log("Error clearing cart items:", error);
+		}
+	};
+
 	return (
 		<CartContext.Provider
-			value={{ fetchUserCart, addToCartApi, totalCartItemCount }}
+			value={{
+				fetchUserCart,
+				addToCartApi,
+				totalCartItemCount,
+				clearCartItems,
+			}}
 		>
 			{children}
 		</CartContext.Provider>
