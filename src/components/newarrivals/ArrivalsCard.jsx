@@ -62,7 +62,7 @@ const ArrivalsCard = ({ loading, productData }) => {
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div key={value.idl_product_code}>
-							<div className="group h-96 w-[230px] p-[20px] m-[6px] shadow-md rounded-md bg-white relative">
+							<div className="group h-80 w-[230px] p-[20px] m-[6px] shadow-md rounded-md bg-white relative">
 								{" "}
 								<div className="h-[150px] w-[150px] mx-auto">
 									<img
@@ -81,9 +81,9 @@ const ArrivalsCard = ({ loading, productData }) => {
 								</div>
 								<Divider />
 								<div className="py-3 tracking-wider text-center">
-									<p className="text-[13px] py-3 font-semibold text-gray-600">
+									<h4 className="text-[13px] py-3 font-semibold text-gray-600 truncate">
 										{value?.name}
-									</p>
+									</h4>
 									<p className="text-green-500 font-semibold">
 										{formattedAmount.format(value?.naira_price)}
 									</p>

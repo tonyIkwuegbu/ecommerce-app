@@ -121,8 +121,8 @@ const SubCategoryWomen = ({ subcategory }) => {
 								</div> */}
 							</div>
 							<Divider />
-							<div className="font-semibold tracking-wide ">
-								<h3 className="text-[13px] text-gray-600 py-1 text-center">
+							<div className="font-semibold tracking-wide">
+								<h3 className="text-[13px] text-gray-600 py-1 text-center truncate">
 									{productItems?.name}
 								</h3>
 

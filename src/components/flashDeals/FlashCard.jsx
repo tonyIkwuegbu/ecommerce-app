@@ -144,7 +144,7 @@ const FlashCard = ({ loading, productData }) => {
 								</div>
 								<Divider />
 								<div className="font-semibold tracking-wide ">
-									<h3 className="text-[13px] text-gray-600 py-1 text-center">
+									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate">
 										{value?.name}
 									</h3>
 
