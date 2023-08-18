@@ -24,6 +24,7 @@ const Cart = () => {
 	const [userCartItems, setUserCartItems] = useState([]);
 	const [itemQuantities, setItemQuantities] = useState({});
 	const { fetchUserCart } = useCart();
+	const [checkoutModalVisible, setCheckoutModalVisible] = useState(false);
 
 	const allItems = (isAuthenticated ? userCartItems : cartItems) || [];
 
@@ -39,7 +40,7 @@ const Cart = () => {
 				})
 				.catch((error) => {
 					// Handle error
-					console.error("Error fetching user's cart:", error);
+					console.log("Error fetching user's cart:", error);
 					setLoadingCart(false);
 				});
 		}
@@ -135,42 +136,45 @@ const Cart = () => {
 		currency: "NGN",
 	});
 
+	// ************************************************HANDLE CHECKOUT MODAL
+	const showCheckoutModal = () => {
+		setCheckoutModalVisible(true);
+	};
+
+	const hideCheckoutModal = () => {
+		setCheckoutModalVisible(false);
+	};
+
 	//***********************************************GENERATE ORDER ID AND GO TO CHECKOUT
 	const generateID = async () => {
 		setLoading(true);
-		if (!isAuthenticated) {
-			// User is not logged in, show a message or redirect to login/registration
-			message.error("You must be logged in before proceeding to checkout.");
-			setLoading(false);
-			return;
-		}
-		const params = {
-			products: cartItems.map((item) => {
-				return {
-					idl_product_code: item.idl_product_code,
-					supplier_id: item.supplier_id,
-					amount: item.retail_price,
-					weight: item.weight,
-					quantity: item.qty,
-					main_picture: item.main_picture,
-					size: item.size,
-					product_name: item.name || item.brand || item.model,
-				};
-			}),
-		};
+
+		const params = JSON.stringify({
+			products: allItems.map((item) => ({
+				idl_product_code: item.idl_product_code,
+				supplier_id: item.supplier_id,
+				amount: parseFloat(item.naira_price),
+				weight: item.weight,
+				main_picture: item.main_picture,
+				colour: item.colour,
+				size: item.size,
+				product_name: item.name,
+				quantity: itemQuantities[item.idl_product_code] || 1, // Use the quantity from itemQuantities or default to 1
+			})),
+		});
 
 		await Axios(`${api.baseURL}/api/v1/ecommerce/generate/ordersummary`, {
 			method: "POST",
-			data: JSON.stringify(params),
+			data: params,
 			headers: {
-				"content-type": "application/json",
-				"x-access-token": api.token,
+				"Content-Type": "application/json",
+				"x-access-token": `${api.token}`,
 			},
 		})
 			.then((res) => {
 				if (res && res.data && res.data.status === true) {
 					const user = res.data;
-					console.log("view", user);
+
 					message.success("Order generated successfully");
 					dispatch(getSummary(user));
 
@@ -376,10 +380,54 @@ const Cart = () => {
 						loading={loading}
 						block
 						className="bg-green-500 text-white hover:bg-green-400"
-						onClick={generateID}
+						onClick={showCheckoutModal}
 					>
 						Proceed to Checkout
 					</Button>
+					<Modal
+						title="CHECKOUT"
+						open={checkoutModalVisible}
+						onCancel={hideCheckoutModal}
+						footer={[
+							<Button key="cancel" onClick={hideCheckoutModal}>
+								Cancel
+							</Button>,
+						]}
+					>
+						<div>
+							<p className="py-4">Select an option to proceed:</p>
+							<Button
+								type="success"
+								htmlType="button"
+								className="mr-4 bg-green-500 text-white"
+								onClick={() => {
+									hideCheckoutModal();
+
+									// Check if the user is authenticated before generating ID
+									if (isAuthenticated) {
+										generateID();
+									} else {
+										message.error(
+											"You must be logged in before proceeding to checkout.",
+										);
+									}
+								}}
+							>
+								Checkout as User
+							</Button>
+							<Button
+								type="primary"
+								htmlType="button"
+								className="bg-blue-500"
+								onClick={() => {
+									hideCheckoutModal();
+									generateID();
+								}}
+							>
+								Checkout as Guest
+							</Button>
+						</div>
+					</Modal>
 				</div>
 			</div>
 		</section>
