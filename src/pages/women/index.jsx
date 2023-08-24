@@ -5,6 +5,7 @@ import { api } from "../../Api";
 import { NavData } from "./NavData";
 import AllWomen from "./AllWomen";
 import SubCategoryWomen from "./SubCategoryWomen";
+import { Divider } from "antd";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
@@ -74,7 +75,7 @@ const Men = () => {
 	}, []);
 	return (
 		<div className="mt-4">
-			<div className="lg:hidden overflow-hidden py-2 font-semibold tracking-wider">
+			<div className="lg:hidden overflow-hidden py-4 px-2 font-semibold tracking-wider bg-white">
 				<Slider {...settings}>
 					{NavData.map((item) => (
 						<div key={item.id} onClick={() => setSelected(item.tabNum)}>
@@ -89,7 +90,8 @@ const Men = () => {
 					))}
 				</Slider>
 			</div>
-			<div className="max-w-[98%] m-auto flex space-x-4 justify-between bg-[#f6f9fc] p-4">
+			<Divider />
+			<div className="max-w-[98%] m-auto flex space-x-4 justify-between p-4">
 				<div className="category hidden lg:inline-block">
 					{NavData.map((value) => {
 						return (

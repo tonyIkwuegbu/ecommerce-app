@@ -62,7 +62,7 @@ const AllBeauty = ({ data, loading }) => {
 	}
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 bg-[#f6f9fc]">
+		<div className="grid grid-cols-1 md:grid-cols-3">
 			{data.length > 0 ? (
 				data.map((productItems) => (
 					<div className="" key={productItems?.idl_product_code}>

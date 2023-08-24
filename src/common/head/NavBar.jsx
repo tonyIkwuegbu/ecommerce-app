@@ -116,7 +116,6 @@ const Navbar = () => {
 					</span>
 				</div>
 			</Dropdown>
-
 			<div className="list-wrapper">
 				<img
 					src="https://cdn.iconscout.com/icon/free/png-512/bars-collection-view-application-grid-menu-44415.png"

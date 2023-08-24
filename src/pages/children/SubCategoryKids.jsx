@@ -85,7 +85,7 @@ const SubCategoryKids = ({ subcategory }) => {
 	}
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 bg-[#f6f9fc]">
+		<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 ">
 			{productData.length > 0 ? (
 				productData.map((productItems) => (
 					<div className="" key={productItems?.idl_product_code}>
