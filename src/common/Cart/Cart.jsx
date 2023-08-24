@@ -10,6 +10,7 @@ import Axios from "axios";
 import { api } from "../../Api";
 import { getSummary } from "../../store/orderSlice";
 import { useCart } from "../../utils/CartUtils";
+import Login from "../../pages/Login";
 
 const Cart = () => {
 	const navigate = useNavigate();
@@ -380,7 +381,7 @@ const Cart = () => {
 						loading={loading}
 						block
 						className="bg-green-500 text-white hover:bg-green-400"
-						onClick={showCheckoutModal}
+						onClick={isAuthenticated ? generateID : showCheckoutModal}
 					>
 						Proceed to Checkout
 					</Button>
@@ -394,27 +395,8 @@ const Cart = () => {
 							</Button>,
 						]}
 					>
-						<div>
+						<div className="flex flex-col">
 							<p className="py-4">Select an option to proceed:</p>
-							<Button
-								type="success"
-								htmlType="button"
-								className="mr-4 bg-green-500 text-white"
-								onClick={() => {
-									hideCheckoutModal();
-
-									// Check if the user is authenticated before generating ID
-									if (isAuthenticated) {
-										generateID();
-									} else {
-										message.error(
-											"You must be logged in before proceeding to checkout.",
-										);
-									}
-								}}
-							>
-								Checkout as User
-							</Button>
 							<Button
 								type="primary"
 								htmlType="button"
@@ -426,6 +408,8 @@ const Cart = () => {
 							>
 								Checkout as Guest
 							</Button>
+							<Divider>OR</Divider>
+							<Login />
 						</div>
 					</Modal>
 				</div>
