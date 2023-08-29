@@ -19,8 +19,8 @@ const SlideCard = () => {
 			<Slider {...settings}>
 				{Sdata.map((value) => {
 					return (
-						<div className="pt-3 mx-auto px-4" key={value.id}>
-							<img src={value.cover} alt="" className="mx-auto" />
+						<div className="pt-3 mx-auto px-2" key={value.id}>
+							<img src={value.cover} alt="" className="w-full h-auto" />
 						</div>
 					);
 				})}
