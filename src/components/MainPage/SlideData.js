@@ -1,7 +1,7 @@
 const Sdata = [
 	{
 		id: 1,
-		cover: "./images/slide-1.webp",
+		cover: "./images/slider-1.webp",
 	},
 	{
 		id: 2,
