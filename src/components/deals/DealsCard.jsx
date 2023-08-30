@@ -143,11 +143,11 @@ const FlashCard = ({ loading, productData }) => {
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div className="" key={value?.idl_product_code}>
-							<div className="group h-[96] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+							<div className="group h-[96] w-[300px] lg:w-[280px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
 								<div className="h-[200px] w-[200px] mx-auto">
 									<img
 										loading="lazy"
-										src={value?.main_picture.replace(/\s+/g, "")}
+										src={value?.main_picture}
 										alt={value?.name}
 										onError={(e) => {
 											e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL

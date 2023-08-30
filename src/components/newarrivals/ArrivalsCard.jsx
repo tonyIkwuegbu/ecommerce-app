@@ -62,7 +62,7 @@ const ArrivalsCard = ({ loading, productData }) => {
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div key={value.idl_product_code}>
-							<div className="group h-80 w-[230px] p-[20px] m-[6px] shadow-md rounded-md bg-white relative">
+							<div className="group h-80 w-[300px] lg:w-[230px] p-[20px] m-[6px] shadow-md rounded-md bg-white relative">
 								{" "}
 								<div className="h-[150px] w-[150px] mx-auto">
 									<img

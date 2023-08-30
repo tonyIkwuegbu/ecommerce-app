@@ -9,7 +9,7 @@ const Popular = () => {
 	const [productData, setProductData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
-	// ******************************************************* GET TOP DEALS PRODUCTS
+	// ******************************************************* GET POPULAR PRODUCTS
 
 	const getProduct = useCallback(async () => {
 		setLoading(true);
