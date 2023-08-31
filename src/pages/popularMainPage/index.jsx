@@ -36,7 +36,6 @@ const PopularProductMain = () => {
 					},
 				},
 			);
-
 			setProductData(fetchData.data.data);
 			setLoading(false);
 		} catch (error) {
@@ -81,6 +80,7 @@ const PopularProductMain = () => {
 			<h2 className="text-xl lg:text-2xl font-semibold mb-4 py-2 tracking-wider">
 				Popular Products
 			</h2>
+
 			<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4 max-w-[98%]">
 				{productData?.length > 0 &&
 					productData?.map((value) => (
