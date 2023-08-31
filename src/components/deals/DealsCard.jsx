@@ -112,7 +112,7 @@ const FlashCard = ({ loading, productData }) => {
 	// *************************************************** Dummy Data
 	if (productData.length === 0) {
 		return (
-			<Slider {...settings}>
+			<Slider {...settings} className="flex justify-center items-center">
 				{dummy.map((item, index) => (
 					<div className="" key={index}>
 						<div className="group h-[96] w-[280px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
@@ -139,7 +139,7 @@ const FlashCard = ({ loading, productData }) => {
 
 	return (
 		<>
-			<Slider {...settings}>
+			<Slider {...settings} className="flex justify-center items-center">
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div className="" key={value?.idl_product_code}>

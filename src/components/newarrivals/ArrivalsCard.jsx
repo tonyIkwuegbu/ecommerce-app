@@ -58,18 +58,18 @@ const ArrivalsCard = ({ loading, productData }) => {
 
 	return (
 		<>
-			<Slider {...settings}>
+			<Slider {...settings} className="flex justify-center items-center">
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div key={value.idl_product_code}>
-							<div className="group h-80 w-[300px] lg:w-[230px] p-[20px] m-[6px] shadow-md rounded-md bg-white relative">
+							<div className="group h-80 lg:w-[230px] p-[20px] m-[6px] shadow-md rounded-md bg-white relative">
 								{" "}
 								<div className="h-[150px] w-[150px] mx-auto">
 									<img
 										src={value?.main_picture}
 										alt={value?.name}
 										onError={(e) => {
-											e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL
+											e.target.src = "/images/home-placeholder.jpeg";
 										}}
 										onClick={() =>
 											navigate(

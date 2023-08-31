@@ -147,9 +147,11 @@ const Navbar = () => {
 					</li>
 					<li>
 						<Link
-							to="/#"
+							to="/popular-products"
 							onClick={handleClose}
-							// style={{ color: location.pathname === "/skills" && "#4071f4" }}
+							style={{
+								color: location.pathname === "/popular-products" && "#ff5c00",
+							}}
 						>
 							Popular Products
 						</Link>
