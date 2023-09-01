@@ -1,6 +1,5 @@
 import TopCard from "./TopCard";
 import "./style.css";
-import { IoMdArrowDropright } from "react-icons/io";
 import { TbCategory2 } from "react-icons/tb";
 
 const Discount = () => {
@@ -14,12 +13,6 @@ const Discount = () => {
 							<h1 className="text-xl md:text-2xl font-semibold tracking-wide">
 								Featured Categories
 							</h1>
-						</div>
-						<div className="cursor-pointer flex items-center">
-							<span className="text-[#ff5c00] font-semibold text-sm">
-								View all
-							</span>
-							<IoMdArrowDropright className="text-[20px]" />
 						</div>
 					</div>
 					<TopCard />

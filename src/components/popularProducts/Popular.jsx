@@ -4,8 +4,11 @@ import { api } from "../../Api";
 import Axios from "axios";
 import ShuffleArray from "../../utils/Shuffle";
 import PopularCard from "./PopularCard";
+import { IoMdArrowDropright } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Popular = () => {
+	const navigate = useNavigate();
 	const [productData, setProductData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -50,13 +53,24 @@ const Popular = () => {
 	}, [productData]);
 	return (
 		<>
-			<section className="pt-[20px] pb-[40px] bg-[#f6f9fc] px-0">
+			<section className="Discount background">
 				<div className="max-w-[90%] m-auto">
-					<div className="flex items-center gap-x-2 border-b-2 mb-3 underline decoration-[2px] underline-offset-8 decoration-[#ff5c00]">
-						<AiFillThunderbolt className="text-[#ff5c00]" />
-						<h1 className="text-xl md:text-2xl font-semibold tracking-wide">
-							Popular Products
-						</h1>
+					<div className="heading flex items-center justify-between border-b-2 mb-3">
+						<div className="heading-left row flex items-center space-x-2  underline decoration-[2px] underline-offset-[8px] decoration-[#ff5c00]">
+							<AiFillThunderbolt className="text-[#ff5c00]" />
+							<h1 className="text-xl md:text-2xl font-semibold tracking-wide">
+								Popular Products
+							</h1>
+						</div>
+						<div className="cursor-pointer flex items-center">
+							<span
+								className="text-[#ff5c00] font-semibold text-sm"
+								onClick={() => navigate("/popular-products")}
+							>
+								View all
+							</span>
+							<IoMdArrowDropright className="text-[20px]" />
+						</div>
 					</div>
 					<PopularCard loading={loading} productData={productData} />
 				</div>

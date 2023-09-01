@@ -5,6 +5,8 @@ import TopDeals from "../components/deals/DealsMain";
 import Offers from "../components/offers/Offers";
 import Arrivals from "../components/newarrivals/Arrivals";
 import Popular from "../components/popularProducts/Popular";
+import AdvertOne from "../components/AdvertOne";
+import AdvertTwo from "../components/AdvertTwo";
 
 // import Wrapper from "../components/wrapper/Wrapper";
 
@@ -15,8 +17,10 @@ const Pages = () => {
 			<Offers />
 			<MainTop />
 			<TopDeals />
+			<AdvertOne />
 			<Arrivals />
 			<Popular />
+			<AdvertTwo />
 			<NewsLetter />
 			{/* 
 			

@@ -138,9 +138,9 @@ const Navbar = () => {
 				<ul style={{ left: open ? "0" : "-100vw" }}>
 					<li>
 						<NavLink
-							to="/#"
+							to="/"
 							onClick={handleClose}
-							// style={{ color: location.pathname === "/about" && "#4071f4" }}
+							style={{ color: location.pathname === "/" && "#ff5c00" }}
 						>
 							Top Deals
 						</NavLink>
@@ -152,8 +152,6 @@ const Navbar = () => {
 							style={{
 								color: location.pathname === "/popular-products" && "#ff5c00",
 							}}
-							// activeClassName="active-link"
-							// className="inactive-link"
 						>
 							Popular Products
 						</NavLink>
@@ -173,7 +171,7 @@ const Navbar = () => {
 						<NavLink
 							to="/#"
 							onClick={handleClose}
-							// style={{ color: location.pathname === "/contact" && "#4071f4" }}
+							// style={{ color: location.pathname === "/" && "#ff5c00" }}
 						>
 							Gift Card
 						</NavLink>

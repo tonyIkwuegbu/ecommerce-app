@@ -4,8 +4,10 @@ import { IoMdArrowDropright } from "react-icons/io";
 import { api } from "../../Api";
 import Axios from "axios";
 import ShuffleArray from "../../utils/Shuffle";
+import { useNavigate } from "react-router-dom";
 
 const Arrivals = () => {
+	const navigate = useNavigate();
 	const [productData, setProductData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -86,7 +88,10 @@ const Arrivals = () => {
 							</h1>
 						</div>
 						<div className="cursor-pointer flex items-center">
-							<span className="text-[#ff5c00] font-semibold text-sm">
+							<span
+								className="text-[#ff5c00] font-semibold text-sm"
+								onClick={() => navigate("/new-arrivals")}
+							>
 								View all
 							</span>
 							<IoMdArrowDropright className="text-[20px]" />
