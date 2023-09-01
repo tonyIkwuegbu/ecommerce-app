@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
 	GiHamburgerMenu,
 	GiPlug,
@@ -7,13 +7,13 @@ import {
 	GiOilySpiral,
 } from "react-icons/gi";
 import { BiShoppingBag } from "react-icons/bi";
-
 import { RiArrowDownSLine } from "react-icons/ri";
 import { Dropdown } from "antd";
 import { FcBusinessman, FcBusinesswoman } from "react-icons/fc";
 import { FaBaby } from "react-icons/fa";
 
 const Navbar = () => {
+	const location = useLocation();
 	const [open, setOpen] = useState(false);
 	const [screenWidth, setScreenWidth] = useState(0);
 
@@ -90,7 +90,7 @@ const Navbar = () => {
 				overlay={
 					<div className="bg-white rounded-md p-2">
 						{items.map((item) => (
-							<Link
+							<NavLink
 								to={item.path}
 								key={item.key}
 								className={`dropdown-item ${
@@ -100,7 +100,7 @@ const Navbar = () => {
 							>
 								{item.icon}
 								{item.label}
-							</Link>
+							</NavLink>
 						))}
 					</div>
 				}
@@ -137,27 +137,29 @@ const Navbar = () => {
 
 				<ul style={{ left: open ? "0" : "-100vw" }}>
 					<li>
-						<Link
+						<NavLink
 							to="/#"
 							onClick={handleClose}
 							// style={{ color: location.pathname === "/about" && "#4071f4" }}
 						>
 							Top Deals
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link
+						<NavLink
 							to="/popular-products"
 							onClick={handleClose}
 							style={{
 								color: location.pathname === "/popular-products" && "#ff5c00",
 							}}
+							// activeClassName="active-link"
+							// className="inactive-link"
 						>
 							Popular Products
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link
+						<NavLink
 							to="/new-arrivals"
 							onClick={handleClose}
 							style={{
@@ -165,16 +167,16 @@ const Navbar = () => {
 							}}
 						>
 							New Arrivals
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link
+						<NavLink
 							to="/#"
 							onClick={handleClose}
 							// style={{ color: location.pathname === "/contact" && "#4071f4" }}
 						>
 							Gift Card
-						</Link>
+						</NavLink>
 					</li>
 				</ul>
 			</div>
