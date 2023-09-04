@@ -138,9 +138,9 @@ const Navbar = () => {
 				<ul style={{ left: open ? "0" : "-100vw" }}>
 					<li>
 						<NavLink
-							to="/"
+							to="/#"
 							onClick={handleClose}
-							style={{ color: location.pathname === "/" && "#ff5c00" }}
+							//style={{ color: location.pathname === "/" && "#ff5c00" }}
 						>
 							Top Deals
 						</NavLink>

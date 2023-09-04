@@ -57,7 +57,7 @@ const HeadMiddle = () => {
 					enterButton
 					allowClear
 					size="large"
-					className="custom-search"
+					className="search-bar"
 					style={{
 						width: 600,
 						backgroundColor: "#ff5c00",

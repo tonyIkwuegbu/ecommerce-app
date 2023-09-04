@@ -26,7 +26,6 @@ const NewsLetter = () => {
 					enterButton="Subscribe"
 					allowClear
 					size="large"
-					className="custom-search"
 					style={{
 						backgroundColor: "#ff5c00",
 						borderRadius: "5px",
