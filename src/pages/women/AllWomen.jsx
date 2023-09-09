@@ -63,8 +63,8 @@ const AllWomen = ({ data, loading }) => {
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-3">
-			{data.length > 0 ? (
-				data.map((productItems) => (
+			{data?.length > 0 ? (
+				data?.map((productItems) => (
 					<div className="" key={productItems?.idl_product_code}>
 						<div className="group h-[96] w-[300px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
 							<div className="h-[200px] w-[200px] mx-auto">
