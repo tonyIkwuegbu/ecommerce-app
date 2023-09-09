@@ -32,7 +32,7 @@ const HeadTop = () => {
 					<>
 						<h4 className="text-[#ff5c00] tracking-wider">
 							<b className="text-white text-sm lg:text-lg">
-								Hello {user.first_name} !
+								Hello, {user.first_name} !
 							</b>{" "}
 							<span
 								className="text-xs"
