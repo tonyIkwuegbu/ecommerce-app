@@ -1,15 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Divider, Empty, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import Axios from "axios";
-import { api } from "../../Api";
 import ProductSkeleton from "../../components/ProductSkeleton";
 import { useNavigate } from "react-router-dom";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { IoIosBasket } from "react-icons/io";
 import { add } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
+import useFetch from "../../hooks/useFetch";
 
 const SubCategoryKids = ({ subcategory }) => {
 	const navigate = useNavigate();
@@ -18,43 +17,13 @@ const SubCategoryKids = ({ subcategory }) => {
 	const userIsAuthenticated = useSelector(
 		(state) => state.auth.isAuthenticated,
 	);
-	const [productData, setProductData] = useState([]);
-	const [loading, setLoading] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const { addToCartApi } = useCart();
 
-	// ******************************************************* GET PRODUCCT
-
-	const getProduct = useCallback(async () => {
-		setLoading(true);
-		try {
-			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/product/category/kids/${subcategory}`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"x-access-token": api.token,
-					},
-				},
-			);
-			if (fetchData.data.data === []) {
-				return;
-			} else {
-				setProductData(fetchData.data.data);
-			}
-
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			if (error.response.status === 404) {
-				setProductData([]);
-			}
-			setLoading(false);
-		}
-	}, [subcategory]);
-	useEffect(() => {
-		getProduct();
-	}, [getProduct]);
+	// ******************************************************* GET PRODUCT
+	const { loading, data } = useFetch(
+		`/api/v1/ecommerce/product/category/kids/${subcategory}?skip=0&limit=0`,
+	);
 
 	// ******************************************************HANDLE CART
 	const handleAddToCart = async (productItem) => {
@@ -84,10 +53,14 @@ const SubCategoryKids = ({ subcategory }) => {
 		return <ProductSkeleton />;
 	}
 
+	if (data?.length === 0) {
+		return [];
+	}
+
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 ">
-			{productData.length > 0 ? (
-				productData.map((productItems) => (
+			{data?.length > 0 ? (
+				data?.map((productItems) => (
 					<div className="" key={productItems?.idl_product_code}>
 						<div className="group h-[96] w-[300px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
 							<div className="h-[200px] w-[200px] mx-auto">
