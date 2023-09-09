@@ -1,44 +1,21 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Slider from "react-slick";
-import Axios from "axios";
-import { api } from "../../Api";
 import { NavMen } from "./NavData";
 import AllMen from "./AllMen";
 import SubCategoryTemplate from "./SubCategoryTemplate";
 import { Divider } from "antd";
+import useFetch from "../../hooks/useFetch";
 
 const Men = () => {
 	const [slidesToShow, setSlidesToShow] = useState(6);
 	const [tabIndex, setTabIndex] = useState(1);
 	const [selected, setSelected] = useState(1);
-	const [productData, setProductData] = useState([]);
-	const [loading, setLoading] = useState(false);
 
-	// ******************************************************* GET PRODUCCT
+	// ******************************************************* GET PRODUCT
 
-	const getProduct = useCallback(async () => {
-		setLoading(true);
-		try {
-			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/product/category/men`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"x-access-token": api.token,
-					},
-				},
-			);
-
-			setProductData(fetchData?.data?.data);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		}
-	}, []);
-	useEffect(() => {
-		getProduct();
-	}, [getProduct]);
+	const { loading, data } = useFetch(
+		"/api/v1/ecommerce/product/category/men?skip=0&limit=0",
+	);
 
 	// ************************************************* MOBILE SLIDER
 	const settings = useMemo(
@@ -118,7 +95,7 @@ const Men = () => {
 					})}
 				</div>
 				<div>
-					{tabIndex === 1 && <AllMen data={productData} loading={loading} />}
+					{tabIndex === 1 && <AllMen data={data} loading={loading} />}
 					{tabIndex >= 2 && tabIndex <= 6 && (
 						<SubCategoryTemplate subcategory={NavMen[tabIndex - 1].title} />
 					)}
