@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SlideSkeleton from "../SlideSkeleton";
 import { IoIosBasket } from "react-icons/io";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { Divider, Spin } from "antd";
+import { Spin } from "antd";
 import { useNavigate } from "react-router";
 import { add } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
@@ -116,7 +116,7 @@ const PopularCard = ({ loading, productData }) => {
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div className="" key={value?.idl_product_code}>
-							<div className="group h-[96] lg:w-[280px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+							<div className="group h-[96] lg:w-[260px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
 								<div className="h-[200px] w-[200px] mx-auto">
 									<img
 										loading="lazy"
@@ -130,7 +130,7 @@ const PopularCard = ({ loading, productData }) => {
 												`/product/${value.idl_product_code}/${value.supplier_id}`,
 											)
 										}
-										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover cursor-pointer w-full h-full rounded"
+										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover cursor-pointer w-full h-44 rounded-md"
 									/>
 									<div className="absolute top-0 right-0 cursor-pointer  m-[10px] opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-in-out">
 										{/* <label>{count[index]}</label> */}
@@ -142,17 +142,13 @@ const PopularCard = ({ loading, productData }) => {
 										<IoIosBasket className="" />
 									</div>
 								</div>
-								<Divider />
+
 								<div className="font-semibold tracking-wide ">
 									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate">
 										{value?.name}
 									</h3>
 
-									<p className="py-2 text-[#232f3e] text-xs">
-										Size: <span>{value?.size || "N/A"}</span>
-									</p>
-
-									<div className="price flex items-center tracking-wider justify-between">
+									<div className="price flex items-center tracking-wider justify-between py-3">
 										<h4 className="text-green-500">
 											{formattedAmount.format(value?.naira_price)}
 										</h4>
