@@ -1,53 +1,12 @@
 import { AiFillThunderbolt } from "react-icons/ai";
 import DealsCard from "./DealsCard";
-import { useCallback, useEffect, useState } from "react";
-import { api } from "../../Api";
-import Axios from "axios";
-import ShuffleArray from "../../utils/Shuffle";
+import useFetch from "../../hooks/useFetch";
 
 const DealsMain = () => {
-	const [productData, setProductData] = useState([]);
-	const [loading, setLoading] = useState(false);
-
 	// ******************************************************* GET TOP DEALS PRODUCTS
-
-	const getProduct = useCallback(async () => {
-		setLoading(true);
-		try {
-			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/product/topdeals`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"x-access-token": api.token,
-					},
-				},
-			);
-
-			setProductData(fetchData.data.data);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		}
-	}, []);
-	useEffect(() => {
-		getProduct();
-	}, [getProduct]);
-
-	useEffect(() => {
-		// Function to shuffle the product data and update the state
-		const shuffleProducts = () => {
-			const shuffledProducts = ShuffleArray([...productData]);
-			setProductData(shuffledProducts);
-		};
-
-		// Shuffle products every 1 hour (3600000 milliseconds)
-		const interval = setInterval(shuffleProducts, 3600000);
-
-		// Cleanup interval on component unmount
-		return () => clearInterval(interval);
-	}, [productData]);
+	const { loading, shuffledData } = useFetch(
+		"/api/v1/ecommerce/product/topdeals",
+	);
 
 	return (
 		<>
@@ -59,7 +18,7 @@ const DealsMain = () => {
 							Top Deals
 						</h1>
 					</div>
-					<DealsCard loading={loading} productData={productData} />
+					<DealsCard loading={loading} productData={shuffledData} />
 				</div>
 			</section>
 		</>

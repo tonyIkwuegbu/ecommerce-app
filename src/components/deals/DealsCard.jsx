@@ -110,7 +110,7 @@ const FlashCard = ({ loading, productData }) => {
 	}
 
 	// *************************************************** Dummy Data
-	if (productData.length === 0) {
+	if (productData?.length === 0 || productData === null) {
 		return (
 			<Slider {...settings} className="flex justify-center items-center">
 				{dummy.map((item, index) => (

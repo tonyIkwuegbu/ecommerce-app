@@ -1,76 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+//import { useEffect } from "react";
 import ArrivalsCard from "./ArrivalsCard";
 import { IoMdArrowDropright } from "react-icons/io";
-import { api } from "../../Api";
-import Axios from "axios";
-import ShuffleArray from "../../utils/Shuffle";
+
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 const Arrivals = () => {
 	const navigate = useNavigate();
-	const [productData, setProductData] = useState([]);
-	const [loading, setLoading] = useState(false);
-
-	// ***********************************************************HANDLE NONETYPE
-
-	const handleNoneValues = useCallback((data) => {
-		if (data === null || data === undefined) {
-			return "N/A";
-		}
-		if (Array.isArray(data)) {
-			return data.map((item) => handleNoneValues(item));
-		}
-		if (typeof data === "object") {
-			const sanitizedObj = {};
-			for (const key in data) {
-				sanitizedObj[key] = handleNoneValues(data[key]);
-			}
-			return sanitizedObj;
-		}
-		return data;
-	}, []);
 
 	// ******************************************************* GET TOP DEALS PRODUCTS
-
-	const getProduct = useCallback(async () => {
-		setLoading(true);
-		try {
-			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/product/newarrival`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"x-access-token": api.token,
-					},
-				},
-			);
-
-			//const parsedData = handleNoneValues(fetchData.data.data);
-			setProductData(fetchData.data.data);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		}
-	}, []);
-
-	useEffect(() => {
-		getProduct();
-	}, [getProduct]);
-
-	useEffect(() => {
-		// Function to shuffle the product data and update the state
-		const shuffleProducts = () => {
-			const shuffledProducts = ShuffleArray([...productData]);
-			setProductData(shuffledProducts);
-		};
-
-		// Shuffle products every 1 hour (3600000 milliseconds)
-		const interval = setInterval(shuffleProducts, 3600000);
-
-		// Cleanup interval on component unmount
-		return () => clearInterval(interval);
-	}, [productData]);
+	const { loading, shuffledData } = useFetch(
+		"/api/v1/ecommerce/product/newarrival",
+	);
 
 	return (
 		<>
@@ -97,7 +38,7 @@ const Arrivals = () => {
 							<IoMdArrowDropright className="text-[20px]" />
 						</div>
 					</div>
-					<ArrivalsCard loading={loading} productData={productData} />
+					<ArrivalsCard loading={loading} productData={shuffledData} />
 				</div>
 			</section>
 		</>
