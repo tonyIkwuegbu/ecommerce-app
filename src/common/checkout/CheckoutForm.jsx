@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
+import CountryCodes from "../../../countryCodes.json";
+import NigeriaStates from "../../../nigeriaStates.json";
+import { AiOutlineEdit } from "react-icons/ai";
 
 const { Option } = Select;
 
@@ -18,17 +21,40 @@ const CheckoutForm = () => {
 	const user = useSelector((state) => state.auth.user);
 	const orderDetails = useSelector((state) => state.order.order);
 	const [loading, setLoading] = useState(false);
+	const [selectedCountryCode, setSelectedCountryCode] = useState("+234");
+	const [selectedState, setSelectedState] = useState("");
+	const [componentDisabled, setComponentDisabled] = useState(true);
 	const [orderData, setOrderData] = useState({
 		first_name: "",
 		last_name: "",
 		address_1: "",
 		address_2: "",
 		city: "",
-		state: "",
-		country: "Nigeria",
+		countryCode: "+234",
+		country: "",
 		phone: "",
 		email: "",
 	});
+
+	const phoneWithCountryCode = `${selectedCountryCode}${orderData.phone}`;
+
+	// ********************************************* COUNTRYCODE & PHONE & STATE HANDLER
+	const handleCountryCodeChange = (value) => {
+		setSelectedCountryCode(value);
+		handleInputChange("countrycode", value);
+	};
+
+	const handleStateChange = (value) => {
+		setSelectedState(value);
+	};
+
+	// *****************************************************FORM INPUT HANDLER
+	const handleInputChange = (name, value) => {
+		setOrderData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
+	};
 
 	// **************************************************RETERIVE SHIPPING ADDRESS
 
@@ -45,6 +71,7 @@ const CheckoutForm = () => {
 			.then((res) => {
 				if (res.data.status === true) {
 					const shippingInfoForm = res.data.data;
+					setSelectedState(res.data.data.state);
 					setOrderData((prevData) => ({
 						...prevData,
 						...shippingInfoForm,
@@ -60,14 +87,6 @@ const CheckoutForm = () => {
 	useEffect(() => {
 		fetchAddress();
 	}, [fetchAddress]);
-
-	// *****************************************************FORM INPUT HANDLER
-	const handleInputChange = (name, value) => {
-		setOrderData((prevData) => ({
-			...prevData,
-			[name]: value,
-		}));
-	};
 
 	// Function to check if all required fields are filled
 	const isFormComplete = () => {
@@ -106,10 +125,10 @@ const CheckoutForm = () => {
 			address_1: orderData.address_1,
 			address_2: orderData.address_2,
 			city: orderData.city,
-			state: orderData.state,
+			state: selectedState,
 			postcode: "",
 			country: orderData.country,
-			phone: orderData.phone,
+			phone: phoneWithCountryCode,
 			email: orderData.email,
 		};
 		const params = JSON.stringify({
@@ -148,9 +167,9 @@ const CheckoutForm = () => {
 			address_1: orderData.address_1,
 			address_2: orderData.address_2,
 			city: orderData.city,
-			state: orderData.state,
+			state: selectedState,
 			country: orderData.country,
-			phone: orderData.phone,
+			phone: phoneWithCountryCode,
 			email: orderData.email,
 			products: orderDetails.products.map((item) => {
 				return {
@@ -213,11 +232,26 @@ const CheckoutForm = () => {
 
 	return (
 		<>
+			<div className="py-2 flex justify-end">
+				<Button
+					type="ghost"
+					className="flex items-center gap-x-1 text-blue-500 font-semibold tracking-wider hover:text-blue-300"
+					onClick={() => setComponentDisabled(!componentDisabled)}
+				>
+					<AiOutlineEdit />
+					Edit Form
+				</Button>
+			</div>
+
 			<Form
 				form={form}
 				onFinish={onFinish}
 				layout="vertical"
 				className="px-10 mx-auto"
+				disabled={componentDisabled}
+				initialValues={{
+					...orderData,
+				}}
 			>
 				<Form.Item
 					label="First Name"
@@ -254,7 +288,18 @@ const CheckoutForm = () => {
 					<Input
 						name="phone"
 						value={orderData.phone}
-						addonBefore="+234"
+						addonBefore={
+							<Select
+								defaultValue={selectedCountryCode}
+								onChange={handleCountryCodeChange}
+							>
+								{CountryCodes.map((country) => (
+									<Option key={country.dial_code} value={country.dial_code}>
+										{`${country.name} (${country.dial_code})`}
+									</Option>
+								))}
+							</Select>
+						}
 						onChange={(e) => handleInputChange("phone", e.target.value)}
 					/>
 				</Form.Item>
@@ -273,6 +318,33 @@ const CheckoutForm = () => {
 					/>
 				</Form.Item>
 
+				<Form.Item
+					label="Shipping State"
+					rules={[
+						{ required: true, message: "Please select your Shipping State" },
+					]}
+				>
+					<Select value={selectedState} onChange={handleStateChange}>
+						{NigeriaStates.map((state) => (
+							<Option key={state} value={state}>
+								{state}
+							</Option>
+						))}
+					</Select>
+				</Form.Item>
+
+				<Form.Item
+					label="Shipping City"
+					rules={[
+						{ required: true, message: "Please enter your Shipping City" },
+					]}
+				>
+					<Input
+						name="city"
+						value={orderData.city}
+						onChange={(e) => handleInputChange("city", e.target.value)}
+					/>
+				</Form.Item>
 				<Form.Item
 					label="Shipping Address 1"
 					rules={[
@@ -294,32 +366,6 @@ const CheckoutForm = () => {
 						name="address_2"
 						value={orderData.address_2}
 						onChange={(e) => handleInputChange("address_2", e.target.value)}
-					/>
-				</Form.Item>
-
-				<Form.Item
-					label="Shipping City"
-					rules={[
-						{ required: true, message: "Please enter your Shipping City" },
-					]}
-				>
-					<Input
-						name="city"
-						value={orderData.city}
-						onChange={(e) => handleInputChange("city", e.target.value)}
-					/>
-				</Form.Item>
-
-				<Form.Item
-					label="Shipping State"
-					rules={[
-						{ required: true, message: "Please enter your Shipping State" },
-					]}
-				>
-					<Input
-						name="state"
-						value={orderData.state}
-						onChange={(e) => handleInputChange("state", e.target.value)}
 					/>
 				</Form.Item>
 
