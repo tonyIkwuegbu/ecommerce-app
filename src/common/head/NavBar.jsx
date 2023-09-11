@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
 	GiHamburgerMenu,
 	GiPlug,
@@ -8,7 +8,6 @@ import {
 } from "react-icons/gi";
 import { BiShoppingBag } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
-import { Dropdown } from "antd";
 import { FcBusinessman, FcBusinesswoman } from "react-icons/fc";
 import { FaBaby } from "react-icons/fa";
 
@@ -16,6 +15,7 @@ const Navbar = () => {
 	const location = useLocation();
 	const [open, setOpen] = useState(false);
 	const [screenWidth, setScreenWidth] = useState(0);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const trackScreenWidth = () => {
 		const width = window.innerWidth;
@@ -35,6 +35,14 @@ const Navbar = () => {
 		if (screenWidth < 800) {
 			setOpen(false);
 		}
+	};
+
+	const handleToggleDropdown = () => {
+		setIsOpen(!isOpen);
+	};
+
+	const handleCloseDropdown = () => {
+		setIsOpen(false);
 	};
 
 	// ****** Menu data map
@@ -85,28 +93,11 @@ const Navbar = () => {
 
 	return (
 		<div className="flex items-center justify-between">
-			<Dropdown
-				trigger={["click"]}
-				overlay={
-					<div className="bg-white rounded-md p-2">
-						{items.map((item) => (
-							<NavLink
-								to={item.path}
-								key={item.key}
-								className={`dropdown-item ${
-									location.pathname === item.path ? "active" : ""
-								} flex items-center gap-x-4 leading-8 cursor-pointer hover:bg-gray-100 hover:font-semibold hover:text-[#ff5c00]`}
-								onClick={handleClose}
-							>
-								{item.icon}
-								{item.label}
-							</NavLink>
-						))}
-					</div>
-				}
-				placement="bottom"
-			>
-				<div className="flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c40] text-xs tracking-wider font-semibold cursor-pointer">
+			<div className="relative inline-block">
+				<div
+					className="flex items-center gap-x-4 px-[16px] py-2 bg-[#ff5c40] text-xs tracking-wider font-semibold cursor-pointer"
+					onClick={handleToggleDropdown}
+				>
 					<span>
 						<GiHamburgerMenu />
 					</span>
@@ -115,7 +106,25 @@ const Navbar = () => {
 						<RiArrowDownSLine />
 					</span>
 				</div>
-			</Dropdown>
+				{isOpen && (
+					<div className="absolute top-full left-0 bg-white text-black text-sm rounded-md px-6 py-4 mt-1 shadow-md">
+						{items.map((item) => (
+							<Link
+								to={item.path}
+								key={item.key}
+								className={`dropdown-item ${
+									location.pathname === item.path ? "active" : ""
+								} flex items-center gap-x-4 leading-8 cursor-pointer hover:bg-gray-100 hover:font-semibold hover:text-[#ff5c00]`}
+								onClick={handleCloseDropdown}
+							>
+								{item.icon}
+								{item.label}
+							</Link>
+						))}
+					</div>
+				)}
+			</div>
+
 			<div className="list-wrapper">
 				<img
 					src="https://cdn.iconscout.com/icon/free/png-512/bars-collection-view-application-grid-menu-44415.png"
