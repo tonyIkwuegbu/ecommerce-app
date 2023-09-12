@@ -12,6 +12,7 @@ import { Spin } from "antd";
 import { useNavigate } from "react-router";
 import { add } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
+import { formatCurrency } from "../../utils/CurrencyFormat";
 
 const SampleNextArrow = (props) => {
 	const { onClick } = props;
@@ -81,12 +82,6 @@ const PopularCard = ({ loading, productData }) => {
 		};
 	}, []);
 
-	/// ************************************ CURRENCY FORMAT
-	const formattedAmount = new Intl.NumberFormat("en-NG", {
-		style: "currency",
-		currency: "NGN",
-	});
-
 	// ******************************************************HANDLE CART
 
 	const handleAddToCart = async (productItem) => {
@@ -150,7 +145,7 @@ const PopularCard = ({ loading, productData }) => {
 
 									<div className="price flex items-center tracking-wider justify-between py-3">
 										<h4 className="text-green-500">
-											{formattedAmount.format(value?.naira_price)}
+											{formatCurrency(value?.naira_price)}
 										</h4>
 										<button
 											type="button"

@@ -85,7 +85,6 @@ const Cart = () => {
 				})
 					.then((response) => {
 						if (response.data && response.data.status === true) {
-							//Item deleted successfully from the API
 							fetchUserCart(user)
 								.then((cartItems) => {
 									setUserCartItems(cartItems); // Update the cart items

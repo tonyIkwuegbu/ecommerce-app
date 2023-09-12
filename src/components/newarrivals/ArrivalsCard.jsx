@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useMemo, useState } from "react";
 import SlideSkeleton from "../SlideSkeleton";
 import { useNavigate } from "react-router-dom";
+import { formatCurrency } from "../../utils/CurrencyFormat";
 
 const ArrivalsCard = ({ loading, productData }) => {
 	const navigate = useNavigate();
@@ -44,12 +45,6 @@ const ArrivalsCard = ({ loading, productData }) => {
 		};
 	}, []);
 
-	/// ************************************ CURRENCY FORMAT
-	const formattedAmount = new Intl.NumberFormat("en-NG", {
-		style: "currency",
-		currency: "NGN",
-	});
-
 	/// ******************************************** LOADING STATE
 	if (loading) {
 		return <SlideSkeleton />;
@@ -81,7 +76,7 @@ const ArrivalsCard = ({ loading, productData }) => {
 										{value?.name}
 									</h4>
 									<p className="text-green-500 font-semibold">
-										{formattedAmount.format(value?.naira_price)}
+										{formatCurrency(value?.naira_price)}
 									</p>
 								</div>
 							</div>

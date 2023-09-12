@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import { dummy } from "./DealsDummy";
 import { add } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
+import { formatCurrency } from "../../utils/CurrencyFormat";
 
 const SampleNextArrow = (props) => {
 	const { onClick } = props;
@@ -98,11 +99,6 @@ const FlashCard = ({ loading, productData }) => {
 			setIsLoading(false);
 		}
 	};
-	/// ************************************ CURRENCY FORMAT
-	const formattedAmount = new Intl.NumberFormat("en-NG", {
-		style: "currency",
-		currency: "NGN",
-	});
 
 	/// ******************************************** LOADING STATE
 	if (loading) {
@@ -181,7 +177,7 @@ const FlashCard = ({ loading, productData }) => {
 
 									<div className="price flex items-center justify-between">
 										<h4 className="text-green-500">
-											{formattedAmount.format(value?.naira_price)}
+											{formatCurrency(value?.naira_price)}
 										</h4>
 										<button
 											type="button"
