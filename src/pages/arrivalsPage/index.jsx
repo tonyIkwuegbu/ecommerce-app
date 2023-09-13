@@ -1,47 +1,21 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { Spin } from "antd";
 import { IoIosBasket } from "react-icons/io";
 import { AiOutlineHeart } from "react-icons/ai";
-import { useCart } from "../../utils/CartUtils";
-import { useSelector, useDispatch } from "react-redux";
-import { add } from "../../store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import MainPageSkeleton from "../MainPageSkeleton";
 import useFetch from "../../hooks/useFetch";
 import { formatCurrency } from "../../utils/CurrencyFormat";
+import { ModalContext } from "../../utils/ModalContext";
 
 const ArrivalMain = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const { addToCartApi } = useCart();
-	const user = useSelector((state) => state.auth.user);
-	const userIsAuthenticated = useSelector(
-		(state) => state.auth.isAuthenticated,
-	);
-	const [isLoading, setIsLoading] = useState(false);
+	const { openModal } = useContext(ModalContext);
 
 	// ******************************************************* GET PRODUCTS
 	const { loading, shuffledData } = useFetch(
 		"/api/v1/ecommerce/product/newarrival",
 	);
-
-	// ******************************************************HANDLE CART
-	const handleAddToCart = async (productItem) => {
-		if (!userIsAuthenticated) {
-			dispatch(add(productItem)); // Handle non-authenticated user's cart
-			return; // Exit the function early if the user is not authenticated
-		}
-
-		try {
-			setIsLoading(true);
-			await addToCartApi(user, productItem.idl_product_code);
-		} catch (error) {
-			console.log("Error adding item to cart:", error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
 
 	/// ******************************************** LOADING STATE
 	if (loading) {
@@ -86,7 +60,7 @@ const ArrivalMain = () => {
 								</div>
 
 								<div className="font-semibold tracking-wide ">
-									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate">
+									<h3 className="text-[13px] text-gray-600 py-3 text-center truncate">
 										{value?.name}
 									</h3>
 
@@ -96,15 +70,11 @@ const ArrivalMain = () => {
 										</h4>
 										<button
 											type="button"
-											onClick={() => handleAddToCart(value)}
-											title="Add to cart"
-											disabled={isLoading[value?.idl_product_code]}
+											onClick={() => {
+												openModal(value);
+											}}
 										>
-											{isLoading[value?.idl_product_code] ? (
-												<Spin size="small" />
-											) : (
-												<BsFillCartCheckFill className="mx-auto" />
-											)}
+											<BsFillCartCheckFill className="mx-auto" />
 										</button>
 									</div>
 								</div>

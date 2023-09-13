@@ -1,24 +1,16 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
-import { Divider, Empty, Spin } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { Divider, Empty } from "antd";
 import ProductSkeleton from "../../components/ProductSkeleton";
 import { useNavigate } from "react-router-dom";
 import { IoIosBasket } from "react-icons/io";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { add } from "../../store/cartSlice";
-import { useCart } from "../../utils/CartUtils";
+import { formatCurrency } from "../../utils/CurrencyFormat";
+import { ModalContext } from "../../utils/ModalContext";
 
 const AllBeauty = ({ data, loading }) => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	//const [count, setCount] = useState([]);
-	const user = useSelector((state) => state.auth.user);
-	const userIsAuthenticated = useSelector(
-		(state) => state.auth.isAuthenticated,
-	);
-	const [isLoading, setIsLoading] = useState(false);
-	const { addToCartApi } = useCart();
+	const { openModal } = useContext(ModalContext);
 
 	// Set initial count values when data changes
 	// useEffect(() => {
@@ -33,28 +25,6 @@ const AllBeauty = ({ data, loading }) => {
 	// 	updatedCounts[index] += 1;
 	// 	setCount(updatedCounts);
 	// };
-
-	// ******************************************************HANDLE CART
-	const handleAddToCart = async (productItem) => {
-		if (!userIsAuthenticated) {
-			dispatch(add(productItem)); // Handle non-authenticated user's cart
-			return; // Exit the function early if the user is not authenticated
-		}
-
-		try {
-			setIsLoading(true);
-			await addToCartApi(user, productItem.idl_product_code);
-		} catch (error) {
-			console.log("Error adding item to cart:", error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-	/// ************************************ CURRENCY FORMAT
-	const formattedAmount = new Intl.NumberFormat("en-NG", {
-		style: "currency",
-		currency: "NGN",
-	});
 
 	/// ******************************************** LOADING STATE
 	if (loading) {
@@ -99,7 +69,7 @@ const AllBeauty = ({ data, loading }) => {
 							</div>
 							<Divider />
 							<div className="font-semibold tracking-wide ">
-								<h3 className="text-[13px] text-gray-600 py-1 text-center truncate">
+								<h3 className="text-[13px] text-gray-600 py-3 text-center truncate">
 									{productItems?.name}
 								</h3>
 
@@ -109,19 +79,15 @@ const AllBeauty = ({ data, loading }) => {
 
 								<div className="price flex items-center tracking-wider justify-between">
 									<h4 className="text-green-500">
-										{formattedAmount.format(productItems?.naira_price)}
+										{formatCurrency(productItems?.naira_price)}
 									</h4>
 									<button
 										type="button"
-										onClick={() => handleAddToCart(productItems)}
-										title="Add to cart"
-										disabled={isLoading[productItems?.idl_product_code]}
+										onClick={() => {
+											openModal(productItems);
+										}}
 									>
-										{isLoading[productItems?.idl_product_code] ? (
-											<Spin size="small" />
-										) : (
-											<BsFillCartCheckFill className="mx-auto" />
-										)}
+										<BsFillCartCheckFill className="mx-auto" />
 									</button>
 								</div>
 							</div>

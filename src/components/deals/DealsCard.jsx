@@ -1,19 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
 import SlideSkeleton from "../SlideSkeleton";
 import { IoIosBasket } from "react-icons/io";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { Divider, Spin } from "antd";
+import { Divider } from "antd";
 import { useNavigate } from "react-router";
 import { dummy } from "./DealsDummy";
-import { add } from "../../store/cartSlice";
-import { useCart } from "../../utils/CartUtils";
 import { formatCurrency } from "../../utils/CurrencyFormat";
+import { ModalContext } from "../../utils/ModalContext";
 
 const SampleNextArrow = (props) => {
 	const { onClick } = props;
@@ -37,14 +35,8 @@ const SamplePrevArrow = (props) => {
 };
 const FlashCard = ({ loading, productData }) => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const user = useSelector((state) => state.auth.user);
-	const userIsAuthenticated = useSelector(
-		(state) => state.auth.isAuthenticated,
-	);
+	const { openModal } = useContext(ModalContext);
 	const [slidesToShow, setSlidesToShow] = useState(4);
-	const [isLoading, setIsLoading] = useState(false);
-	const { addToCartApi } = useCart();
 
 	// **************************************** Slider responsiveness
 	const settings = useMemo(
@@ -71,10 +63,8 @@ const FlashCard = ({ loading, productData }) => {
 			}
 		};
 
-		// Set initial slidesToShow based on the current screen size
 		handleResize();
 
-		// Update slidesToShow when the window is resized
 		window.addEventListener("resize", handleResize);
 
 		// Cleanup event listener on component unmount
@@ -82,23 +72,6 @@ const FlashCard = ({ loading, productData }) => {
 			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
-
-	// ************************************* Dispatch handler
-	const handleAddToCart = async (productItem) => {
-		if (!userIsAuthenticated) {
-			dispatch(add(productItem)); // Handle non-authenticated user's cart
-			return; // Exit the function early if the user is not authenticated
-		}
-
-		try {
-			setIsLoading(true);
-			await addToCartApi(user, productItem.idl_product_code);
-		} catch (error) {
-			console.log("Error adding item to cart:", error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
 
 	/// ******************************************** LOADING STATE
 	if (loading) {
@@ -181,15 +154,11 @@ const FlashCard = ({ loading, productData }) => {
 										</h4>
 										<button
 											type="button"
-											onClick={() => handleAddToCart(value)}
-											title="Add to cart"
-											disabled={isLoading[value?.idl_product_code]}
+											onClick={() => {
+												openModal(value);
+											}}
 										>
-											{isLoading[value?.idl_product_code] ? (
-												<Spin size="small" />
-											) : (
-												<BsFillCartCheckFill className="mx-auto" />
-											)}
+											<BsFillCartCheckFill className="mx-auto" />
 										</button>
 									</div>
 								</div>
