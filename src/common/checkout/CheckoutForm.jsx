@@ -8,9 +8,10 @@ import { clearCart } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
 import CountryCodes from "../../../countryCodes.json";
 import NigeriaStates from "../../../nigeriaStates.json";
-import { AiOutlineEdit } from "react-icons/ai";
 
 const { Option } = Select;
+
+//*************************************DISABLED!! ******JUST REFERENCE */
 
 const CheckoutForm = () => {
 	const [form] = Form.useForm();
@@ -23,7 +24,6 @@ const CheckoutForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [selectedCountryCode, setSelectedCountryCode] = useState("+234");
 	const [selectedState, setSelectedState] = useState("");
-	const [componentDisabled, setComponentDisabled] = useState(true);
 	const [orderData, setOrderData] = useState({
 		first_name: "",
 		last_name: "",
@@ -232,23 +232,11 @@ const CheckoutForm = () => {
 
 	return (
 		<>
-			<div className="py-2 flex justify-end">
-				<Button
-					type="ghost"
-					className="flex items-center gap-x-1 text-blue-500 font-semibold tracking-wider hover:text-blue-300"
-					onClick={() => setComponentDisabled(!componentDisabled)}
-				>
-					<AiOutlineEdit />
-					Edit Form
-				</Button>
-			</div>
-
 			<Form
 				form={form}
 				onFinish={onFinish}
 				layout="vertical"
 				className="px-10 mx-auto"
-				disabled={componentDisabled}
 				initialValues={{
 					...orderData,
 				}}

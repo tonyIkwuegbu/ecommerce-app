@@ -11,6 +11,7 @@ import OneProductSkeleton from "./OneProductSkeleton";
 import { add } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
 import SlideSkeleton from "../../components/SlideSkeleton";
+import { formatCurrency } from "../../utils/CurrencyFormat";
 
 const ProductPage = () => {
 	const { id, supplier_id } = useParams();
@@ -255,17 +256,13 @@ const ProductPage = () => {
 										</div>
 										<Divider />
 										<div className="font-semibold tracking-wide ">
-											<h3 className="text-[13px] text-gray-600 py-1 text-center truncate">
+											<h3 className="text-[13px] text-gray-600 py-3 text-center truncate">
 												{value?.name}
 											</h3>
 
-											<p className="py-2 text-[#232f3e] text-xs">
-												Size: <span>{value?.size || "N/A"}</span>
-											</p>
-
 											<div className="price text-center">
 												<h4 className="text-green-500">
-													{formattedAmount.format(value?.naira_price)}
+													{formatCurrency(value?.naira_price)}
 												</h4>
 											</div>
 										</div>
