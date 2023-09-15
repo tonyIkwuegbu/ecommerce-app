@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { makeRequest } from "../Api";
 import ShuffleArray from "../utils/Shuffle";
-import { message } from "antd";
+//import { message } from "antd";
 
 const useFetch = (url) => {
 	const [data, setData] = useState(null);
@@ -17,7 +17,7 @@ const useFetch = (url) => {
 				setShuffledData(ShuffleArray(res.data.data));
 			} catch (error) {
 				console.log(error);
-				message.error(error.message);
+				// message.error(error.message);
 			}
 			setLoading(false);
 		};
