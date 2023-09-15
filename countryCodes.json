@@ -263,12 +263,7 @@
 		"emoji": "🇨🇳",
 		"code": "CN"
 	},
-	{
-		"name": "Christmas Island",
-		"dial_code": "+61",
-		"emoji": "🇨🇽",
-		"code": "CX"
-	},
+
 	{
 		"name": "Cocos (Keeling) Islands",
 		"dial_code": "+61",
