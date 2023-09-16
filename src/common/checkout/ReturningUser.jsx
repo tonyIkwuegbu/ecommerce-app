@@ -1,8 +1,14 @@
-import { Button, Divider } from "antd";
+import { Button, Divider, Spin } from "antd";
 import { useState } from "react";
 import ShippingAddressModal from "./ShippingAddressModal";
 
-const ReturningUser = ({ orderData, orderDetails, loading, onFinish }) => {
+const ReturningUser = ({
+	orderData,
+	orderDetails,
+	loading,
+	onFinish,
+	hasShippingInfo,
+}) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const showModal = () => {
@@ -27,47 +33,55 @@ const ReturningUser = ({ orderData, orderDetails, loading, onFinish }) => {
 			</div>
 
 			<Divider />
+			{hasShippingInfo !== null ? (
+				<>
+					<div className="flex flex-col md:flex-row md:items-center md:justify-between  px-10 text-sm leading-10 tracking-wider">
+						<div>
+							<p>
+								Name:{" "}
+								<span className="font-semibold">
+									{orderData.first_name} {orderData.last_name}
+								</span>
+							</p>
+							<p>
+								Phone Number:{" "}
+								<span className="font-semibold">{orderData.phone}</span>
+							</p>
+							<p>
+								Address:{" "}
+								<span className="font-semibold">{orderData.address_1}</span>
+							</p>
+						</div>
+						<div>
+							<p>
+								City: <span className="font-semibold">{orderData.city}</span>
+							</p>
+							<p>
+								State: <span className="font-semibold">{orderData.state}</span>
+							</p>
+							<p>
+								Email: <span className="font-semibold">{orderData.email}</span>
+							</p>
+						</div>
+					</div>
+					<div className="text-center my-6">
+						<Button
+							type="success"
+							htmlType="button"
+							loading={loading}
+							onClick={onFinish}
+							className="bg-[#ff5c40] text-white"
+						>
+							Submit Order
+						</Button>
+					</div>
+				</>
+			) : (
+				<div className="flex items-center justify-center">
+					<Spin />
+				</div>
+			)}
 
-			<div className="flex flex-col md:flex-row md:items-center md:justify-between  px-10 text-sm leading-10 tracking-wider">
-				<div>
-					<p>
-						Name:{" "}
-						<span className="font-semibold">
-							{orderData.first_name} {orderData.last_name}
-						</span>
-					</p>
-					<p>
-						Phone Number:{" "}
-						<span className="font-semibold">{orderData.phone}</span>
-					</p>
-					<p>
-						Address:{" "}
-						<span className="font-semibold">{orderData.address_1}</span>
-					</p>
-				</div>
-				<div>
-					<p>
-						City: <span className="font-semibold">{orderData.city}</span>
-					</p>
-					<p>
-						State: <span className="font-semibold">{orderData.state}</span>
-					</p>
-					<p>
-						Email: <span className="font-semibold">{orderData.email}</span>
-					</p>
-				</div>
-			</div>
-			<div className="text-center my-6">
-				<Button
-					type="success"
-					htmlType="button"
-					loading={loading}
-					onClick={onFinish}
-					className="bg-[#ff5c40] text-white"
-				>
-					Submit Order
-				</Button>
-			</div>
 			<ShippingAddressModal modalVisible={modalVisible} hideModal={hideModal} />
 		</div>
 	);

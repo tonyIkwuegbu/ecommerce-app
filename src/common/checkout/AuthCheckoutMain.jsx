@@ -243,6 +243,7 @@ const AuthCheckoutMain = () => {
 					orderDetails={orderDetails}
 					loading={loading}
 					onFinish={onFinish}
+					hasShippingInfo={hasShippingInfo}
 				/>
 			) : (
 				<FirstTimeUserForm
