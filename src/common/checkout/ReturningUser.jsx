@@ -2,13 +2,7 @@ import { Button, Divider, Spin } from "antd";
 import { useState } from "react";
 import ShippingAddressModal from "./ShippingAddressModal";
 
-const ReturningUser = ({
-	orderData,
-	orderDetails,
-	loading,
-	onFinish,
-	hasShippingInfo,
-}) => {
+const ReturningUser = ({ orderData, orderDetails, loading, onFinish }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const showModal = () => {
@@ -33,7 +27,7 @@ const ReturningUser = ({
 			</div>
 
 			<Divider />
-			{hasShippingInfo !== null ? (
+			{orderData.first_name ? (
 				<>
 					<div className="flex flex-col md:flex-row md:items-center md:justify-between  px-10 text-sm leading-10 tracking-wider">
 						<div>

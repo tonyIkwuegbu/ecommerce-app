@@ -17,7 +17,7 @@ const AuthCheckoutMain = () => {
 	const user = useSelector((state) => state.auth.user);
 	const orderDetails = useSelector((state) => state.order.order);
 	const [loading, setLoading] = useState(false);
-	const [selectedCountryCode, setSelectedCountryCode] = useState("");
+	const [selectedCountryCode, setSelectedCountryCode] = useState("+234");
 	const [selectedState, setSelectedState] = useState("");
 	const [orderData, setOrderData] = useState({
 		first_name: "",
@@ -83,15 +83,16 @@ const AuthCheckoutMain = () => {
 	}, [fetchAddress]);
 
 	//**************** */ Determine whether the user has shipping information
-	const hasShippingInfo =
-		orderData.first_name &&
-		orderData.last_name &&
-		orderData.address_1 &&
-		orderData.city &&
-		selectedState &&
-		orderData.country &&
-		phoneWithCountryCode &&
-		orderData.email;
+
+	// const hasShippingInfo =
+	// 	orderData.first_name &&
+	// 	orderData.last_name &&
+	// 	orderData.address_1 &&
+	// 	orderData.city &&
+	// 	selectedState &&
+	// 	orderData.country &&
+	// 	phoneWithCountryCode &&
+	// 	orderData.email;
 
 	// Function to check if all required fields are filled
 	const isFormComplete = () => {
@@ -237,13 +238,12 @@ const AuthCheckoutMain = () => {
 
 	return (
 		<>
-			{isAuthenticated && hasShippingInfo !== null ? (
+			{orderData.first_name !== "" ? (
 				<ReturningUser
 					orderData={orderData}
 					orderDetails={orderDetails}
 					loading={loading}
 					onFinish={onFinish}
-					hasShippingInfo={hasShippingInfo}
 				/>
 			) : (
 				<FirstTimeUserForm
