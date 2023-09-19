@@ -82,18 +82,6 @@ const AuthCheckoutMain = () => {
 		fetchAddress();
 	}, [fetchAddress]);
 
-	//**************** */ Determine whether the user has shipping information
-
-	// const hasShippingInfo =
-	// 	orderData.first_name &&
-	// 	orderData.last_name &&
-	// 	orderData.address_1 &&
-	// 	orderData.city &&
-	// 	selectedState &&
-	// 	orderData.country &&
-	// 	phoneWithCountryCode &&
-	// 	orderData.email;
-
 	// Function to check if all required fields are filled
 	const isFormComplete = () => {
 		const {
