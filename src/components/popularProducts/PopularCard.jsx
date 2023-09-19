@@ -53,7 +53,9 @@ const PopularCard = ({ loading, productData }) => {
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (window.innerWidth >= 1024) {
+			if (window.innerWidth >= 1440) {
+				setSlidesToShow(5); //extra-large screens
+			} else if (window.innerWidth >= 1024) {
 				setSlidesToShow(4); // Desktop view
 			} else if (window.innerWidth >= 768) {
 				setSlidesToShow(3); // iPad view
@@ -82,7 +84,7 @@ const PopularCard = ({ loading, productData }) => {
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div className="" key={value?.idl_product_code}>
-							<div className="group h-[96] lg:w-[260px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+							<div className="group h-[96] lg:w-[280px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
 								<div className="h-[200px] w-[200px] mx-auto">
 									<img
 										loading="lazy"

@@ -345,7 +345,7 @@ const Cart = () => {
 					))}
 				</div>
 
-				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[25%] h-[55vh] bg-white">
+				<div className="shadow-lg p-4 my-6 lg:inline-block justify-around tracking-wider w-auto lg:w-[25%] h-[350px] bg-white">
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="text-[#ff5c40]">Order Summary</p>
 						<p>

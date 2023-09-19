@@ -24,10 +24,12 @@ const ArrivalsCard = ({ loading, productData }) => {
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (window.innerWidth >= 1024) {
+			if (window.innerWidth >= 1440) {
+				setSlidesToShow(6); //extra-large screens
+			} else if (window.innerWidth >= 1024) {
 				setSlidesToShow(5); // Desktop view
 			} else if (window.innerWidth >= 768) {
-				setSlidesToShow(4); // iPad view
+				setSlidesToShow(3); // iPad view
 			} else {
 				setSlidesToShow(1); // Mobile view
 			}

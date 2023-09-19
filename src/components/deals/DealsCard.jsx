@@ -54,7 +54,9 @@ const FlashCard = ({ loading, productData }) => {
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (window.innerWidth >= 1024) {
+			if (window.innerWidth >= 1440) {
+				setSlidesToShow(5); //extra-large screens
+			} else if (window.innerWidth >= 1024) {
 				setSlidesToShow(4); // Desktop view
 			} else if (window.innerWidth >= 768) {
 				setSlidesToShow(3); // iPad view

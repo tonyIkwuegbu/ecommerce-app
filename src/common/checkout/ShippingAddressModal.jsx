@@ -69,6 +69,18 @@ const ShippingAddressModal = ({ modalVisible, hideModal }) => {
 	//****************************************************SHIPPING INFO
 
 	const updateShippingInfo = async () => {
+		if (
+			!orderData.first_name ||
+			!orderData.last_name ||
+			!orderData.phone ||
+			!orderData.email ||
+			!selectedState ||
+			!orderData.city ||
+			!orderData.address_1
+		) {
+			message.error("Please fill in all required fields.");
+			return; // Don't proceed with the API call if any required field is empty
+		}
 		if (!isAuthenticated || !user) {
 			return;
 		}
@@ -129,11 +141,15 @@ const ShippingAddressModal = ({ modalVisible, hideModal }) => {
 			]}
 		>
 			<Divider />
+
 			<Form
 				form={form}
 				onFinish={updateShippingInfo}
 				layout="vertical"
 				className="px-4 mx-auto mt-4"
+				initialValues={{
+					country: "Nigeria",
+				}}
 			>
 				<Form.Item
 					label="First Name"
