@@ -15,7 +15,7 @@ const PopularProductMain = () => {
 	// ******************************************************* GET POPULAR PRODUCTS
 
 	const { loading, shuffledData } = useFetch(
-		"/api/v1/ecommerce/product/popular",
+		"/api/v1/ecommerce/product/popular?skip=0&limit=0",
 	);
 
 	/// ******************************************** LOADING STATE

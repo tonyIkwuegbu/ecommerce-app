@@ -14,7 +14,7 @@ const ArrivalMain = () => {
 
 	// ******************************************************* GET PRODUCTS
 	const { loading, shuffledData } = useFetch(
-		"/api/v1/ecommerce/product/newarrival",
+		"/api/v1/ecommerce/product/newarrival?skip=0&limit=0",
 	);
 
 	/// ******************************************** LOADING STATE

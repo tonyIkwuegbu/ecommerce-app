@@ -5,7 +5,7 @@ import useFetch from "../../hooks/useFetch";
 const DealsMain = () => {
 	// ******************************************************* GET TOP DEALS PRODUCTS
 	const { loading, shuffledData } = useFetch(
-		"/api/v1/ecommerce/product/topdeals",
+		"/api/v1/ecommerce/product/topdeals?skip=0&limit=0",
 	);
 
 	return (
