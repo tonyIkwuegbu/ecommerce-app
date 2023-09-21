@@ -22,7 +22,7 @@ import OrdersPage from "./pages/orders";
 import PopularPage from "./pages/popularMainPage/index";
 import ArrivalPage from "./pages/arrivalsPage/index";
 import TopDealMain from "./pages/topDealMain";
-//import CategoryPage from "./pages/categoryPage/CategoryPage";
+import CategoryPage from "./pages/categoryPage/CategoryPage";
 
 function App() {
 	return (
@@ -60,7 +60,7 @@ function App() {
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/product/:id/:supplier_id" element={<Product />} />
-					{/* <Route path="/category/:category" element={<CategoryPage />} /> */}
+					<Route path="/category/:category" element={<CategoryPage />} />
 					{/* 👇️ when no other routes match */}
 					<Route path="*" element={<Pages />} />
 				</Routes>
