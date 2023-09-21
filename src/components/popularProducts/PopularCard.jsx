@@ -122,12 +122,13 @@ const PopularCard = ({ loading, productData }) => {
 													value?.product_variants[0]?.naira_price,
 												)}
 											</div>
-											{value?.product_variants[0]?.product_discount !== "" && (
-												<div className="flex items-center justify-between">
-													<p className=" text-white w-20 text-sm text-center p-2 bg-red-500">
+											{value?.product_variants[0]?.product_discount !==
+												"0%" && (
+												<div className="flex items-center justify-between text-[12px]">
+													<p className="text-white w-16 text-center p-1 bg-red-500">
 														{value?.product_variants[0]?.product_discount} off
 													</p>
-													<p className="text-gray-400 text-sm line-through">
+													<p className="text-gray-400  line-through">
 														{formatCurrency(
 															value?.product_variants[0]?.product_rrp_naira,
 														)}

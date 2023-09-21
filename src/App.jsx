@@ -21,6 +21,8 @@ import Account from "./pages/account";
 import OrdersPage from "./pages/orders";
 import PopularPage from "./pages/popularMainPage/index";
 import ArrivalPage from "./pages/arrivalsPage/index";
+import TopDealMain from "./pages/topDealMain";
+//import CategoryPage from "./pages/categoryPage/CategoryPage";
 
 function App() {
 	return (
@@ -52,11 +54,13 @@ function App() {
 						}
 					/>
 					<Route path="/popular-products" element={<PopularPage />} />
+					<Route path="/top-deals" element={<TopDealMain />} />
 					<Route path="/new-arrivals" element={<ArrivalPage />} />
 					<Route path="/paymentstatus" element={<ConfirmationPage />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/product/:id/:supplier_id" element={<Product />} />
+					{/* <Route path="/category/:category" element={<CategoryPage />} /> */}
 					{/* 👇️ when no other routes match */}
 					<Route path="*" element={<Pages />} />
 				</Routes>
