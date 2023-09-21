@@ -13,7 +13,7 @@ const CategoryPage = () => {
 
 	return (
 		<div>
-			<div></div>
+			<div>To be updated</div>
 		</div>
 	);
 };
