@@ -75,11 +75,13 @@ const ArrivalsCard = ({ loading, productData }) => {
 								/>
 								<div className="py-3 tracking-wider text-center">
 									<h4 className="text-[13px] py-3 font-semibold text-gray-600 truncate">
-										{value?.name}
+										{value?.product_name}
 									</h4>
-									<p className="text-green-500 font-semibold">
-										{formatCurrency(value?.naira_price)}
-									</p>
+									{value?.product_variants?.length > 0 && (
+										<p className="text-green-500 font-semibold">
+											{formatCurrency(value?.product_variants[0]?.naira_price)}
+										</p>
+									)}
 								</div>
 							</div>
 						</div>

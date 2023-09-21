@@ -33,7 +33,7 @@ const SamplePrevArrow = (props) => {
 		</div>
 	);
 };
-const FlashCard = ({ loading, productData }) => {
+const DealsCard = ({ loading, productData }) => {
 	const navigate = useNavigate();
 	const { openModal } = useContext(ModalContext);
 	const [slidesToShow, setSlidesToShow] = useState(4);
@@ -141,19 +141,32 @@ const FlashCard = ({ loading, productData }) => {
 									</div>
 								</div>
 								<Divider />
-								<div className="font-semibold tracking-wider">
-									<h3 className="text-xs text-gray-600 py-1 truncate">
-										{value?.name}
+								<div className="font-semibold tracking-wide">
+									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate capitalize">
+										{value?.product_name}
 									</h3>
-
-									<p className="py-2 text-[#232f3e] text-xs">
-										Size: <span>{value?.size || "N/A"}</span>
-									</p>
-
-									<div className="price flex items-center justify-between">
-										<h4 className="text-green-500">
-											{formatCurrency(value?.naira_price)}
-										</h4>
+									{value?.product_variants?.length > 0 && (
+										<div>
+											<div className="text-green-500 my-4">
+												{formatCurrency(
+													value?.product_variants[0]?.naira_price,
+												)}
+											</div>
+											{value?.product_variants[0]?.product_discount !== "" && (
+												<div className="flex items-center justify-between">
+													<p className=" text-white w-20 text-sm text-center p-2 bg-red-500">
+														{value?.product_variants[0]?.product_discount} off
+													</p>
+													<p className="text-gray-400 text-sm line-through">
+														{formatCurrency(
+															value?.product_variants[0]?.product_rrp_naira,
+														)}
+													</p>
+												</div>
+											)}
+										</div>
+									)}
+									<div className="price pt-3 text-right">
 										<button
 											type="button"
 											onClick={() => {
@@ -172,4 +185,4 @@ const FlashCard = ({ loading, productData }) => {
 	);
 };
 
-export default FlashCard;
+export default DealsCard;

@@ -111,15 +111,32 @@ const PopularCard = ({ loading, productData }) => {
 									</div>
 								</div>
 
-								<div className="font-semibold tracking-wide ">
-									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate">
-										{value?.name}
+								<div className="font-semibold tracking-wide">
+									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate capitalize">
+										{value?.product_name}
 									</h3>
-
-									<div className="price flex items-center tracking-wider justify-between py-3">
-										<h4 className="text-green-500">
-											{formatCurrency(value?.naira_price)}
-										</h4>
+									{value?.product_variants?.length > 0 && (
+										<div>
+											<div className="text-green-500 my-4">
+												{formatCurrency(
+													value?.product_variants[0]?.naira_price,
+												)}
+											</div>
+											{value?.product_variants[0]?.product_discount !== "" && (
+												<div className="flex items-center justify-between">
+													<p className=" text-white w-20 text-sm text-center p-2 bg-red-500">
+														{value?.product_variants[0]?.product_discount} off
+													</p>
+													<p className="text-gray-400 text-sm line-through">
+														{formatCurrency(
+															value?.product_variants[0]?.product_rrp_naira,
+														)}
+													</p>
+												</div>
+											)}
+										</div>
+									)}
+									<div className="price pt-3 text-right">
 										<button
 											type="button"
 											onClick={() => {
@@ -128,18 +145,6 @@ const PopularCard = ({ loading, productData }) => {
 										>
 											<BsFillCartCheckFill className="mx-auto" />
 										</button>
-										{/* <button
-											type="button"
-											onClick={() => handleAddToCart(value)}
-											title="Add to cart"
-											disabled={isLoading[value?.idl_product_code]}
-										>
-											{isLoading[value?.idl_product_code] ? (
-												<Spin size="small" />
-											) : (
-												<BsFillCartCheckFill className="mx-auto" />
-											)}
-										</button> */}
 									</div>
 								</div>
 							</div>
