@@ -7,7 +7,6 @@ import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 import SlideSkeleton from "../SlideSkeleton";
 import { IoIosBasket } from "react-icons/io";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { Divider } from "antd";
 import { useNavigate } from "react-router";
 import { dummy } from "./DealsDummy";
 import { formatCurrency } from "../../utils/CurrencyFormat";
@@ -114,14 +113,14 @@ const DealsCard = ({ loading, productData }) => {
 				{productData?.length > 0 &&
 					productData?.map((value) => (
 						<div className="" key={value?.idl_product_code}>
-							<div className="group h-[96] w-[300px] lg:w-[280px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+							<div className="group h-[390px] w-[300px] lg:w-[280px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
 								<div className="h-[200px] w-[200px] mx-auto">
 									<img
 										loading="lazy"
 										src={value?.main_picture}
-										alt={value?.name}
+										alt={value?.product_name}
 										onError={(e) => {
-											e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL
+											e.target.src = "/images/home-placeholder.jpeg";
 										}}
 										onClick={() =>
 											navigate(
@@ -140,14 +139,14 @@ const DealsCard = ({ loading, productData }) => {
 										<IoIosBasket />
 									</div>
 								</div>
-								<Divider />
+
 								<div className="font-semibold tracking-wide">
-									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate capitalize">
+									<h3 className="text-[13px] text-gray-600 py-3 text-center truncate capitalize">
 										{value?.product_name}
 									</h3>
 									{value?.product_variants?.length > 0 && (
 										<div>
-											<div className="text-green-500 my-4">
+											<div className="text-green-500 my-3">
 												{formatCurrency(
 													value?.product_variants[0]?.naira_price,
 												)}

@@ -62,7 +62,7 @@ const ArrivalsCard = ({ loading, productData }) => {
 								{" "}
 								<img
 									src={value?.main_picture}
-									alt={value?.name}
+									alt={value?.product_name}
 									onError={(e) => {
 										e.target.src = "/images/home-placeholder.jpeg";
 									}}
