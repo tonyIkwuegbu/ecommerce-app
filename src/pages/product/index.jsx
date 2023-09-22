@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { Button, Divider, Image } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import OneProductSkeleton from "./OneProductSkeleton";
+import { MdOutlineArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { add } from "../../store/cartSlice";
 import { useCart } from "../../utils/CartUtils";
 import SlideSkeleton from "../../components/SlideSkeleton";
@@ -27,8 +29,9 @@ const ProductPage = () => {
 	const [product, setProduct] = useState([]);
 	const [productData, setProductData] = useState([]);
 	const [loadingPopular, setLoadingPopular] = useState(false);
-
-	const [slidesToShow, setSlidesToShow] = useState(6);
+	const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+	const [slidesToShow, setSlidesToShow] = useState(5);
+	const [count, setCount] = useState(1);
 
 	const settings = useMemo(
 		() => ({
@@ -44,34 +47,31 @@ const ProductPage = () => {
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (window.innerWidth >= 1024) {
+			if (window.innerWidth >= 1440) {
+				setSlidesToShow(5); //extra-large screens
+			} else if (window.innerWidth >= 1024) {
 				setSlidesToShow(4); // Desktop view
 			} else if (window.innerWidth >= 768) {
-				setSlidesToShow(4); // iPad view
+				setSlidesToShow(3); // iPad view
 			} else {
 				setSlidesToShow(1); // Mobile view
 			}
 		};
 
-		// Set initial slidesToShow based on the current screen size
 		handleResize();
 
-		// Update slidesToShow when the window is resized
 		window.addEventListener("resize", handleResize);
-
-		// Cleanup event listener on component unmount
 		return () => {
 			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
 
 	// ******************************************************* GET POPULAR PRODUCTS
-
 	const getPopularProduct = useCallback(async () => {
 		setLoadingPopular(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/product/popular`,
+				`${api.baseURL}/api/v1/ecommerce/product/popular?skip=0&limit=0`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -98,7 +98,7 @@ const ProductPage = () => {
 		getPopularProduct();
 	}, [getPopularProduct]);
 
-	// ******************************************************* GET PRODUCCT
+	// ******************************************************* GET PRODUCCT DETAILS
 	const getProduct = useCallback(async () => {
 		setLoading(true);
 		try {
@@ -124,10 +124,6 @@ const ProductPage = () => {
 		getProduct();
 	}, [getProduct]);
 
-	if (loading) {
-		return <OneProductSkeleton />;
-	}
-
 	// ******************************************************HANDLE CART
 	const handleAddToCart = async (productItem) => {
 		if (!userIsAuthenticated) {
@@ -151,10 +147,33 @@ const ProductPage = () => {
 		currency: "NGN",
 	});
 
-	/// ******************************************** LOADING STATE FOR POPULAR
+	/// ******************************************** LOADING STATE
+	if (loading) {
+		return <OneProductSkeleton />;
+	}
+
 	if (loadingPopular) {
 		return <SlideSkeleton />;
 	}
+
+	// ******************************************************************** HANDLERS
+	const variants = product?.product_variants || [];
+
+	const handleVariantSelection = (index) => {
+		setSelectedVariantIndex(index);
+	};
+
+	const handleNextVariant = () => {
+		if (selectedVariantIndex < variants.length - 1) {
+			setSelectedVariantIndex(selectedVariantIndex + 1);
+		}
+	};
+
+	const handlePreviousVariant = () => {
+		if (selectedVariantIndex > 0) {
+			setSelectedVariantIndex(selectedVariantIndex - 1);
+		}
+	};
 
 	return (
 		<div className="max-w-[98%]">
@@ -163,7 +182,7 @@ const ProductPage = () => {
 					<Image
 						loading="lazy"
 						src={product?.main_picture}
-						alt={product?.name}
+						alt={product?.product_name}
 						width={400}
 						height={400}
 						className="object-cover"
@@ -171,40 +190,113 @@ const ProductPage = () => {
 				</div>
 				<div>
 					<h4 className="text-gray-500 text-sm lg:text-2xl text-center lg:text-left">
-						{product?.name}
+						{product?.product_name}
 					</h4>
-					<p className="py-3 text-green-500 text-center lg:text-left text-sm lg:text-lg font-semibold tracking-wider">
-						{formattedAmount.format(product?.naira_price)}
-					</p>
-					<Divider style={{ backgroundColor: "gray", opacity: "0.3" }} />
-					<div className="flex items-center space-x-6 text-xs lg:text-sm font-semibold">
-						<p>
+					<div>
+						{product?.product_variants &&
+							product?.product_variants.length > 0 && (
+								<>
+									<p className="py-3 text-green-500 text-center lg:text-left text-sm lg:text-lg font-semibold tracking-wider">
+										{formattedAmount.format(
+											product?.product_variants[selectedVariantIndex]
+												?.naira_price,
+										)}
+									</p>
+									<Divider
+										style={{ backgroundColor: "gray", opacity: "0.3" }}
+									/>
+									<div className="flex items-center gap-x-4 text-sm py-1">
+										<h3>Product Variants</h3>
+										<div>
+											<button
+												onClick={handlePreviousVariant}
+												disabled={selectedVariantIndex === 0}
+												className="bg-black text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
+											>
+												<MdArrowBackIosNew />
+											</button>
+											{variants.map((variant, index) => (
+												<button
+													key={index}
+													onClick={() => handleVariantSelection(index)}
+													className={`mx-2 text-lg ${
+														selectedVariantIndex === index
+															? "text-[#ff5c40]"
+															: ""
+													}`}
+												>
+													{index + 1}
+												</button>
+											))}
+											<button
+												onClick={handleNextVariant}
+												disabled={selectedVariantIndex === variants.length - 1}
+												className="bg-black text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
+											>
+												<MdOutlineArrowForwardIos />
+											</button>
+										</div>
+									</div>{" "}
+									<div className="text-black font-semibold text-sm">
+										<p className="py-1">
+											Colour:{" "}
+											<span className="">
+												{product?.product_variants[selectedVariantIndex]
+													?.colour || "N/A"}
+											</span>
+										</p>
+										<p className="py-1">
+											Size:{" "}
+											<span className="text-gray-600">
+												{product?.product_variants[selectedVariantIndex]
+													?.size || "N/A"}
+											</span>
+										</p>
+										<p className="py-2">
+											Stock Quantity:{" "}
+											<span className="text-gray-600">
+												{product?.product_variants[selectedVariantIndex]
+													?.stock_quantity || "N/A"}
+											</span>
+										</p>
+									</div>
+								</>
+							)}
+					</div>
+
+					<div className="text-black font-semibold text-sm">
+						<p className="py-2">
 							Brand:{" "}
-							<span className="text-gray-500">{product?.brand || "N/A"}</span>
+							<span className="text-gray-600">{product?.brand || "N/A"}</span>
+						</p>
+						<p className="py-2">
+							Product Code:{" "}
+							<span className="text-green-600">
+								{product?.idl_product_code || "N/A"}
+							</span>
 						</p>
 					</div>
-					<div>
-						<div className="flex items-center space-x-6 text-xs lg:text-sm mt-4">
-							<p>
-								Size:{" "}
-								<span className="text-[#ff5c00] font-semibold">
-									{product?.size || "N/A"}
-								</span>
-							</p>
-							<p>
-								Color:{" "}
-								<span className="text-gray-500 font-semibold">
-									{product?.colour || "N/A"}
-								</span>
-							</p>
+					<div className="flex items-center gap-x-4 text-sm py-3">
+						<h3>Quantity</h3>
+						<div>
+							<button
+								onClick={() => setCount((prev) => prev - 1)}
+								disabled={count === 1 ? true : false}
+								className="bg-[#ff5c40] text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
+							>
+								<AiOutlineMinus />
+							</button>
+
+							<button className="mx-2 text-lg">{count}</button>
+
+							<button
+								onClick={() => setCount((prev) => prev + 1)}
+								className="bg-[#ff5c40] text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
+							>
+								<AiOutlinePlus />
+							</button>
 						</div>
 					</div>
-					<p className="mt-4 text-xs lg:text-sm">
-						Product Code:{" "}
-						<span className="text-green-600 font-semibold">
-							{product?.idl_product_code || "N/A"}
-						</span>
-					</p>
 					<Divider style={{ backgroundColor: "gray", opacity: "0.3" }} />
 					<div className="my-5">
 						<p className="mt-4 text-xs lg:text-sm">
@@ -219,8 +311,9 @@ const ProductPage = () => {
 						<Button
 							type="success"
 							loading={isLoading}
+							disabled
 							onClick={() => handleAddToCart(product)}
-							className="bg-green-500 text-white hover:bg-green-400 w-[100%] lg:w-[70%]"
+							className="bg-green-500 text-white hover:bg-green-400 w-[100%] lg:w-[70%] disabled:cursor-not-allowed disabled:bg-gray-400"
 						>
 							Add to Cart
 						</Button>
@@ -255,15 +348,19 @@ const ProductPage = () => {
 											/>
 										</div>
 										<Divider />
-										<div className="font-semibold tracking-wide ">
-											<h3 className="text-[13px] text-gray-600 py-3 text-center truncate">
-												{value?.name}
-											</h3>
+										<div className="font-semibold tracking-wide">
+											<h4 className="text-[13px] text-gray-600 py-3 text-center truncate">
+												{value?.product_name}
+											</h4>
 
 											<div className="price text-center">
-												<h4 className="text-green-500">
-													{formatCurrency(value?.naira_price)}
-												</h4>
+												{value?.product_variants?.length > 0 && (
+													<p className="text-green-500 font-semibold">
+														{formatCurrency(
+															value?.product_variants[0]?.naira_price,
+														)}
+													</p>
+												)}
 											</div>
 										</div>
 									</div>
