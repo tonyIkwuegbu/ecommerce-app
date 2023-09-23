@@ -5,13 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Cart from "./common/Cart/Cart";
 import RootLayout from "./RootLayout";
-import Men from "./pages/men";
-import Women from "./pages/women";
 import Product from "./pages/product";
 import "react-loading-skeleton/dist/skeleton.css";
-import AllChildren from "./pages/children";
-import AllBeauty from "./pages/beauty";
-import AllEssentials from "./pages/essentials";
 import Checkout from "./common/checkout/Checkout";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import Register from "./pages/Register";
@@ -31,11 +26,6 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Pages />} />
 					<Route path="/cart" element={<Cart />} />
-					<Route path="/category/men" element={<Men />} />
-					<Route path="/category/women" element={<Women />} />
-					<Route path="/category/children" element={<AllChildren />} />
-					<Route path="/category/beauty" element={<AllBeauty />} />
-					<Route path="/category/home_essentials" element={<AllEssentials />} />
 					<Route path="/checkout" element={<Checkout />} />
 					<Route
 						path="/my-account"
