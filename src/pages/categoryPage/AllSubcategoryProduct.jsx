@@ -11,6 +11,7 @@ import { api } from "../../Api";
 import Axios from "axios";
 
 const AllSubcategoryProduct = ({ selectedSubcategory, categoryName }) => {
+	console.log(categoryName);
 	const navigate = useNavigate();
 	const { openModal } = useContext(ModalContext);
 	const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const AllSubcategoryProduct = ({ selectedSubcategory, categoryName }) => {
 		setLoading(true);
 		try {
 			const fetchProduct = await Axios.get(
-				`/api/v1/ecommerce/product/category/${categoryName}/${selectedSubcategory}?skip=0&limit=20`,
+				`/api/v1/ecommerce/product/category/${categoryName}/${selectedSubcategory}?skip=0&limit=0`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -29,7 +30,7 @@ const AllSubcategoryProduct = ({ selectedSubcategory, categoryName }) => {
 					},
 				},
 			);
-			console.log("hello", fetchProduct.data.data);
+			// console.log("hello", fetchProduct.data.data);
 			setProductData(fetchProduct.data.data);
 			setLoading(false);
 		} catch (error) {
@@ -45,10 +46,6 @@ const AllSubcategoryProduct = ({ selectedSubcategory, categoryName }) => {
 	// *************************************************** LOADING STATE
 	if (loading) {
 		return <ProductSkeleton />;
-	}
-
-	if (productData?.length === 0) {
-		return [];
 	}
 
 	return (

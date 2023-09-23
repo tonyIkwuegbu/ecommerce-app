@@ -85,7 +85,7 @@ const CategoryPage = () => {
 		setLoading(true);
 		try {
 			const fetchData = await Axios.get(
-				`${api.baseURL}/api/v1/ecommerce/product/category/${decodedCategory}?skip=0&limit=20`,
+				`${api.baseURL}/api/v1/ecommerce/product/category/${decodedCategory}?skip=0&limit=0`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -131,12 +131,17 @@ const CategoryPage = () => {
 				{loading ? (
 					<Spin />
 				) : allSubcategories && allSubcategories.length > 0 ? (
-					<Slider
-						{...settings}
-						className="flex items-center justify-around text-gray-700"
-					>
+					<Slider {...settings}>
 						{allSubcategories.map((value, index) => (
-							<div key={`${value}-${index}`}>
+							<div
+								key={`${value}-${index}`}
+								className={`cursor-pointer ${
+									value === selectedSubcategory
+										? "text-[#ff5c40] font-semibold"
+										: ""
+								}`}
+								onClick={() => handleSubcategoryClick(value)}
+							>
 								<p className="cursor-pointer">{value}</p>
 							</div>
 						))}
