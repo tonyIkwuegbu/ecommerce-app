@@ -8,7 +8,7 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import { formatCurrency } from "../../utils/CurrencyFormat";
 import { ModalContext } from "../../utils/ModalContext";
 
-const AllWomen = ({ data, loading }) => {
+const AllMen = ({ data, loading }) => {
 	const navigate = useNavigate();
 	const { openModal } = useContext(ModalContext);
 	//const [count, setCount] = useState([]);
@@ -100,4 +100,4 @@ const AllWomen = ({ data, loading }) => {
 	);
 };
 
-export default AllWomen;
+export default AllMen;

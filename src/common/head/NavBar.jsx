@@ -42,52 +42,6 @@ const Navbar = () => {
 		setIsOpen(false);
 	};
 
-	// ****** Menu data map
-	// const items = [
-	// 	{
-	// 		key: "1",
-	// 		label: "Men",
-	// 		icon: <FcBusinessman />,
-	// 		path: "/category/men",
-	// 	},
-	// 	{
-	// 		key: "2",
-	// 		label: "Women",
-	// 		icon: <FcBusinesswoman />,
-	// 		path: "/category/women",
-	// 	},
-	// 	{
-	// 		key: "3",
-	// 		label: "Children",
-	// 		icon: <FaBaby />,
-	// 		path: "/category/children",
-	// 	},
-	// 	{
-	// 		key: "4",
-	// 		label: "Beauty",
-	// 		icon: <GiHealthIncrease />,
-	// 		path: "/category/beauty",
-	// 	},
-	// 	{
-	// 		key: "5",
-	// 		label: "Home Essentials",
-	// 		icon: <GiOilySpiral />,
-	// 		path: "/category/home_essentials",
-	// 	},
-	// 	{
-	// 		key: "6",
-	// 		label: "Bags",
-	// 		icon: <BiShoppingBag />,
-	// 		path: "/#",
-	// 	},
-	// 	{
-	// 		key: "7",
-	// 		label: "Electronics",
-	// 		icon: <GiPlug />,
-	// 		path: "/#",
-	// 	},
-	// ];
-
 	return (
 		<div className="flex items-center justify-between">
 			<div className="relative inline-block">
@@ -112,9 +66,13 @@ const Navbar = () => {
 										to={`/category/${encodeURIComponent(
 											item.category.replace(/ /g, "-").replace(/&/g, "and"),
 										)}`}
-										className={`dropdown-item ${
-											location.pathname === `/category/${item.category}`
-												? "active"
+										className={` ${
+											location.pathname.startsWith(
+												`/category/${encodeURIComponent(
+													item.category.replace(/ /g, "-").replace(/&/g, "and"),
+												)}`,
+											)
+												? "text-[#ff5c00] font-semibold"
 												: ""
 										}  leading-8 cursor-pointer  hover:font-semibold hover:text-[#ff5c00]`}
 										onClick={handleCloseDropdown}
