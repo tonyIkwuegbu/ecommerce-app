@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../Api";
 import Slider from "react-slick";
@@ -11,16 +11,15 @@ import OneProductSkeleton from "./OneProductSkeleton";
 import { MdOutlineArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { add } from "../../store/cartSlice";
-import { useCart } from "../../utils/CartUtils";
+import { CartContext } from "../../utils/CartUtils";
 import SlideSkeleton from "../../components/SlideSkeleton";
 import { formatCurrency } from "../../utils/CurrencyFormat";
 
 const ProductPage = () => {
 	const { id, supplier_id } = useParams();
-	const { addToCartApi } = useCart();
+	const { addToCartApi } = useContext(CartContext);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const user = useSelector((state) => state.auth.user);
 	const userIsAuthenticated = useSelector(
 		(state) => state.auth.isAuthenticated,
 	);
@@ -86,7 +85,6 @@ const ProductPage = () => {
 				[shuffledData[i], shuffledData[j]] = [shuffledData[j], shuffledData[i]];
 			}
 
-			// Set the first 20 elements as the product data
 			setProductData(shuffledData.slice(0, 20));
 			setLoadingPopular(false);
 		} catch (error) {
@@ -125,15 +123,68 @@ const ProductPage = () => {
 	}, [getProduct]);
 
 	// ******************************************************HANDLE CART
-	const handleAddToCart = async (productItem) => {
+	const handleAddToCart = async () => {
+		//payload
+		const productItem = {
+			product_name: product?.product_name || "",
+			idl_product_code: product?.idl_product_code || "",
+			product_sku:
+				product?.product_variants[selectedVariantIndex]?.product_sku || "",
+			product_id:
+				product?.product_variants[selectedVariantIndex]?.product_id || "",
+			category: product?.category || "",
+			sub_category: product?.sub_category || "",
+			main_picture: product?.main_picture || "",
+			supplier_id: product?.supplier_id || "",
+			quantity: count.toString(),
+			naira_price:
+				product?.product_variants[selectedVariantIndex]?.naira_price || "",
+			product_cost:
+				product?.product_variants[selectedVariantIndex]?.product_cost || "",
+			currency: product?.product_variants[selectedVariantIndex]?.currency || "",
+			currency_adder:
+				product?.product_variants[selectedVariantIndex]?.currency_adder || "",
+			exchange_rate:
+				product?.product_variants[selectedVariantIndex]?.exchange_rate || "",
+			size: product?.product_variants[selectedVariantIndex]?.size || "",
+			colour: product?.product_variants[selectedVariantIndex]?.colour || "",
+			weight: product?.product_variants[selectedVariantIndex]?.weight || "",
+			brand: product?.brand || "",
+			description: product?.description || "",
+			made_in: product?.made_in || "",
+			material: product?.material || "",
+		};
 		if (!userIsAuthenticated) {
-			dispatch(add(productItem)); // Handle non-authenticated user's cart
-			return; // Exit the function early if the user is not authenticated
+			// Handle non-authenticated user's cart
+			dispatch(add(productItem));
+			return;
 		}
 
 		try {
 			setIsLoading(true);
-			await addToCartApi(user, productItem.idl_product_code);
+			await addToCartApi(
+				product?.product_name || "",
+				product?.idl_product_code || "",
+				product?.product_variants[selectedVariantIndex]?.product_sku || "",
+				product?.product_variants[selectedVariantIndex]?.product_id || "",
+				product?.category || "",
+				product?.sub_category || "",
+				product?.main_picture || "",
+				product?.supplier_id || "",
+				product?.product_variants[selectedVariantIndex]?.naira_price || "",
+				product?.product_variants[selectedVariantIndex]?.product_cost || "",
+				product?.product_variants[selectedVariantIndex]?.currency || "",
+				product?.product_variants[selectedVariantIndex]?.currency_adder || "",
+				product?.product_variants[selectedVariantIndex]?.exchange_rate || "",
+				product?.product_variants[selectedVariantIndex]?.size || "",
+				product?.product_variants[selectedVariantIndex]?.colour || "",
+				product?.product_variants[selectedVariantIndex]?.weight || "",
+				product?.brand || "",
+				product?.description || "",
+				product?.made_in || "",
+				product?.material || "",
+				count.toString(),
+			);
 		} catch (error) {
 			console.log("Error adding item to cart:", error);
 		} finally {
@@ -173,6 +224,13 @@ const ProductPage = () => {
 		if (selectedVariantIndex > 0) {
 			setSelectedVariantIndex(selectedVariantIndex - 1);
 		}
+	};
+
+	const handleIncreaseQty = () => {
+		setCount((prev) => prev + 1);
+	};
+	const handleDecreaseQty = () => {
+		setCount((prev) => prev - 1);
 	};
 
 	return (
@@ -280,7 +338,7 @@ const ProductPage = () => {
 						<h3>Quantity</h3>
 						<div>
 							<button
-								onClick={() => setCount((prev) => prev - 1)}
+								onClick={() => handleDecreaseQty(product)}
 								disabled={count === 1 ? true : false}
 								className="bg-[#ff5c40] text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
 							>
@@ -290,7 +348,7 @@ const ProductPage = () => {
 							<button className="mx-2 text-lg">{count}</button>
 
 							<button
-								onClick={() => setCount((prev) => prev + 1)}
+								onClick={() => handleIncreaseQty(product)}
 								className="bg-[#ff5c40] text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
 							>
 								<AiOutlinePlus />
@@ -311,9 +369,9 @@ const ProductPage = () => {
 						<Button
 							type="success"
 							loading={isLoading}
+							onClick={handleAddToCart}
 							disabled
-							onClick={() => handleAddToCart(product)}
-							className="bg-green-500 text-white hover:bg-green-400 w-[100%] lg:w-[70%] disabled:cursor-not-allowed disabled:bg-gray-400"
+							className="bg-green-500 rounded-none text-white hover:bg-green-400 w-[100%] lg:w-[70%] disabled:cursor-not-allowed disabled:bg-gray-400"
 						>
 							Add to Cart
 						</Button>

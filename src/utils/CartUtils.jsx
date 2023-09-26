@@ -1,23 +1,24 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 import Axios from "axios";
 import { message } from "antd";
 import { api } from "../Api";
 import { useSelector } from "react-redux";
 
-const CartContext = createContext();
+export const CartContext = createContext();
 
-export const useCart = () => {
-	const cartContext = useContext(CartContext);
-	if (!cartContext) {
-		throw new Error("useCart must be used within a CartProvider");
-	}
-	return cartContext;
-};
+// export const useCart = () => {
+// 	const cartContext = useContext(CartContext);
+// 	if (!cartContext) {
+// 		throw new Error("useCart must be used within a CartProvider");
+// 	}
+// 	return cartContext;
+// };
 
 export const CartProvider = ({ children }) => {
 	const user = useSelector((state) => state.auth.user);
 	const [totalCartItemCount, setTotalCartItemCount] = useState(0);
 
+	// ********************************************* FETCH CART ITEMS
 	const fetchUserCart = async () => {
 		try {
 			const response = await Axios.get(
@@ -37,29 +38,73 @@ export const CartProvider = ({ children }) => {
 		}
 	};
 
-	const addToCartApi = async (user, productId) => {
-		try {
-			const response = await Axios.post(
-				`${api.baseURL}/api/v1/ecommerce/cart/record/${user?.email}`,
-				{ idl_product_code: productId },
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"x-access-token": api.token,
-					},
-				},
-			);
-
-			// Increment the total count when adding an item to the cart
-			setTotalCartItemCount((prevCount) => prevCount + 1);
-			message.success(response.data.message);
-			return response.data.data;
-		} catch (error) {
-			console.log("Error adding to cart:", error);
-			message.error(`${error.response.data.message}`);
-		}
+	// ***************************************************************** ADD TO CART
+	const addToCartApi = async (
+		product_name,
+		idl_product_code,
+		product_sku,
+		product_id,
+		category,
+		sub_category,
+		main_picture,
+		supplier_id,
+		naira_price,
+		product_cost,
+		currency,
+		currency_adder,
+		exchange_rate,
+		size,
+		colour,
+		weight,
+		brand,
+		description,
+		made_in,
+		material,
+		quantity,
+	) => {
+		const params = {
+			product_name,
+			idl_product_code,
+			product_sku,
+			product_id,
+			category,
+			sub_category,
+			main_picture,
+			supplier_id,
+			naira_price,
+			product_cost,
+			currency,
+			currency_adder,
+			exchange_rate,
+			size,
+			colour,
+			weight,
+			brand,
+			description,
+			made_in,
+			material,
+			quantity,
+		};
+		await Axios(`${api.baseURL}/api/v1/ecommerce/cart/record/${user?.email}`, {
+			method: "POST",
+			data: JSON.stringify(params),
+			headers: {
+				"Content-Type": "application/json",
+				"x-access-token": `${api.token}`,
+			},
+		})
+			.then((response) => {
+				setTotalCartItemCount((prevCount) => prevCount + 1);
+				message.success(response.data.message);
+				return response.data.data;
+			})
+			.catch((err) => {
+				console.log("Error adding to cart:", err);
+				message.error(`${err.response.data.message}`);
+			});
 	};
 
+	// *************************************** CLEAR CART
 	const clearCartItems = async () => {
 		try {
 			const response = await Axios.delete(

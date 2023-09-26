@@ -4,12 +4,21 @@ import { Button, Divider, Image, Modal } from "antd";
 import { MdOutlineArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { formatCurrency } from "../utils/CurrencyFormat";
+import { useDispatch, useSelector } from "react-redux";
+import { CartContext } from "../utils/CartUtils";
+import { add } from "../store/cartSlice";
 
 const ProductModal = () => {
+	const { addToCartApi } = useContext(CartContext);
+	const dispatch = useDispatch();
+	const userIsAuthenticated = useSelector(
+		(state) => state.auth.isAuthenticated,
+	);
 	const { isModalOpen, modalProduct, closeModal } = useContext(ModalContext);
 	const [modalWidth, setModalWidth] = useState("100%");
 	const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
 	const [count, setCount] = useState(1);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -44,6 +53,76 @@ const ProductModal = () => {
 	const handlePreviousVariant = () => {
 		if (selectedVariantIndex > 0) {
 			setSelectedVariantIndex(selectedVariantIndex - 1);
+		}
+	};
+
+	// ******************************************************HANDLE CART
+	const handleAddToCart = async (product) => {
+		//payload
+		const productItem = {
+			product_name: product?.product_name || "",
+			idl_product_code: product?.idl_product_code || "",
+			product_sku:
+				product?.product_variants[selectedVariantIndex]?.product_sku || "",
+			product_id:
+				product?.product_variants[selectedVariantIndex]?.product_id || "",
+			category: product?.category || "",
+			sub_category: product?.sub_category || "",
+			main_picture: product?.main_picture || "",
+			supplier_id: product?.supplier_id || "",
+			quantity: count.toString(),
+			naira_price:
+				product?.product_variants[selectedVariantIndex]?.naira_price || "",
+			product_cost:
+				product?.product_variants[selectedVariantIndex]?.product_cost || "",
+			currency: product?.product_variants[selectedVariantIndex]?.currency || "",
+			currency_adder:
+				product?.product_variants[selectedVariantIndex]?.currency_adder || "",
+			exchange_rate:
+				product?.product_variants[selectedVariantIndex]?.exchange_rate || "",
+			size: product?.product_variants[selectedVariantIndex]?.size || "",
+			colour: product?.product_variants[selectedVariantIndex]?.colour || "",
+			weight: product?.product_variants[selectedVariantIndex]?.weight || "",
+			brand: product?.brand || "",
+			description: product?.description || "",
+			made_in: product?.made_in || "",
+			material: product?.material || "",
+		};
+		if (!userIsAuthenticated) {
+			// Handle non-authenticated user's cart
+			dispatch(add(productItem));
+			return;
+		}
+
+		try {
+			setIsLoading(true);
+			await addToCartApi(
+				product?.product_name || "",
+				product?.idl_product_code || "",
+				product?.product_variants[selectedVariantIndex]?.product_sku || "",
+				product?.product_variants[selectedVariantIndex]?.product_id || "",
+				product?.category || "",
+				product?.sub_category || "",
+				product?.main_picture || "",
+				product?.supplier_id || "",
+				product?.product_variants[selectedVariantIndex]?.naira_price || "",
+				product?.product_variants[selectedVariantIndex]?.product_cost || "",
+				product?.product_variants[selectedVariantIndex]?.currency || "",
+				product?.product_variants[selectedVariantIndex]?.currency_adder || "",
+				product?.product_variants[selectedVariantIndex]?.exchange_rate || "",
+				product?.product_variants[selectedVariantIndex]?.size || "",
+				product?.product_variants[selectedVariantIndex]?.colour || "",
+				product?.product_variants[selectedVariantIndex]?.weight || "",
+				product?.brand || "",
+				product?.description || "",
+				product?.made_in || "",
+				product?.material || "",
+				count.toString(),
+			);
+		} catch (error) {
+			console.log("Error adding item to cart:", error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -189,10 +268,10 @@ const ProductModal = () => {
 					<div className="mt-16">
 						<Button
 							type="success"
-							//loading={isLoading}
+							loading={isLoading}
 							disabled
-							//onClick={() => handleAddToCart(product)}
-							className="bg-green-500 text-white hover:bg-green-400 w-[100%] lg:w-[70%] disabled:cursor-not-allowed disabled:bg-gray-400"
+							onClick={() => handleAddToCart(modalProduct)}
+							className="bg-green-500 text-white rounded-none hover:bg-green-400 w-[100%] lg:w-[70%] disabled:cursor-not-allowed disabled:bg-gray-400"
 						>
 							Add to Cart
 						</Button>
