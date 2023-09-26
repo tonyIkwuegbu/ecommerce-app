@@ -14,7 +14,6 @@ import { decreaseQty, increaseQty, remove } from "../../store/cartSlice";
 const Cart = () => {
 	const navigate = useNavigate();
 	const cartItems = useSelector((state) => state.cart);
-
 	const dispatch = useDispatch();
 	const [itemToDelete, setItemToDelete] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -105,23 +104,37 @@ const Cart = () => {
 	const generateID = async () => {
 		setLoading(true);
 
-		const params = JSON.stringify({
+		const params = {
 			products: cartItems.map((item) => ({
 				idl_product_code: item.idl_product_code,
 				supplier_id: item.supplier_id,
-				amount: parseFloat(item.naira_price),
+				naira_price: parseFloat(item.naira_price),
 				weight: item.weight,
 				main_picture: item.main_picture,
 				colour: item.colour,
 				size: item.size,
-				product_name: item.name,
+				product_name: item.product_name,
+				product_sku: item.product_sku,
 				quantity: item.quantity,
+				brand: item.brand,
+				category: item.category,
+				description: item.description,
+				exchange_rate: item.exchange_rate,
+				product_cost: item.product_cost,
+				currency: item.currency,
+				currency_adder: item.currency_adder,
+				made_in: item.made_in,
+				material: item.material,
+				sub_category: item.sub_category,
+				product_id: item.product_id,
 			})),
-		});
+		};
+
+		const paramsString = JSON.stringify(params);
 
 		await Axios(`${api.baseURL}/api/v1/ecommerce/generate/ordersummary`, {
 			method: "POST",
-			data: params,
+			data: paramsString,
 			headers: {
 				"Content-Type": "application/json",
 				"x-access-token": `${api.token}`,
@@ -185,14 +198,14 @@ const Cart = () => {
 											? "/images/home-placeholder.jpeg"
 											: cartItem.main_picture
 									}
-									alt={cartItem.name}
+									alt={cartItem.product_name}
 									className="pb-8 lg:pb-0"
 									style={{ width: "100px", height: "auto" }}
 								/>
 
 								<div className="flex-col">
 									<h4 className="text-gray-500 text-xs lg:text-sm">
-										{cartItem.name}
+										{cartItem.product_name}
 									</h4>
 
 									<p className="font-semibold text-xs lg:sm py-3">
