@@ -78,7 +78,7 @@ const Checkout = () => {
 										<p className=" py-1">
 											Unit Price:{" "}
 											<span className="text-green-600">
-												{formattedAmount.format(cartItem.amount)}
+												{formattedAmount.format(cartItem.naira_price)}
 											</span>{" "}
 										</p>
 										<p className="py-1">
