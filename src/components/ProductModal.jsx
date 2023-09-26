@@ -9,7 +9,8 @@ import { CartContext } from "../utils/CartUtils";
 import { add } from "../store/cartSlice";
 
 const ProductModal = () => {
-	const { addToCartApi } = useContext(CartContext);
+	const { addToCartApi, quantityCount, setQuantityCount } =
+		useContext(CartContext);
 	const dispatch = useDispatch();
 	const userIsAuthenticated = useSelector(
 		(state) => state.auth.isAuthenticated,
@@ -117,7 +118,7 @@ const ProductModal = () => {
 				product?.description || "",
 				product?.made_in || "",
 				product?.material || "",
-				count.toString(),
+				quantityCount.toString(),
 			);
 		} catch (error) {
 			console.log("Error adding item to cart:", error);
@@ -126,6 +127,21 @@ const ProductModal = () => {
 		}
 	};
 
+	// ******************************HANDLERS-QUANTITY
+	const handleIncreaseQty = () => {
+		if (userIsAuthenticated) {
+			setQuantityCount((prev) => prev + 1);
+		} else {
+			setCount((prev) => prev + 1);
+		}
+	};
+	const handleDecreaseQty = () => {
+		if (userIsAuthenticated) {
+			setQuantityCount((prev) => prev - 1);
+		} else {
+			setCount((prev) => prev - 1);
+		}
+	};
 	return (
 		<Modal
 			open={isModalOpen}
@@ -238,17 +254,23 @@ const ProductModal = () => {
 						<h3>Quantity</h3>
 						<div>
 							<button
-								onClick={() => setCount((prev) => prev - 1)}
-								disabled={count === 1 ? true : false}
+								onClick={() => handleDecreaseQty(modalProduct)}
+								disabled={
+									(userIsAuthenticated ? quantityCount : count) === 1
+										? true
+										: false
+								}
 								className="bg-[#ff5c40] text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
 							>
 								<AiOutlineMinus />
 							</button>
 
-							<button className="mx-2 text-lg">{count}</button>
+							<button className="mx-2 text-lg">
+								{userIsAuthenticated ? quantityCount : count}
+							</button>
 
 							<button
-								onClick={() => setCount((prev) => prev + 1)}
+								onClick={() => handleIncreaseQty(modalProduct)}
 								className="bg-[#ff5c40] text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
 							>
 								<AiOutlinePlus />
@@ -269,7 +291,6 @@ const ProductModal = () => {
 						<Button
 							type="success"
 							loading={isLoading}
-							disabled
 							onClick={() => handleAddToCart(modalProduct)}
 							className="bg-green-500 text-white rounded-none hover:bg-green-400 w-[100%] lg:w-[70%] disabled:cursor-not-allowed disabled:bg-gray-400"
 						>
