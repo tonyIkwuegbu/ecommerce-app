@@ -169,13 +169,25 @@ const AuthCheckoutMain = () => {
 				return {
 					idl_product_code: item.idl_product_code,
 					supplier_id: item.supplier_id,
-					amount: item.amount,
+					naira_price: parseFloat(item.naira_price),
 					weight: item.weight,
 					main_picture: item.main_picture,
 					colour: item.colour,
 					size: item.size,
 					product_name: item.product_name,
 					quantity: item.quantity,
+					product_sku: item.product_sku,
+					brand: item.brand,
+					category: item.category,
+					sub_category: item.sub_category,
+					description: item.description,
+					exchange_rate: item.exchange_rate,
+					product_cost: item.product_cost,
+					currency: item.currency,
+					currency_adder: item.currency_adder,
+					made_in: item.made_in,
+					material: item.material,
+					product_id: item.product_id,
 				};
 			}),
 			total_amount: orderDetails.total_amount,
@@ -186,7 +198,7 @@ const AuthCheckoutMain = () => {
 		if (saveDetails) {
 			saveShippingInfo();
 		}
-		await Axios(`${api.baseURL}/api/v1/ecommerce/order/creat`, {
+		await Axios(`${api.baseURL}/api/v1/ecommerce/order/create`, {
 			method: "POST",
 			data: JSON.stringify(params),
 			headers: {
