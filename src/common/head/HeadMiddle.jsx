@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoPersonCircle } from "react-icons/io5";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { useState } from "react";
-import { useCart } from "../../utils/CartUtils";
+import { useContext, useState } from "react";
+import { CartContext } from "../../utils/CartUtils";
 
 const { Search } = Input;
 
@@ -30,7 +30,7 @@ const HeadMiddle = () => {
 	const cartItems = useSelector((state) => state.cart);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const { totalCartItemCount } = useCart();
+	const { totalCartItemCount } = useContext(CartContext);
 
 	const handleDropdownToggle = () => {
 		setIsDropdownOpen((prevState) => !prevState);

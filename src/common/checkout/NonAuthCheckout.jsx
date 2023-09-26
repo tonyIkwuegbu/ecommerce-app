@@ -1,11 +1,11 @@
 import { Form, Input, Select, Button, message } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Axios from "axios";
 import { api } from "../../Api";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../store/cartSlice";
-import { useCart } from "../../utils/CartUtils";
+import { CartContext } from "../../utils/CartUtils";
 import CountryCodes from "../../../countryCodes.json";
 import NigeriaStates from "../../../nigeriaStates.json";
 
@@ -14,7 +14,7 @@ const { Option } = Select;
 const NonAuthCheckout = () => {
 	const [form] = Form.useForm();
 	const dispatch = useDispatch();
-	const { clearCartItems } = useCart();
+	const { clearCartItems } = useContext(CartContext);
 	const orderDetails = useSelector((state) => state.order.order);
 	const [loading, setLoading] = useState(false);
 	const [selectedCountryCode, setSelectedCountryCode] = useState("+234");

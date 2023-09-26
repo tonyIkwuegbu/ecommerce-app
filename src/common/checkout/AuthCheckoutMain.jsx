@@ -1,17 +1,17 @@
 import { message } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { api } from "../../Api";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../store/cartSlice";
-import { useCart } from "../../utils/CartUtils";
+import { CartContext } from "../../utils/CartUtils";
 import ReturningUser from "./ReturningUser";
 import FirstTimeUserForm from "./FirstTimeUserForm";
 
 const AuthCheckoutMain = () => {
 	const dispatch = useDispatch();
-	const { clearCartItems } = useCart();
+	const { clearCartItems } = useContext(CartContext);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [saveDetails, setSaveDetails] = useState(false);
 	const user = useSelector((state) => state.auth.user);
