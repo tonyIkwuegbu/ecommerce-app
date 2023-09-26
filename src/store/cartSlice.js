@@ -15,10 +15,10 @@ const cartSlice = createSlice({
 
 			if (productExist) {
 				// Product already exists in the cart, update the quantity
-				productExist.qty++;
+				productExist.quantity++;
 			} else {
 				// Product doesn't exist in the cart, add it
-				state.push({ ...productItem, qty: 1 });
+				state.push({ ...productItem, quantity: productItem.quantity });
 				message.success("Item added to cart!");
 			}
 		},
@@ -34,8 +34,8 @@ const cartSlice = createSlice({
 			const existingItem = state.find(
 				(item) => item.idl_product_code === productId,
 			);
-			if (existingItem && existingItem.qty > 1) {
-				existingItem.qty--;
+			if (existingItem && existingItem.quantity > 1) {
+				existingItem.quantity--;
 			}
 			return state;
 		},
@@ -46,7 +46,7 @@ const cartSlice = createSlice({
 				(item) => item.idl_product_code === productId,
 			);
 			if (existingItem) {
-				existingItem.qty++;
+				existingItem.quantity++;
 			}
 			return state;
 		},
