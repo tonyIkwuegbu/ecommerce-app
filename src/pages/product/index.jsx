@@ -17,7 +17,9 @@ import { formatCurrency } from "../../utils/CurrencyFormat";
 
 const ProductPage = () => {
 	const { id, supplier_id } = useParams();
-	const { addToCartApi } = useContext(CartContext);
+	const { addToCartApi, quantityCount, setQuantityCount } =
+		useContext(CartContext);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userIsAuthenticated = useSelector(
@@ -183,7 +185,7 @@ const ProductPage = () => {
 				product?.description || "",
 				product?.made_in || "",
 				product?.material || "",
-				count.toString(),
+				quantityCount.toString(),
 			);
 		} catch (error) {
 			console.log("Error adding item to cart:", error);
@@ -227,10 +229,18 @@ const ProductPage = () => {
 	};
 
 	const handleIncreaseQty = () => {
-		setCount((prev) => prev + 1);
+		if (userIsAuthenticated) {
+			setQuantityCount((prev) => prev + 1);
+		} else {
+			setCount((prev) => prev + 1);
+		}
 	};
 	const handleDecreaseQty = () => {
-		setCount((prev) => prev - 1);
+		if (userIsAuthenticated) {
+			setQuantityCount((prev) => prev - 1);
+		} else {
+			setCount((prev) => prev - 1);
+		}
 	};
 
 	return (
@@ -339,13 +349,19 @@ const ProductPage = () => {
 						<div>
 							<button
 								onClick={() => handleDecreaseQty(product)}
-								disabled={count === 1 ? true : false}
+								disabled={
+									(userIsAuthenticated ? quantityCount : count) === 1
+										? true
+										: false
+								}
 								className="bg-[#ff5c40] text-white p-2 rounded-sm mx-2 disabled:cursor-not-allowed"
 							>
 								<AiOutlineMinus />
 							</button>
 
-							<button className="mx-2 text-lg">{count}</button>
+							<button className="mx-2 text-lg">
+								{userIsAuthenticated ? quantityCount : count}
+							</button>
 
 							<button
 								onClick={() => handleIncreaseQty(product)}
@@ -370,7 +386,6 @@ const ProductPage = () => {
 							type="success"
 							loading={isLoading}
 							onClick={handleAddToCart}
-							disabled
 							className="bg-green-500 rounded-none text-white hover:bg-green-400 w-[100%] lg:w-[70%] disabled:cursor-not-allowed disabled:bg-gray-400"
 						>
 							Add to Cart

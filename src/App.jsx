@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import Pages from "./pages/Pages";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Cart from "./common/Cart/Cart";
 import RootLayout from "./RootLayout";
 import Product from "./pages/product";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -18,6 +17,7 @@ import PopularPage from "./pages/popularMainPage/index";
 import ArrivalPage from "./pages/arrivalsPage/index";
 import TopDealMain from "./pages/topDealMain";
 import CategoryPage from "./pages/categoryPage/CategoryPage";
+import CartMain from "./common/Cart/CartMain";
 
 function App() {
 	return (
@@ -25,7 +25,7 @@ function App() {
 			<RootLayout>
 				<Routes>
 					<Route path="/" element={<Pages />} />
-					<Route path="/cart" element={<Cart />} />
+					<Route path="/cart" element={<CartMain />} />
 					<Route path="/checkout" element={<Checkout />} />
 					<Route
 						path="/my-account"
