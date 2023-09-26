@@ -2,127 +2,83 @@ import { useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
-import { remove } from "../../store/cartSlice";
 import { Button, Divider, Empty, Modal, Spin, message } from "antd";
 import { MdDeleteForever } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { api } from "../../Api";
 import { getSummary } from "../../store/orderSlice";
-import { useCart } from "../../utils/CartUtils";
 import Login from "../../pages/Login";
+import { decreaseQty, increaseQty, remove } from "../../store/cartSlice";
 
 const Cart = () => {
 	const navigate = useNavigate();
 	const cartItems = useSelector((state) => state.cart);
-	const user = useSelector((state) => state.auth.user);
+
 	const dispatch = useDispatch();
+	const [itemToDelete, setItemToDelete] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const [loadingCart, setLoadingCart] = useState(false);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-	const [itemToDelete, setItemToDelete] = useState(null);
-	const [userCartItems, setUserCartItems] = useState([]);
-	const [itemQuantities, setItemQuantities] = useState({});
-	const { fetchUserCart } = useCart();
 	const [checkoutModalVisible, setCheckoutModalVisible] = useState(false);
+	const [loadingCart, setLoadingCart] = useState(true);
 
-	const allItems = (isAuthenticated ? userCartItems : cartItems) || [];
-
-	// ******************************************************* GET AUTH USER CART ITEMS
+	// ************************************************LOADING STATE
 	useEffect(() => {
-		if (isAuthenticated) {
-			setLoadingCart(true);
-
-			fetchUserCart(user)
-				.then((cartItems) => {
-					setUserCartItems(cartItems);
-					setLoadingCart(false);
-				})
-				.catch((error) => {
-					// Handle error
-					console.log("Error fetching user's cart:", error);
-					setLoadingCart(false);
-				});
-		}
-	}, [isAuthenticated, user, fetchUserCart]);
+		setTimeout(() => {
+			setLoadingCart(false);
+		}, 2000);
+	}, []);
 
 	if (loadingCart) {
 		return (
-			<div className="flex items-center justify-center mx-auto h-screen">
+			<div className="flex items-center justify-center h-screen">
 				<Spin />
 			</div>
 		);
 	}
 
+	// ***********************************HANDLERS
+
+	const handleDecreaseQty = (product) => {
+		dispatch(decreaseQty(product.idl_product_code));
+	};
+
+	const handleIncreaseQty = (product) => {
+		dispatch(increaseQty(product.idl_product_code));
+	};
+
 	// *************************************************** cal total of items
-	const totalPrice = allItems.reduce(
-		(total, item) =>
-			total + (itemQuantities[item.idl_product_code] || 1) * item.naira_price,
+	const totalPrice = cartItems.reduce(
+		(total, item) => total + item.quantity * item.naira_price,
 		0,
 	);
 
 	// ************************************************** cal item total price
 	const renderPrice = (item) => {
-		const productQty =
-			(itemQuantities[item.idl_product_code] || 1) * item.naira_price;
+		const productQty = item.quantity * item.naira_price;
 		return productQty;
 	};
 
 	// **************************************************** removeItems handler
+	const handleDeleteItem = (product) => {
+		setItemToDelete(product);
+		setDeleteModalVisible(true);
+	};
+
 	const handleConfirmDelete = () => {
 		if (itemToDelete) {
-			if (isAuthenticated) {
-				// For authenticated users, make an API call to delete the item
-				const email = user.email;
-				const idl_product_code = itemToDelete.idl_product_code;
-
-				Axios.delete(`${api.baseURL}/api/v1/ecommerce/cart/record/${email}`, {
-					data: { idl_product_code },
-					headers: {
-						"x-access-token": api.token,
-					},
-				})
-					.then((response) => {
-						if (response.data && response.data.status === true) {
-							fetchUserCart(user)
-								.then((cartItems) => {
-									setUserCartItems(cartItems); // Update the cart items
-									message.success(response.data.message);
-								})
-								.catch((error) => {
-									console.error("Error fetching user's cart:", error);
-								});
-						} else {
-							message.error(response.data.message || "Failed to delete item.");
-						}
-					})
-					.catch((error) => {
-						console.error("Error deleting item from API:", error);
-						message.error("An error occurred while deleting item.");
-					});
-			} else {
-				// For non-authenticated users, dispatch the remove action directly
-				dispatch(remove(itemToDelete.idl_product_code));
-			}
-
-			setDeleteModalVisible(false); // Close the modal after confirming deletion
+			dispatch(remove(itemToDelete.idl_product_code));
+			setDeleteModalVisible(false);
 		}
 	};
-
 	const handleCancelDelete = () => {
-		setItemToDelete(null);
 		setDeleteModalVisible(false);
-	};
-
-	const removeFromCart = (item) => {
-		setItemToDelete(item);
-		setDeleteModalVisible(true);
 	};
 
 	// ****************************************************HANDLE EMPTY CART
 
-	if (allItems.length === 0) {
+	if (cartItems.length === 0) {
 		return (
 			<div className="flex items-center justify-center mx-auto h-screen">
 				<Empty className="" description="No items in cart." />{" "}
@@ -150,7 +106,7 @@ const Cart = () => {
 		setLoading(true);
 
 		const params = JSON.stringify({
-			products: allItems.map((item) => ({
+			products: cartItems.map((item) => ({
 				idl_product_code: item.idl_product_code,
 				supplier_id: item.supplier_id,
 				amount: parseFloat(item.naira_price),
@@ -159,7 +115,7 @@ const Cart = () => {
 				colour: item.colour,
 				size: item.size,
 				product_name: item.name,
-				quantity: itemQuantities[item.idl_product_code] || 1, // Use the quantity from itemQuantities or default to 1
+				quantity: item.quantity,
 			})),
 		});
 
@@ -203,14 +159,6 @@ const Cart = () => {
 			});
 	};
 
-	//**************************** */ Function to update quantity for a specific cart item
-	const updateItemQuantity = (itemId, newQuantity) => {
-		setItemQuantities((prevQuantities) => ({
-			...prevQuantities,
-			[itemId]: newQuantity,
-		}));
-	};
-
 	return (
 		<section className="max-w-[98%]">
 			<div className="flex items-center justify-between p-2">
@@ -224,7 +172,7 @@ const Cart = () => {
 			<Divider />
 			<div className="flex flex-col lg:flex-row justify-between  overflow-hidden">
 				<div className="mx-4 w-auto lg:w-[70%]">
-					{allItems?.map((cartItem) => (
+					{cartItems?.map((cartItem) => (
 						<div
 							key={cartItem.idl_product_code}
 							className="grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 shadow-lg p-6 rounded-md my-6 h-auto bg-white"
@@ -265,46 +213,24 @@ const Cart = () => {
 									<p className="text-xs">
 										Quantity:{" "}
 										<span className="text-green-600">
-											<abbr className="text-xs">X</abbr>{" "}
-											{itemQuantities[cartItem.idl_product_code] || 1}{" "}
+											<abbr className="text-xs">X</abbr> {cartItem.quantity}{" "}
 										</span>{" "}
 									</p>
 									<div className="flex space-x-3 justify-end">
 										<button
-											className="incCart p-1"
-											onClick={() => {
-												const newQuantity =
-													(itemQuantities[cartItem.idl_product_code] || 1) + 1;
-												updateItemQuantity(
-													cartItem.idl_product_code,
-													newQuantity,
-												);
-											}}
-										>
-											{" "}
-											<AiOutlinePlus
-												className="mx-auto"
-												title="increase qty"
-											/>{" "}
-										</button>
-										<button
 											className="desCart p-1"
-											onClick={() => {
-												const currentQuantity =
-													itemQuantities[cartItem.idl_product_code] || 1;
-												const newQuantity =
-													currentQuantity > 1 ? currentQuantity - 1 : 1;
-												updateItemQuantity(
-													cartItem.idl_product_code,
-													newQuantity,
-												);
-											}}
+											onClick={() => handleDecreaseQty(cartItem)}
 										>
-											{" "}
 											<AiOutlineMinus
 												className="mx-auto"
 												title="decrease qty"
-											/>{" "}
+											/>
+										</button>
+										<button
+											className="incCart p-1"
+											onClick={() => handleIncreaseQty(cartItem)}
+										>
+											<AiOutlinePlus className="mx-auto" title="increase qty" />{" "}
 										</button>{" "}
 									</div>
 								</div>
@@ -318,7 +244,7 @@ const Cart = () => {
 							</div>
 							<MdDeleteForever
 								title="remove from cart"
-								onClick={() => removeFromCart(cartItem)}
+								onClick={() => handleDeleteItem(cartItem)}
 								className="text-red-500 mt-6 text-xl hover:animate-pulse cursor-pointer"
 							/>
 							<Modal
@@ -349,7 +275,7 @@ const Cart = () => {
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="text-[#ff5c40]">Order Summary</p>
 						<p>
-							{allItems.length} {allItems.length > 1 ? "Items" : "Item"}
+							{cartItems.length} {cartItems.length > 1 ? "Items" : "Item"}
 						</p>
 					</div>
 					<Divider />
