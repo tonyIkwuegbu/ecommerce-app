@@ -11,7 +11,6 @@ import { api } from "../../Api";
 import Axios from "axios";
 
 const AllSubcategoryProduct = ({ selectedSubcategory, categoryName }) => {
-	console.log(categoryName);
 	const navigate = useNavigate();
 	const { openModal } = useContext(ModalContext);
 	const [loading, setLoading] = useState(false);
