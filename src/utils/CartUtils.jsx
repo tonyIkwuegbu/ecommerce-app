@@ -6,17 +6,10 @@ import { useSelector } from "react-redux";
 
 export const CartContext = createContext();
 
-// export const useCart = () => {
-// 	const cartContext = useContext(CartContext);
-// 	if (!cartContext) {
-// 		throw new Error("useCart must be used within a CartProvider");
-// 	}
-// 	return cartContext;
-// };
-
 export const CartProvider = ({ children }) => {
 	const user = useSelector((state) => state.auth.user);
 	const [totalCartItemCount, setTotalCartItemCount] = useState(0);
+	const [quantityCount, setQuantityCount] = useState(1);
 
 	// ********************************************* FETCH CART ITEMS
 	const fetchUserCart = async () => {
@@ -31,8 +24,8 @@ export const CartProvider = ({ children }) => {
 				},
 			);
 
-			setTotalCartItemCount(response.data.data.length); // Update the total count
-			return response.data.data;
+			setTotalCartItemCount(response.data.data.products.length);
+			return response.data.data.products;
 		} catch (error) {
 			console.log("Error fetching user's cart:", error);
 		}
@@ -60,7 +53,6 @@ export const CartProvider = ({ children }) => {
 		description,
 		made_in,
 		material,
-		quantity,
 	) => {
 		const params = {
 			product_name,
@@ -83,7 +75,7 @@ export const CartProvider = ({ children }) => {
 			description,
 			made_in,
 			material,
-			quantity,
+			quantity: quantityCount,
 		};
 		await Axios(`${api.baseURL}/api/v1/ecommerce/cart/record/${user?.email}`, {
 			method: "POST",
@@ -132,6 +124,8 @@ export const CartProvider = ({ children }) => {
 				addToCartApi,
 				totalCartItemCount,
 				clearCartItems,
+				quantityCount,
+				setQuantityCount,
 			}}
 		>
 			{children}
