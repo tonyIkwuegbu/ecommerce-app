@@ -84,8 +84,8 @@ const Search = () => {
 								{searchResults?.length > 0 ? (
 									searchResults?.map((value) => (
 										<div className="" key={value?.idl_product_code}>
-											<div className="group h-96 lg:w-[260px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
-												<div className="h-[200px] w-[200px] mx-auto">
+											<div className="group h-96 w-[260px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
+												<div className="h-[200px] w-[150px] lg:w-[200px] mx-auto">
 													<img
 														loading="lazy"
 														src={value?.main_picture}
