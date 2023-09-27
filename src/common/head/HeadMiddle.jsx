@@ -31,6 +31,14 @@ const HeadMiddle = () => {
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const { totalCartItemCount } = useContext(CartContext);
+	const [searchQuery, setSearchQuery] = useState("");
+
+	const handleSearch = () => {
+		if (!searchQuery) {
+			return;
+		}
+		navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+	};
 
 	const handleDropdownToggle = () => {
 		setIsDropdownOpen((prevState) => !prevState);
@@ -52,8 +60,7 @@ const HeadMiddle = () => {
 
 			<div className="hidden lg:inline-block">
 				<Search
-					placeholder="search"
-					//onSearch={onSearch}
+					placeholder="enter full word e.g women not wom"
 					enterButton
 					allowClear
 					size="large"
@@ -63,6 +70,9 @@ const HeadMiddle = () => {
 						backgroundColor: "#ff5c00",
 						borderRadius: "12px",
 					}}
+					onSearch={handleSearch}
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
 				/>
 			</div>
 
