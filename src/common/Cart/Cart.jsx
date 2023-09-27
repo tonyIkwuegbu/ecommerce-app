@@ -48,7 +48,7 @@ const Cart = () => {
 	};
 
 	// *************************************************** cal total of items
-	const totalPrice = cartItems.reduce(
+	const totalPrice = cartItems?.reduce(
 		(total, item) => total + item.quantity * item.naira_price,
 		0,
 	);
