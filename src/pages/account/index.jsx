@@ -1,7 +1,7 @@
 import { Tabs } from "antd";
 import ProfilePage from "./Profile";
 import Password from "./Password";
-import Transactions from "./Transactions";
+//import Transactions from "./Transactions";
 
 const { TabPane } = Tabs;
 
@@ -18,9 +18,6 @@ const MyAccountPage = () => {
 						</TabPane>
 						<TabPane tab="Update Password" key="password">
 							<Password />
-						</TabPane>
-						<TabPane tab="My Transactions" key="transactions">
-							<Transactions />
 						</TabPane>
 					</Tabs>
 				</div>
