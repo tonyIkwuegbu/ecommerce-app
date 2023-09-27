@@ -24,7 +24,6 @@ const ViewOrders = () => {
 			);
 
 			if (getData.data.status === true) {
-				console.log(getData.data);
 				const sortedOrders = getData.data.data
 					.map((item, idx) => ({
 						key: getData.data.data.length - idx, // Reversed serial number
