@@ -30,7 +30,7 @@ const ProfilePage = () => {
 					labelCol={{ span: 6 }}
 					wrapperCol={{ span: 16 }}
 				>
-					<Input />
+					<Input readOnly />
 				</Form.Item>
 
 				<Form.Item
@@ -39,7 +39,7 @@ const ProfilePage = () => {
 					labelCol={{ span: 6 }}
 					wrapperCol={{ span: 16 }}
 				>
-					<Input />
+					<Input readOnly />
 				</Form.Item>
 
 				<Form.Item
@@ -48,7 +48,7 @@ const ProfilePage = () => {
 					labelCol={{ span: 6 }}
 					wrapperCol={{ span: 16 }}
 				>
-					<Input />
+					<Input readOnly />
 				</Form.Item>
 
 				<Form.Item
