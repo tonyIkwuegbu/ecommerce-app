@@ -42,6 +42,7 @@ const AllSubcategoryProduct = ({ selectedSubcategory, categoryName }) => {
 			.catch((err) => {
 				console.log(err);
 				setLoading(false);
+				setProductData([]);
 			});
 	}, [categoryName, selectedSubcategory]);
 
