@@ -81,7 +81,7 @@ const CartAuth = () => {
 	};
 
 	// *************************************************** cal total of items
-	const totalPrice = userCartItems.reduce(
+	const totalPrice = userCartItems?.reduce(
 		(total, item) => total + item.quantity * item.naira_price,
 		0,
 	);
@@ -139,12 +139,11 @@ const CartAuth = () => {
 		setDeleteModalVisible(true);
 	};
 
-	// ****************************************************HANDLE EMPTY CART
-
-	if (userCartItems.length === 0) {
+	// ************************************************HANDLE EMPTY CART
+	if (!userCartItems || userCartItems.length === 0) {
 		return (
 			<div className="flex items-center justify-center mx-auto h-screen">
-				<Empty className="" description="No items in cart." />{" "}
+				<Empty className="" description="No items in cart." />
 			</div>
 		);
 	}
