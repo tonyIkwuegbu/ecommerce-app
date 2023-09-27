@@ -19,23 +19,30 @@ const AllSubcategoryProduct = ({ selectedSubcategory, categoryName }) => {
 	// ******************************************************* GET CATEGORY PRODUCTS
 	const getAllProducts = useCallback(async () => {
 		setLoading(true);
-		try {
-			const fetchProduct = await Axios.get(
-				`/api/v1/ecommerce/product/category/${categoryName}/${selectedSubcategory}?skip=0&limit=0`,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"x-access-token": api.token,
-					},
+		const params = {
+			category: categoryName,
+			sub_category: selectedSubcategory,
+		};
+
+		await Axios(
+			`${api.baseURL}/api/v1/ecommerce/product/subcategory?skip=0&limit=0`,
+			{
+				method: "POST",
+				data: JSON.stringify(params),
+				headers: {
+					"content-type": "application/json",
+					"x-access-token": api.token,
 				},
-			);
-			// console.log("hello", fetchProduct.data.data);
-			setProductData(fetchProduct.data.data);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		}
+			},
+		)
+			.then((res) => {
+				setProductData(res.data.data);
+				setLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setLoading(false);
+			});
 	}, [categoryName, selectedSubcategory]);
 
 	useEffect(() => {
