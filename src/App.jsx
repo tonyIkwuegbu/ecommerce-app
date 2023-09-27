@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Pages from "./pages/Pages";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -18,6 +18,7 @@ import ArrivalPage from "./pages/arrivalsPage/index";
 import TopDealMain from "./pages/topDealMain";
 import CategoryPage from "./pages/categoryPage/CategoryPage";
 import CartMain from "./common/Cart/CartMain";
+import Search from "./components/search/Search";
 
 function App() {
 	return (
@@ -51,8 +52,9 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/product/:id/:supplier_id" element={<Product />} />
 					<Route path="/category/:category" element={<CategoryPage />} />
+					<Route path="/search" element={<Search />} />
 					{/* 👇️ when no other routes match */}
-					<Route path="*" element={<Pages />} />
+					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
 			</RootLayout>
 		</div>
