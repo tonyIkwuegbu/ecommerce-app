@@ -1,104 +1,96 @@
-import { useContext } from "react";
-import { BsFillCartCheckFill } from "react-icons/bs";
-import { IoIosBasket } from "react-icons/io";
-import { AiOutlineHeart } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import MainPageSkeleton from "../MainPageSkeleton";
+import { useCallback, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import { formatCurrency } from "../../utils/CurrencyFormat";
-import { ModalContext } from "../../utils/ModalContext";
+import { api } from "../../Api";
+import { Divider, Spin } from "antd";
+import Axios from "axios";
+import AllArrivalProductDisplay from "./AllArrivalProductDisplay";
+import AllSelectedCategoryArrival from "./AllSelectedCategoryArrival";
 
 const ArrivalMain = () => {
-	const navigate = useNavigate();
-	const { openModal } = useContext(ModalContext);
+	const [isLoading, setIsLoading] = useState(false);
+	const [allCategories, setAllCategories] = useState([]);
+	const [tabIndex, setTabIndex] = useState(1);
+	const [selectedCategory, setSelectedCategory] = useState(null);
 
-	// ******************************************************* GET PRODUCTS
+	// ******************************************************* GET TOP DEALS PRODUCTS
 	const { loading, shuffledData } = useFetch(
 		"/api/v1/ecommerce/product/newarrival?skip=0&limit=0",
 	);
 
-	/// ******************************************** LOADING STATE
-	if (loading) {
-		return <MainPageSkeleton />;
-	}
+	// ***************************** TAB HANDLERS
+	const handleSubcategoryClick = (value) => {
+		setTabIndex(2);
+		setSelectedCategory(value);
+	};
+
+	// ******************************************************* GET CATEGORIES
+	const getProduct = useCallback(async () => {
+		setIsLoading(true);
+		try {
+			const fetchData = await Axios.get(
+				`${api.baseURL}/api/v1/ecommerce/categories`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"x-access-token": api.token,
+					},
+				},
+			);
+
+			setAllCategories(fetchData.data.data);
+			setIsLoading(false);
+		} catch (error) {
+			console.log(error);
+			setIsLoading(false);
+		}
+	}, []);
+
+	useEffect(() => {
+		getProduct();
+	}, [getProduct]);
 
 	return (
 		<div className="flex flex-col justify-center items-center">
 			<h2 className="text-xl lg:text-2xl font-semibold mb-4 py-2 tracking-wider">
 				New Arrivals
 			</h2>
-
-			<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4 max-w-[98%]">
-				{shuffledData?.length > 0 &&
-					shuffledData?.map((value) => (
-						<div className="" key={value?.idl_product_code}>
-							<div className="group h-96 w-[260px] p-[20px] m-[8px] shadow-md rounded-md bg-white relative">
-								<div className="h-[200px] w-[200px] mx-auto">
-									<img
-										loading="lazy"
-										src={value?.main_picture}
-										alt={value?.name}
-										onError={(e) => {
-											e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL
-										}}
-										onClick={() =>
-											navigate(
-												`/product/${value.idl_product_code}/${value.supplier_id}`,
-											)
-										}
-										className="transition-all hover:scale-110 duration-500 ease-in-out object-cover cursor-pointer w-full h-44 rounded-md"
-									/>
-									<div className="absolute top-0 right-0 cursor-pointer  m-[10px] opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-in-out">
-										{/* <label>{count[index]}</label> */}
-
-										<AiOutlineHeart
-											//onClick={() => increment(index)}
-											className="mb-2"
-										/>
-										<IoIosBasket className="" />
-									</div>
-								</div>
-
-								<div className="font-semibold tracking-wide">
-									<h3 className="text-[13px] text-gray-600 py-1 text-center truncate capitalize">
-										{value?.product_name}
-									</h3>
-									{value?.product_variants?.length > 0 && (
-										<div>
-											<div className="text-green-500 my-4">
-												{formatCurrency(
-													value?.product_variants[0]?.naira_price,
-												)}
-											</div>
-											{value?.product_variants[0]?.product_discount !==
-												"0%" && (
-												<div className="flex items-center justify-between text-[12px]">
-													<p className="text-white w-16 text-center p-1 bg-red-500">
-														{value?.product_variants[0]?.product_discount} off
-													</p>
-													<p className="text-gray-400  line-through">
-														{formatCurrency(
-															value?.product_variants[0]?.product_rrp_naira,
-														)}
-													</p>
-												</div>
-											)}
-										</div>
-									)}
-									<div className="price pt-3 text-right">
-										<button
-											type="button"
-											onClick={() => {
-												openModal(value);
-											}}
-										>
-											<BsFillCartCheckFill className="mx-auto" />
-										</button>
-									</div>
-								</div>
+			<div className="overflow-hidden py-4 px-2 font-semibold tracking-wider capitalize text-xs">
+				{isLoading ? (
+					<Spin />
+				) : allCategories && allCategories.length > 0 ? (
+					<div className="flex items-center flex-wrap gap-x-3 ">
+						{allCategories.map((value, index) => (
+							<div
+								key={`${value}-${index}`}
+								className={`cursor-pointer ${
+									value === selectedCategory
+										? "text-[#ff5c40] font-semibold"
+										: ""
+								}`}
+								onClick={() => handleSubcategoryClick(value)}
+							>
+								<p className="cursor-pointer bg-white rounded-full p-3 hover:bg-[#ff5c40] hover:text-white">
+									{value.category}
+								</p>
 							</div>
-						</div>
-					))}
+						))}
+					</div>
+				) : (
+					<p>No categories available.</p>
+				)}
+			</div>
+			<Divider />
+
+			<div>
+				{tabIndex === 1 && (
+					<AllArrivalProductDisplay
+						shuffledData={shuffledData}
+						loading={loading}
+					/>
+				)}
+				{tabIndex >= 2 && (
+					<AllSelectedCategoryArrival selectedCategory={selectedCategory} />
+				)}
 			</div>
 		</div>
 	);
