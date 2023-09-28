@@ -17,6 +17,8 @@ const useFetch = (url) => {
 				setShuffledData(ShuffleArray(res.data.data));
 			} catch (error) {
 				console.log(error);
+				setShuffledData(ShuffleArray([]));
+				setData([]);
 				// message.error(error.message);
 			}
 			setLoading(false);
