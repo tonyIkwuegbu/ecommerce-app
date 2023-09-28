@@ -30,7 +30,7 @@ const Navbar = () => {
 		}
 	};
 
-	// ******************************************************* GET TOP DEALS PRODUCTS
+	// ******************************************************* GET CATEGORIES
 	const { data } = useFetch("/api/v1/ecommerce/categories");
 
 	// ********************************************HANDLERS
