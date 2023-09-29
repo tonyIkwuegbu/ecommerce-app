@@ -44,7 +44,7 @@ const Checkout = () => {
 					{!isAuthenticated ? <NonAuthCheckout /> : <AuthCheckoutMain />}
 				</div>
 
-				<div className="shadow-lg p-4 lg:inline-block justify-around tracking-wider bg-white w-auto lg:w-[30%] h-[85vh]">
+				<div className="shadow-lg p-4 lg:inline-block justify-around tracking-wider bg-white w-auto lg:w-[30%] h-[90vh]">
 					<div className="flex items-center justify-between text-sm font-semibold">
 						<p className="text-[#ff5c40]">Order Details</p>
 						<p>
@@ -53,6 +53,12 @@ const Checkout = () => {
 						</p>
 					</div>
 					<Divider />
+					<p className="px-2 text-sm tracking-wider font-semibold">
+						Estimated Delivery:{" "}
+						<span className="text-green-600">
+							{orderDetails?.estimated_delivery}
+						</span>
+					</p>
 					<div className="h-[35vh] overflow-y-scroll">
 						{orderDetails &&
 							orderDetails?.products?.length > 0 &&

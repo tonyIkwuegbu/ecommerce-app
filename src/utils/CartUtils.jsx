@@ -86,7 +86,7 @@ export const CartProvider = ({ children }) => {
 			},
 		})
 			.then((response) => {
-				setTotalCartItemCount((prevCount) => prevCount + 1);
+				setTotalCartItemCount(response.data.data.length);
 				message.success(response.data.message);
 				return response.data.data;
 			})
