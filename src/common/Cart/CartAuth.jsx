@@ -120,7 +120,7 @@ const CartAuth = () => {
 						}
 					})
 					.catch((error) => {
-						console.error("Error deleting item from API:", error);
+						console.error("Error deleting item:", error);
 						message.error("An error occurred while deleting item.");
 					});
 			}

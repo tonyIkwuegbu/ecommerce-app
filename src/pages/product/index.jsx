@@ -275,7 +275,7 @@ const ProductPage = () => {
 									/>
 									<div className="flex items-center gap-x-4 text-sm py-1">
 										<h3>Product Variants</h3>
-										<div>
+										<div className="flex items-center justify-center font-mon">
 											<button
 												onClick={handlePreviousVariant}
 												disabled={selectedVariantIndex === 0}
