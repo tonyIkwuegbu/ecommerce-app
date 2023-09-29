@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import Axios from "axios";
 import { Divider, Table } from "antd";
 import { useSelector } from "react-redux";
+import { formatCurrency } from "../../utils/CurrencyFormat";
 
 const ViewOrders = () => {
 	const user = useSelector((state) => state.auth.user);
@@ -115,12 +116,6 @@ const ViewOrders = () => {
 		},
 	];
 
-	/// ************************************ CURRENCY FORMAT
-	const formattedAmount = new Intl.NumberFormat("en-NG", {
-		style: "currency",
-		currency: "NGN",
-	});
-
 	return (
 		<div>
 			<Table
@@ -179,7 +174,7 @@ const ViewOrders = () => {
 									<p className="flex items-center justify-start gap-x-1">
 										Total Amount:{" "}
 										<span className="text-blue-500 lowercase">
-											{formattedAmount.format(record?.paid)}
+											{formatCurrency(record?.paid)}
 										</span>
 									</p>
 								</div>
@@ -202,7 +197,7 @@ const ViewOrders = () => {
 											</th>
 											<th className="border-b-2 border-black px-4 py-2 bg-gray-200">
 												{" "}
-												Supplier ID
+												Weight (Kg)
 											</th>
 										</tr>
 									</thead>
@@ -216,11 +211,12 @@ const ViewOrders = () => {
 												<td className="border-black px-4 py-2">
 													<img
 														src={
-															el?.image === "" || el?.image === undefined
+															el?.main_picture === "" ||
+															el?.main_picture === undefined
 																? "/images/home-placeholder.jpeg"
-																: el?.image
+																: el?.main_picture
 														}
-														alt="product-image"
+														alt={el?.product_name}
 														className="h-24 w-24 object-cover rounded-sm"
 													/>
 												</td>
@@ -228,12 +224,12 @@ const ViewOrders = () => {
 													{el.idl_product_code}
 												</td>
 												<td className="border-r-[1px] border-black px-4 py-2">
-													{el.amount}
+													{formatCurrency(el.naira_price)}
 												</td>
 												<td className="border-r-[1px] border-black px-4 py-2">
 													{el.quantity}
 												</td>
-												<td>{el.supplier_id}</td>
+												<td>{el.weight}</td>
 											</tr>
 										))}
 									</tbody>
