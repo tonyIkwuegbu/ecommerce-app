@@ -54,10 +54,17 @@ const TrackOrders = () => {
 
 			setTrackingData(getData.data.data.tracking);
 			setLoading(false);
-		} catch (error) {
+		} catch (err) {
 			setLoading(false);
-			console.error("Error tracking order:", error);
-			message.error("An error occurred while tracking the order.");
+			if (
+				err.response.status === 401 ||
+				err.response.status === 404 ||
+				err.response.status === 405
+			) {
+				message.error(`${err.response.data.message}`);
+			} else {
+				message.error(`${err.message}`);
+			}
 		}
 	};
 	return (

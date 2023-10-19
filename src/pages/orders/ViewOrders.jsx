@@ -1,7 +1,7 @@
 import { api } from "../../Api";
 import { useCallback, useEffect, useState } from "react";
 import Axios from "axios";
-import { Divider, Table } from "antd";
+import { Divider, Table, message } from "antd";
 import { useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/CurrencyFormat";
 
@@ -46,9 +46,17 @@ const ViewOrders = () => {
 				setAllOrders(sortedOrders);
 			}
 			setLoading(false);
-		} catch (error) {
-			console.log(error);
+		} catch (err) {
 			setLoading(false);
+			if (
+				err.response.status === 401 ||
+				err.response.status === 404 ||
+				err.response.status === 405
+			) {
+				message.error(`${err.response.data.message}`);
+			} else {
+				message.error(`${err.message}`);
+			}
 		}
 	}, [user.email]);
 

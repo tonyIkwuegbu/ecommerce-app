@@ -27,7 +27,7 @@ export const CartProvider = ({ children }) => {
 			setTotalCartItemCount(response.data.data.products.length);
 			return response.data.data.products;
 		} catch (error) {
-			console.log("Error fetching user's cart:", error);
+			console.log(error);
 		}
 	};
 
@@ -91,7 +91,6 @@ export const CartProvider = ({ children }) => {
 				return response.data.data;
 			})
 			.catch((err) => {
-				console.log("Error adding to cart:", err);
 				message.error(`${err.response.data.message}`);
 			});
 	};

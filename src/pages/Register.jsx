@@ -69,7 +69,6 @@ const Register = () => {
 				setLoading(false);
 			})
 			.catch((err) => {
-				console.log(err);
 				setLoading(false);
 
 				if (
@@ -79,7 +78,7 @@ const Register = () => {
 				) {
 					message.error(`${err.response.data.message}`);
 				} else {
-					message.error("Something went wrong");
+					message.error(`${err.message}`);
 				}
 			});
 	};

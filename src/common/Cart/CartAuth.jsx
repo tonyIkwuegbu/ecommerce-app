@@ -35,10 +35,17 @@ const CartAuth = () => {
 					setUserCartItems(cartItems);
 					setLoadingCart(false);
 				})
-				.catch((error) => {
-					// Handle error
-					console.log("Error fetching user's cart:", error);
+				.catch((err) => {
 					setLoadingCart(false);
+					if (
+						err.response.status === 401 ||
+						err.response.status === 404 ||
+						err.response.status === 405
+					) {
+						message.error(`${err.response.data.message}`);
+					} else {
+						message.error(`${err.message}`);
+					}
 				});
 		}
 	}, [isAuthenticated, user, fetchUserCart]);
@@ -119,9 +126,16 @@ const CartAuth = () => {
 							message.error(response.data.message || "Failed to delete item.");
 						}
 					})
-					.catch((error) => {
-						console.error("Error deleting item:", error);
-						message.error("An error occurred while deleting item.");
+					.catch((err) => {
+						if (
+							err.response.status === 401 ||
+							err.response.status === 404 ||
+							err.response.status === 405
+						) {
+							message.error(`${err.response.data.message}`);
+						} else {
+							message.error(`${err.message}`);
+						}
 					});
 			}
 
@@ -214,7 +228,6 @@ const CartAuth = () => {
 				setLoading(false);
 			})
 			.catch((err) => {
-				console.log(err);
 				setLoading(false);
 
 				if (
@@ -224,7 +237,7 @@ const CartAuth = () => {
 				) {
 					message.error(`${err.response.data.message}`);
 				} else {
-					message.error("Something went wrong");
+					message.error(`${err.message}`);
 				}
 			});
 	};

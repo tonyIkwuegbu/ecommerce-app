@@ -145,15 +145,21 @@ const CheckoutForm = () => {
 		})
 			.then((res) => {
 				if (res.data.status === true) {
-					message.success("Shipping info added/updated successfully!");
+					message.success(res.data.message);
 				} else {
-					message.error("Failed to add/update shipping info.");
+					message.error(res.data.message);
 				}
 			})
 			.catch((err) => {
-				console.error(err);
-
-				message.error("An error occurred while adding/updating shipping info.");
+				if (
+					err.response.status === 401 ||
+					err.response.status === 404 ||
+					err.response.status === 405
+				) {
+					message.error(`${err.response.data.message}`);
+				} else {
+					message.error(`${err.message}`);
+				}
 			});
 	};
 

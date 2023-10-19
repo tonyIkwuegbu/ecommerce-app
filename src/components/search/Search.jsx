@@ -45,10 +45,18 @@ const Search = () => {
 					}
 					setLoading(false);
 				})
-				.catch((error) => {
+				.catch((err) => {
 					setSearchResults([]);
-					console.error("Error fetching search results:", error);
 					setLoading(false);
+					if (
+						err.response.status === 401 ||
+						err.response.status === 404 ||
+						err.response.status === 405
+					) {
+						message.error(`${err.response.data.message}`);
+					} else {
+						message.error(`${err.message}`);
+					}
 				});
 		}
 	}, [searchQuery]);

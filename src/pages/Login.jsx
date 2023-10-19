@@ -18,7 +18,6 @@ const Login = () => {
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		// Show the form after a short delay (e.g., 300ms) to create a delay effect
 		const showFormTimeout = setTimeout(() => {
 			setIsFormVisible(true);
 		}, 800);
@@ -76,7 +75,6 @@ const Login = () => {
 
 			setLoading(false);
 		} catch (err) {
-			console.log(err);
 			setLoading(false);
 
 			if (
@@ -86,7 +84,7 @@ const Login = () => {
 			) {
 				message.error(`${err.response.data.message}`);
 			} else {
-				message.error("Something went wrong");
+				message.error(`${err.message}`);
 			}
 		}
 	};

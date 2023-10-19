@@ -14,9 +14,6 @@ const ConfirmationPage = () => {
 	const [orderId, setOrderId] = useState("");
 	const [paymentRef, setPaymentRef] = useState("");
 
-	//https://tencowry.onrender.com/paymentstatus?status=success&id=168811001199184
-
-	// https://cpg.coralpay.com/paymentstatus?status=success&id=312734445411416
 	useEffect(() => {
 		const getOrderData = async () => {
 			try {
@@ -35,7 +32,6 @@ const ConfirmationPage = () => {
 				setLoading(false);
 				setIsSuccess(status === "success");
 			} catch (error) {
-				console.log(error);
 				setLoading(false);
 				setIsSuccess(false);
 			}

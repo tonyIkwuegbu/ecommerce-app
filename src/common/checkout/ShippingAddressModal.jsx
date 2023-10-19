@@ -111,20 +111,28 @@ const ShippingAddressModal = ({ modalVisible, hideModal }) => {
 		})
 			.then((res) => {
 				if (res.data.status === true) {
-					message.success("Shipping info added/updated successfully!");
+					message.success(res.data.message);
 					hideModal();
 					setTimeout(() => {
 						window.location.reload();
 					}, 3000);
 				} else {
-					message.error("Failed to add/update shipping info.");
+					message.error(res.data.message);
 				}
 				setLoading(false);
 			})
 			.catch((err) => {
 				console.error(err);
 				setLoading(false);
-				message.error("An error occurred while adding/updating shipping info.");
+				if (
+					err.response.status === 401 ||
+					err.response.status === 404 ||
+					err.response.status === 405
+				) {
+					message.error(`${err.response.data.message}`);
+				} else {
+					message.error(`${err.message}`);
+				}
 			});
 	};
 	return (
