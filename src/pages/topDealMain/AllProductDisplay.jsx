@@ -26,7 +26,7 @@ const AllProductDisplay = ({ shuffledData, loading }) => {
 									<img
 										loading="lazy"
 										src={value?.main_picture}
-										alt={value?.name}
+										alt={value?.product_name}
 										onError={(e) => {
 											e.target.src = "/images/home-placeholder.jpeg"; // Replace with your fallback image URL
 										}}
