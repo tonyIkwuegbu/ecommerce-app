@@ -17,8 +17,9 @@ const useFetch = (url) => {
 			} catch (error) {
 				setShuffledData(ShuffleArray([]));
 				setData([]);
+			} finally {
+				setLoading(false);
 			}
-			setLoading(false);
 		};
 		fetchData();
 	}, [url]);
