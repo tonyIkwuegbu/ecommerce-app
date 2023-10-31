@@ -132,7 +132,7 @@ const CategoryPage = () => {
 					<Spin />
 				) : allSubcategories && allSubcategories.length > 0 ? (
 					<Slider {...settings}>
-						{allSubcategories.map((value, index) => (
+						{allSubcategories?.map((value, index) => (
 							<div
 								key={`${value}-${index}`}
 								className={`cursor-pointer ${
